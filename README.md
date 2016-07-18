@@ -1,7 +1,7 @@
 analytics-android-integration-moengage
 ======================================
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.segment.analytics.android.integrations/moengage/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.segment.analytics.android.integrations/moengage)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.moengage/moengage-segment-integration/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.moengage/moengage-segment-integration)
 
 MoEngage integration for [analytics-android](https://github.com/moengage/Segment-Integration).
 
