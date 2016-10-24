@@ -111,7 +111,6 @@ import static org.powermock.api.mockito.PowerMockito.verifyNoMoreInteractions;
 
   @Test public void activityPause() {
     integration.onActivityPaused(activity);
-    verify(moeHelper).onPause(activity);
     verifyNoMoreInteractions(MoEHelper.class);
     verifyNoMoreInteractions(moeHelper);
   }

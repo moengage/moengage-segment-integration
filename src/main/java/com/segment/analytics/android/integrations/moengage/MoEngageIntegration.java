@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.moe.pushlibrary.MoEHelper;
 import com.moe.pushlibrary.models.GeoLocation;
 import com.moe.pushlibrary.utils.MoEHelperConstants;
+import com.moengage.core.Logger;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.AnalyticsContext;
 import com.segment.analytics.Traits;
@@ -62,6 +63,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     String apiKey = settings.getString("apiKey");
     String pushSenderId = settings.getString("pushSenderId");
     helper = MoEHelper.getInstance(context);
+    Logger.d("MoEngageIntegration : Segment MoEngage Integration initialized");
     helper.initialize(pushSenderId, apiKey);
   }
 
@@ -78,6 +80,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     helper.onStart(activity);
   }
 
+
   @Override public void onActivityResumed(Activity activity) {
     super.onActivityResumed(activity);
     helper.onResume(activity);
@@ -85,7 +88,6 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
 
   @Override public void onActivityPaused(Activity activity) {
     super.onActivityPaused(activity);
-    helper.onPause(activity);
   }
 
   @Override public void onActivityStopped(Activity activity) {
@@ -130,8 +132,12 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
 
   @Override public void track(TrackPayload track) {
     super.track(track);
-    if (!isNullOrEmpty(track) && !isNullOrEmpty(track.properties())) {
-      helper.trackEvent(track.event(), track.properties().toJsonObject());
+    if (!isNullOrEmpty(track)) {
+      if (!isNullOrEmpty(track.properties())) {
+        helper.trackEvent(track.event(), track.properties().toJsonObject());
+      }else {
+        helper.trackEvent(track.event());
+      }
     }
   }
 
