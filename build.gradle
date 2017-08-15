@@ -43,7 +43,7 @@ dependencies {
 
   provided 'com.segment.analytics.android:analytics:4.0.0'
 
-  compile 'com.moengage:moe-android-sdk:7.7.05'
+  compile 'com.moengage:moe-android-sdk:7.7.11'
 
   testCompile 'junit:junit:4.12'
   testCompile('org.robolectric:robolectric:3.0') {
