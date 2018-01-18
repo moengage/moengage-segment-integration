@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.moe.pushlibrary.MoEHelper;
 import com.moe.pushlibrary.models.GeoLocation;
 import com.moe.pushlibrary.utils.MoEHelperConstants;
-import com.moengage.config.ConfigurationProvider;
+import com.moengage.core.ConfigurationProvider;
 import com.moengage.core.Logger;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.AnalyticsContext;
@@ -67,6 +67,9 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     Logger.d("MoEngageIntegration : Segment MoEngage Integration initialized");
     helper.initialize(pushSenderId, apiKey);
     ConfigurationProvider.getInstance(context).setSegmentEnabledFlag(true);
+    ConfigurationProvider.getInstance(context)
+        .saveSegmentAnonymousId(
+            Analytics.with(context).getAnalyticsContext().traits().anonymousId());
   }
 
   @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {

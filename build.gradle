@@ -17,13 +17,13 @@ apply plugin: 'checkstyle'
 apply plugin: 'com.f2prateek.checkstyle'
 
 android {
-  compileSdkVersion 23
-  buildToolsVersion '23.0.1'
+  compileSdkVersion 26
+  buildToolsVersion '26.0.2'
 
   defaultConfig {
     minSdkVersion 14
-    targetSdkVersion 23
-    compileSdkVersion 23
+    targetSdkVersion 26
+    compileSdkVersion 26
   }
 
   compileOptions {
@@ -41,9 +41,10 @@ dependencies {
     mavenCentral()
   }
 
-  provided 'com.segment.analytics.android:analytics:4.0.0'
+  provided 'com.segment.analytics.android:analytics:4.3.0'
 
-  compile 'com.moengage:moe-android-sdk:7.7.11'
+  compile 'com.moengage:moe-android-sdk:8.3.02'
+
 
   testCompile 'junit:junit:4.12'
   testCompile('org.robolectric:robolectric:3.0') {
