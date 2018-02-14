@@ -140,7 +140,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     if (!isNullOrEmpty(track)) {
       if (!isNullOrEmpty(track.properties())) {
         helper.trackEvent(track.event(), track.properties().toJsonObject());
-      }else {
+      } else {
         helper.trackEvent(track.event());
       }
     }

@@ -151,3 +151,5 @@ build/
 gradle-app.setting
 /secring.asc
 /gradle.properties
+installv.gradle
+bintray.gradle

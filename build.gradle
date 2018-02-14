@@ -12,12 +12,36 @@ buildscript {
   dependencies {
     classpath 'com.android.tools.build:gradle:3.0.1'
     classpath 'com.f2prateek.checkstyle:checkstyle:1.0.1'
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
   }
 }
 
 apply plugin: 'com.android.library'
 apply plugin: 'checkstyle'
 apply plugin: 'com.f2prateek.checkstyle'
+
+ext {
+  bintrayRepo = project.BINTRAY_REPO
+  bintrayName = project.ARTIFACT_ID
+  publishedGroupId = project.BINTRAY_PUBLISHER_ID
+  libraryName = project.NAME
+  artifact = project.ARTIFACT_ID
+  libraryDescription = 'MoEngage-Segment Bundled integration'
+
+  libraryVersion = project.VERSION_NAME
+
+  siteUrl = project.BINTRAY_SITE_URL
+  gitUrl = project.BINTRAY_GIT_URL
+
+  developerId = project.DEVELOPER_ID
+  developerName = project.DEVELOPER_NAME
+  developerEmail = project.DEVELOPER_EMAIL
+
+  licenseName = project.BINTRAY_LICENSE_NAME
+  licenseUrl = project.BINTRAY_LICENSE_URL
+  allLicenses = [project.BINTRAY_LICENSE_NAME]
+}
 
 android {
   compileSdkVersion 26
@@ -42,11 +66,12 @@ checkstyle {
 dependencies {
   repositories {
     mavenCentral()
+    jcenter()
   }
 
   provided 'com.segment.analytics.android:analytics:4.3.0'
 
-  compile 'com.moengage:moe-android-sdk:8.3.02'
+  compile 'com.moengage:moe-android-sdk:8.4.02'
 
 
   testCompile 'junit:junit:4.12'
@@ -69,3 +94,5 @@ dependencies {
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+apply from: './bintray.gradle'
+apply from: './installv.gradle'
