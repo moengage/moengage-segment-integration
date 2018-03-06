@@ -67,9 +67,6 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     Logger.d("MoEngageIntegration : Segment MoEngage Integration initialized");
     helper.initialize(pushSenderId, apiKey);
     ConfigurationProvider.getInstance(context).setSegmentEnabledFlag(true);
-    ConfigurationProvider.getInstance(context)
-        .saveSegmentAnonymousId(
-            Analytics.with(context).getAnalyticsContext().traits().anonymousId());
   }
 
   @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
