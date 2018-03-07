@@ -71,21 +71,23 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
 
   @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
     super.onActivityCreated(activity, savedInstanceState);
-    helper = new MoEHelper(activity);
+    if (helper == null && activity != null) {
+      helper = MoEHelper.getInstance(activity.getApplicationContext());
+    }
     if (savedInstanceState != null) {
-      helper.onRestoreInstanceState(savedInstanceState);
+      if (helper != null) helper.onRestoreInstanceState(savedInstanceState);
     }
   }
 
   @Override public void onActivityStarted(Activity activity) {
     super.onActivityStarted(activity);
-    helper.onStart(activity);
+    if (helper != null && activity != null) helper.onStart(activity);
   }
 
 
   @Override public void onActivityResumed(Activity activity) {
     super.onActivityResumed(activity);
-    helper.onResume(activity);
+    if (helper != null && activity != null) helper.onResume(activity);
   }
 
   @Override public void onActivityPaused(Activity activity) {
@@ -94,12 +96,12 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
 
   @Override public void onActivityStopped(Activity activity) {
     super.onActivityStopped(activity);
-    helper.onStop(activity);
+    if (helper != null && activity != null) helper.onStop(activity);
   }
 
   @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
     super.onActivitySaveInstanceState(activity, outState);
-    helper.onSaveInstanceState(outState);
+    if (helper != null) helper.onSaveInstanceState(outState);
   }
 
   @Override public void identify(IdentifyPayload identify) {
