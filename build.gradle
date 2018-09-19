@@ -71,7 +71,7 @@ dependencies {
 
   provided 'com.segment.analytics.android:analytics:4.3.0'
 
-  compile 'com.moengage:moe-android-sdk:8.4.02'
+  compile 'com.moengage:moe-android-sdk:9.1.06'
 
 
   testCompile 'junit:junit:4.12'
