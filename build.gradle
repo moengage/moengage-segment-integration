@@ -20,27 +20,29 @@ buildscript {
 apply plugin: 'com.android.library'
 apply plugin: 'checkstyle'
 apply plugin: 'com.f2prateek.checkstyle'
+apply from: '../release_properties.gradle'
 
 ext {
-  bintrayRepo = project.BINTRAY_REPO
-  bintrayName = project.ARTIFACT_ID
-  publishedGroupId = project.BINTRAY_PUBLISHER_ID
-  libraryName = project.NAME
-  artifact = project.ARTIFACT_ID
-  libraryDescription = 'MoEngage-Segment Bundled integration'
 
-  libraryVersion = project.VERSION_NAME
+  bintrayRepo = bintrayMeta.repoName
+  publishedGroupId = bintrayMeta.publisherId
 
-  siteUrl = project.BINTRAY_SITE_URL
-  gitUrl = project.BINTRAY_GIT_URL
+  bintrayName = segmentBintray.artifactId
+  libraryName = segmentBintray.name
+  artifact = segmentBintray.artifactId
+  libraryDescription = segmentBintray.description
+  libraryVersion = segmentBintray.versionName
 
-  developerId = project.DEVELOPER_ID
-  developerName = project.DEVELOPER_NAME
-  developerEmail = project.DEVELOPER_EMAIL
+  siteUrl = urlMeta.siteUrl
+  gitUrl = urlMeta.gitUrl
 
-  licenseName = project.BINTRAY_LICENSE_NAME
-  licenseUrl = project.BINTRAY_LICENSE_URL
-  allLicenses = [project.BINTRAY_LICENSE_NAME]
+  developerId = developerMeta.developerId
+  developerName = developerMeta.developerName
+  developerEmail = developerMeta.developerEmail
+
+  licenseName = licenseMeta.licenseName
+  licenseUrl = licenseMeta.licenseUrl
+  allLicenses = licenseMeta.allLicenses
 }
 
 android {
@@ -57,10 +59,6 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_7
     targetCompatibility JavaVersion.VERSION_1_7
   }
-}
-
-checkstyle {
-  configFile rootProject.file('gradle/checkstyle.xml')
 }
 
 dependencies {
@@ -93,6 +91,5 @@ dependencies {
   testImplementation 'org.powermock:powermock-classloading-xstream:1.6.2'
 }
 
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
-apply from: './bintray.gradle'
-apply from: './installv.gradle'
+apply from: '../bintray.gradle'
+apply from: '../installv.gradle'
