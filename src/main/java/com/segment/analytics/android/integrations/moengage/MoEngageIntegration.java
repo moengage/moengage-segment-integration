@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import com.moe.pushlibrary.MoEHelper;
+import com.moe.pushlibrary.PayloadBuilder;
 import com.moe.pushlibrary.models.GeoLocation;
 import com.moe.pushlibrary.utils.MoEHelperConstants;
 import com.moengage.core.ConfigurationProvider;
@@ -15,9 +16,16 @@ import com.segment.analytics.ValueMap;
 import com.segment.analytics.integrations.IdentifyPayload;
 import com.segment.analytics.integrations.Integration;
 import com.segment.analytics.integrations.TrackPayload;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import org.json.JSONObject;
 
 import static com.segment.analytics.internal.Utils.isNullOrEmpty;
 import static com.segment.analytics.internal.Utils.transform;
@@ -42,6 +50,8 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
   };
   private static final String KEY_MOENGAGE = "MoEngage";
   private static final Map<String, String> MAPPER;
+
+  private static final String TAG = "MoEngageIntegration";
 
   static {
     Map<String, String> mapper = new LinkedHashMap<>();
@@ -109,7 +119,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     Traits traits = identify.traits();
 
     if (!isNullOrEmpty(traits)) {
-      helper.setUserAttribute(transform(traits, MAPPER));
+      helper.setUserAttribute(transformUserAttributeToMoEngageFormat(transform(traits, MAPPER)));
       Traits.Address address = traits.address();
       if (!isNullOrEmpty(address)) {
         String city = address.city();
@@ -138,7 +148,8 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     super.track(track);
     if (!isNullOrEmpty(track)) {
       if (!isNullOrEmpty(track.properties())) {
-        helper.trackEvent(track.event(), track.properties().toJsonObject());
+        helper.trackEvent(track.event(), transformEventAttributesToMoEngageFormat(track.properties()
+            .toJsonObject()));
       } else {
         helper.trackEvent(track.event());
       }
@@ -152,5 +163,68 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
 
   @Override public MoEHelper getUnderlyingInstance() {
     return helper;
+  }
+
+  private JSONObject transformEventAttributesToMoEngageFormat(JSONObject eventAttributes){
+    try{
+      PayloadBuilder builder = new PayloadBuilder();
+      Iterator iter = eventAttributes.keys();
+      while (iter.hasNext()) {
+        String key = (String) iter.next();
+        Object value = eventAttributes.get(key);
+        if (value instanceof String){
+          if (!isDate((String)value)){
+            builder.putAttrObject(key, value);
+          }else {
+            builder.putAttrISO8601Date(key, (String) value);
+          }
+        }else {
+          builder.putAttrObject(key, value);
+        }
+      }
+      return builder.build();
+    }catch (Exception e){
+      Logger.f( TAG + " transformEventAttributesToMoEngageFormat() : ");
+      return eventAttributes;
+    }
+  }
+
+  private Map<String, Object> transformUserAttributeToMoEngageFormat(Map<String, Object>
+      userAttributes){
+    try {
+      List<String> removeAttribute = new ArrayList<>();
+      for (Map.Entry<String, Object> entry: userAttributes.entrySet()){
+        String attributeName = entry.getKey();
+        Object attributeValue = entry.getValue();
+        if (attributeValue instanceof String && isDate((String) attributeValue)){
+          helper.setUserAttributeISODate(attributeName, attributeValue.toString());
+          removeAttribute.add(attributeName);
+        }
+      }
+      for (String attribute: removeAttribute){
+        userAttributes.remove(attribute);
+      }
+    } catch (Exception e) {
+      Logger.f( TAG + " transformUserAttributeToMoEngageFormat() : Exception ", e);
+    }
+    return userAttributes;
+  }
+
+  private boolean isDate(String attributeString){
+    try{
+      DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'", Locale.ENGLISH);
+      long epoch = format.parse(attributeString).getTime();
+      return epoch > -1;
+    }catch (Exception e){
+      Logger.e( TAG + " isDate() : Exception: ", e);
+    }
+    try {
+      DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH);
+      long epoch = format.parse(attributeString).getTime();
+      return epoch > -1;
+    }catch (Exception e){
+      Logger.e( TAG + " isDate() : Exception: ", e);
+    }
+    return false;
   }
 }
