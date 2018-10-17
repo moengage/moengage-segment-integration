@@ -211,15 +211,15 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
   }
 
   private boolean isDate(String attributeString){
-    try{
-      DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'", Locale.ENGLISH);
+    try {
+      DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH);
       long epoch = format.parse(attributeString).getTime();
       return epoch > -1;
     }catch (Exception e){
       Logger.e( TAG + " isDate() : Exception: ", e);
     }
-    try {
-      DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH);
+    try{
+      DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'", Locale.ENGLISH);
       long epoch = format.parse(attributeString).getTime();
       return epoch > -1;
     }catch (Exception e){
