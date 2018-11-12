@@ -11,6 +11,7 @@ import com.moengage.core.ConfigurationProvider;
 import com.moengage.core.Logger;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.AnalyticsContext;
+import com.segment.analytics.Properties;
 import com.segment.analytics.Traits;
 import com.segment.analytics.ValueMap;
 import com.segment.analytics.integrations.IdentifyPayload;
@@ -119,7 +120,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     Traits traits = identify.traits();
 
     if (!isNullOrEmpty(traits)) {
-      helper.setUserAttribute(transformUserAttributeToMoEngageFormat(transform(traits, MAPPER)));
+      transformUserAttributeToMoEngageFormat(transform(traits, MAPPER));
       Traits.Address address = traits.address();
       if (!isNullOrEmpty(address)) {
         String city = address.city();
@@ -165,12 +166,20 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     return helper;
   }
 
+  /**
+   * Converts the {@link Properties} to a format understood by MoEngage SDK.
+   *
+   * @param eventAttributes Properties passed by the Segment SDK.
+   * @return {@link JSONObject} of properties converted to MoEngage Format.
+   */
   private JSONObject transformEventAttributesToMoEngageFormat(JSONObject eventAttributes){
     try{
+      Logger.v(TAG + " transformEventAttributesToMoEngageFormat() : Transforming track properties "
+          + " to MoEngage format");
       PayloadBuilder builder = new PayloadBuilder();
-      Iterator iter = eventAttributes.keys();
-      while (iter.hasNext()) {
-        String key = (String) iter.next();
+      Iterator iterator = eventAttributes.keys();
+      while (iterator.hasNext()) {
+        String key = (String) iterator.next();
         Object value = eventAttributes.get(key);
         if (value instanceof String){
           if (!isDate((String)value)){
@@ -189,25 +198,32 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     }
   }
 
-  private Map<String, Object> transformUserAttributeToMoEngageFormat(Map<String, Object>
+  /**
+   * Transforms and tracks Identifiers in MoEngage format.
+   *
+   * @param userAttributes {@link Map} of identifiers passed by the Segment SDK.
+   */
+  private void transformUserAttributeToMoEngageFormat(Map<String, Object>
       userAttributes){
     try {
-      List<String> removeAttribute = new ArrayList<>();
+      Logger.v(TAG + " transformUserAttributeToMoEngageFormat() : Transforming identifiers to "
+          + "MoEngage format.");
+      List<String> removeAttributeList = new ArrayList<>();
       for (Map.Entry<String, Object> entry: userAttributes.entrySet()){
         String attributeName = entry.getKey();
         Object attributeValue = entry.getValue();
         if (attributeValue instanceof String && isDate((String) attributeValue)){
           helper.setUserAttributeISODate(attributeName, attributeValue.toString());
-          removeAttribute.add(attributeName);
+          removeAttributeList.add(attributeName);
         }
       }
-      for (String attribute: removeAttribute){
+      for (String attribute: removeAttributeList){
         userAttributes.remove(attribute);
       }
     } catch (Exception e) {
       Logger.f( TAG + " transformUserAttributeToMoEngageFormat() : Exception ", e);
     }
-    return userAttributes;
+    helper.setUserAttribute(userAttributes);
   }
 
   private boolean isDate(String attributeString){

@@ -68,8 +68,8 @@ dependencies {
 
   compileOnly 'com.segment.analytics.android:analytics:4.3.0'
 
-//  implementation 'com.moengage:moe-android-sdk:9.1.06'
-  implementation project(':moengagesdk')
+  implementation 'com.moengage:moe-android-sdk:9.1.06'
+//  implementation project(':moengagesdk')
 
   testImplementation 'junit:junit:4.12'
   testImplementation('org.robolectric:robolectric:3.0') {
