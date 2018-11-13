@@ -68,7 +68,6 @@ dependencies {
 
   implementation 'com.moengage:moe-android-sdk:9.2.02'
 
-
   testImplementation 'junit:junit:4.12'
   testImplementation('org.robolectric:robolectric:3.0') {
     exclude group: 'commons-logging', module: 'commons-logging'
