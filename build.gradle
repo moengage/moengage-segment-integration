@@ -68,7 +68,7 @@ dependencies {
 
   compileOnly 'com.segment.analytics.android:analytics:4.3.0'
 
-  implementation 'com.moengage:moe-android-sdk:9.1.06'
+  implementation 'com.moengage:moe-android-sdk:9.2.02'
 //  implementation project(':moengagesdk')
 
   testImplementation 'junit:junit:4.12'
