@@ -18,8 +18,6 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'checkstyle'
-apply plugin: 'com.f2prateek.checkstyle'
 apply from: '../release_properties.gradle'
 
 ext {
@@ -69,7 +67,6 @@ dependencies {
   compileOnly 'com.segment.analytics.android:analytics:4.3.0'
 
   implementation 'com.moengage:moe-android-sdk:9.2.02'
-//  implementation project(':moengagesdk')
 
   testImplementation 'junit:junit:4.12'
   testImplementation('org.robolectric:robolectric:3.0') {
