@@ -3,6 +3,7 @@ package com.segment.analytics.android.integrations.moengage;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import com.moe.pushlibrary.MoEHelper;
 import com.moe.pushlibrary.PayloadBuilder;
 import com.moe.pushlibrary.models.GeoLocation;
@@ -16,6 +17,7 @@ import com.segment.analytics.Traits;
 import com.segment.analytics.ValueMap;
 import com.segment.analytics.integrations.IdentifyPayload;
 import com.segment.analytics.integrations.Integration;
+import com.segment.analytics.integrations.ScreenPayload;
 import com.segment.analytics.integrations.TrackPayload;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -69,6 +71,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
   }
 
   MoEHelper helper;
+  ConfigurationProvider provider;
 
   MoEngageIntegration(Analytics analytics, ValueMap settings) throws IllegalStateException {
     Context context = analytics.getApplication();
@@ -77,7 +80,9 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     helper = MoEHelper.getInstance(context);
     Logger.d("MoEngageIntegration : Segment MoEngage Integration initialized");
     helper.initialize(pushSenderId, apiKey);
-    ConfigurationProvider.getInstance(context).setSegmentEnabledFlag(true);
+    provider = ConfigurationProvider.getInstance(context);
+    provider.setSegmentEnabledFlag(true);
+    trackAnonymousId(analytics);
   }
 
   @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -115,6 +120,10 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     if (helper != null) helper.onSaveInstanceState(outState);
   }
 
+  @Override public void screen(ScreenPayload screen) {
+    super.screen(screen);
+  }
+
   @Override public void identify(IdentifyPayload identify) {
     super.identify(identify);
     Traits traits = identify.traits();
@@ -143,6 +152,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
       helper.setUserAttribute(MoEHelperConstants.USER_ATTRIBUTE_USER_LOCATION,
           new GeoLocation(location.latitude(), location.longitude()));
     }
+    saveAnonymousId(identify.anonymousId());
   }
 
   @Override public void track(TrackPayload track) {
@@ -155,6 +165,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
         helper.trackEvent(track.event());
       }
     }
+    saveAnonymousId(track.anonymousId());
   }
 
   @Override public void reset() {
@@ -242,5 +253,26 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
       Logger.e( TAG + " isDate() : Exception: ", e);
     }
     return false;
+  }
+
+  private void trackAnonymousId(Analytics analytics) {
+    try {
+      if (analytics.getAnalyticsContext() != null
+          && analytics.getAnalyticsContext().traits() != null) {
+        saveAnonymousId(analytics.getAnalyticsContext().traits().anonymousId());
+      }
+    } catch (Throwable e) {
+      Logger.f(TAG + " trackAnonymousId() : Exception: ", e);
+    }
+  }
+
+  private void saveAnonymousId(String anonymousId) {
+    try {
+      if (!TextUtils.isEmpty(anonymousId)) {
+        provider.saveSegmentAnonymousId(anonymousId);
+      }
+    } catch (Exception e) {
+      Logger.f(TAG + " saveAnonymousId() : Exception: ", e);
+    }
   }
 }
