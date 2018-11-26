@@ -17,7 +17,6 @@ import com.segment.analytics.Traits;
 import com.segment.analytics.ValueMap;
 import com.segment.analytics.integrations.IdentifyPayload;
 import com.segment.analytics.integrations.Integration;
-import com.segment.analytics.integrations.ScreenPayload;
 import com.segment.analytics.integrations.TrackPayload;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -71,7 +70,8 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
   }
 
   MoEHelper helper;
-  ConfigurationProvider provider;
+  private ConfigurationProvider provider;
+  private boolean isAnonymousIdTracked;
 
   MoEngageIntegration(Analytics analytics, ValueMap settings) throws IllegalStateException {
     Context context = analytics.getApplication();
@@ -120,10 +120,6 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     if (helper != null) helper.onSaveInstanceState(outState);
   }
 
-  @Override public void screen(ScreenPayload screen) {
-    super.screen(screen);
-  }
-
   @Override public void identify(IdentifyPayload identify) {
     super.identify(identify);
     Traits traits = identify.traits();
@@ -152,7 +148,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
       helper.setUserAttribute(MoEHelperConstants.USER_ATTRIBUTE_USER_LOCATION,
           new GeoLocation(location.latitude(), location.longitude()));
     }
-    saveAnonymousId(identify.anonymousId());
+    if (!isAnonymousIdTracked) saveAnonymousId(identify.anonymousId());
   }
 
   @Override public void track(TrackPayload track) {
@@ -165,12 +161,13 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
         helper.trackEvent(track.event());
       }
     }
-    saveAnonymousId(track.anonymousId());
+    if (!isAnonymousIdTracked) saveAnonymousId(track.anonymousId());
   }
 
   @Override public void reset() {
     super.reset();
     helper.logoutUser();
+    isAnonymousIdTracked = false;
   }
 
   @Override public MoEHelper getUnderlyingInstance() {
@@ -260,6 +257,8 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
       if (analytics.getAnalyticsContext() != null
           && analytics.getAnalyticsContext().traits() != null) {
         saveAnonymousId(analytics.getAnalyticsContext().traits().anonymousId());
+      }else {
+        Logger.e( TAG + " trackAnonymousId() : Traits object not found. Cannot track anonymous id");
       }
     } catch (Throwable e) {
       Logger.f(TAG + " trackAnonymousId() : Exception: ", e);
@@ -270,6 +269,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     try {
       if (!TextUtils.isEmpty(anonymousId)) {
         provider.saveSegmentAnonymousId(anonymousId);
+        isAnonymousIdTracked = true;
       }
     } catch (Exception e) {
       Logger.f(TAG + " saveAnonymousId() : Exception: ", e);
