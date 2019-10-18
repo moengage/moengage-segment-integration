@@ -6,7 +6,6 @@ import android.os.Bundle;
 import com.moe.pushlibrary.MoEHelper;
 import com.moe.pushlibrary.models.GeoLocation;
 import com.moe.pushlibrary.utils.MoEHelperConstants;
-import com.moengage.core.ConfigurationProvider;
 import com.moengage.core.Logger;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.AnalyticsContext;
@@ -68,7 +67,6 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     helper = MoEHelper.getInstance(context);
     Logger.d("MoEngageIntegration : Segment MoEngage Integration initialized");
     helper.initialize(pushSenderId, apiKey);
-    ConfigurationProvider.getInstance(context).setSegmentEnabledFlag(true);
   }
 
   @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -83,13 +81,13 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
 
   @Override public void onActivityStarted(Activity activity) {
     super.onActivityStarted(activity);
-    if (helper != null && activity != null) helper.onStart(activity);
+    if (helper != null && activity != null) helper.onStartInternal(activity);
   }
 
 
   @Override public void onActivityResumed(Activity activity) {
     super.onActivityResumed(activity);
-    if (helper != null && activity != null) helper.onResume(activity);
+    if (helper != null && activity != null) helper.onResumeInternal(activity);
   }
 
   @Override public void onActivityPaused(Activity activity) {
@@ -98,7 +96,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
 
   @Override public void onActivityStopped(Activity activity) {
     super.onActivityStopped(activity);
-    if (helper != null && activity != null) helper.onStop(activity);
+    if (helper != null && activity != null) helper.onStopInternal(activity);
   }
 
   @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
