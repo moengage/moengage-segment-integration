@@ -49,8 +49,8 @@ android {
     targetSdkVersion 26
     compileSdkVersion 26
 
-    buildConfigField "int", "MOENGAGE_SEGMENT_SDK_VERSION",
-        "${rootProject.ext.segmentBintray.versionCode}"
+    buildConfigField "String", "MOENGAGE_SEGMENT_SDK_VERSION",
+        "\"${rootProject.ext.segmentBintray.versionName}\""
   }
 
   compileOptions {
@@ -67,9 +67,7 @@ dependencies {
 
   compileOnly 'com.segment.analytics.android:analytics:4.3.0'
 
-  api "com.moengage:moe-android-sdk:9.8.00"
-
-  implementation project(":moengagesdk")
+  api "com.moengage:moe-android-sdk:9.8.01"
 
   testImplementation 'junit:junit:4.12'
   testImplementation('org.robolectric:robolectric:3.0') {
