@@ -1,5 +1,6 @@
 buildscript {
   repositories {
+    google()
     mavenCentral()
   }
   repositories {
@@ -16,28 +17,29 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
+apply from: 'release_properties.gradle'
+
 
 ext {
+  bintrayRepo = bintrayMeta.repoName
+  publishedGroupId = bintrayMeta.publisherId
 
-  bintrayRepo = BintrayConfig.repoName
-  publishedGroupId = BintrayConfig.publisherId
+  bintrayName = segmentBintray.artifactId
+  libraryName = segmentBintray.name
+  artifact = segmentBintray.artifactId
+  libraryDescription = segmentBintray.description
+  libraryVersion = segmentBintray.versionName
 
-  bintrayName = "moengage-segment-integration"
-  libraryName = "MoEngage Segment Integration"
-  artifact = "moengage-segment-integration"
-  libraryDescription = "MoEngage-Segment Bundled integration"
-  libraryVersion = "3.4.04"
+  siteUrl = urlMeta.siteUrl
+  gitUrl = urlMeta.gitUrl
 
-  siteUrl = BintrayConfig.siteUrl
-  gitUrl = BintrayConfig.gitUrl
+  developerId = developerMeta.developerId
+  developerName = developerMeta.developerName
+  developerEmail = developerMeta.developerEmail
 
-  developerId = BintrayConfig.developerId
-  developerName = BintrayConfig.developerName
-  developerEmail = BintrayConfig.developerEmail
-
-  licenseName = BintrayConfig.licenseName
-  licenseUrl = BintrayConfig.licenseUrl
-  allLicenses = BintrayConfig.allLicenses
+  licenseName = licenseMeta.licenseName
+  licenseUrl = licenseMeta.licenseUrl
+  allLicenses = licenseMeta.allLicenses
 }
 
 android {
@@ -46,6 +48,9 @@ android {
   defaultConfig {
     minSdkVersion 16
     targetSdkVersion 28
+
+    buildConfigField "String", "MOENGAGE_SEGMENT_SDK_VERSION",
+        "\"${segmentBintray.versionName}\""
   }
 
   compileOptions {
@@ -62,9 +67,7 @@ dependencies {
 
   compileOnly 'com.segment.analytics.android:analytics:4.3.0'
 
-//  api 'com.moengage:moe-android-sdk:9.7.00'
-
-  api project(Modules.core)
+  api "com.moengage:moe-android-sdk:9.8.01"
 
   testImplementation 'junit:junit:4.12'
   testImplementation('org.robolectric:robolectric:3.0') {
@@ -85,5 +88,9 @@ dependencies {
   testImplementation 'org.powermock:powermock-classloading-xstream:1.6.2'
 }
 
-apply from: '../bintray.gradle'
-apply from: '../installv.gradle'
+repositories {
+  google()
+}
+
+apply from: 'bintray.gradle'
+apply from: 'installv.gradle'
