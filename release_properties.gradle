@@ -12,8 +12,8 @@ ext {
   ]
 
   urlMeta = [
-      siteUrl: "https://github.com/moengage/MoEngage-Android-SDK",
-      gitUrl : "https://github.com/moengage/MoEngage-Android-SDK.git"
+      siteUrl: "https://github.com/moengage/moengage-segment-integration",
+      gitUrl : "https://github.com/moengage/moengage-segment-integration.git"
   ]
 
   bintrayMeta = [

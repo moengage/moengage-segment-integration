@@ -51,7 +51,7 @@ android {
     compileSdkVersion 26
 
     buildConfigField "String", "MOENGAGE_SEGMENT_SDK_VERSION",
-        "\"${rootProject.ext.segmentBintray.versionName}\""
+        "\"${segmentBintray.versionName}\""
   }
 
   compileOptions {
