@@ -69,9 +69,8 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     helper = MoEHelper.getInstance(context);
     Logger.d("MoEngageIntegration : Segment MoEngage Integration initialized");
     helper.initialize(pushSenderId, apiKey);
-
-    //ConfigurationCache.getInstance().setIntegrationType(MoEConstants.INTEGRATION_TYPE_SEGMENT);
-    //ConfigurationCache.getInstance().setIntegrationVersion(BuildConfig.MOENGAGE_SEGMENT_SDK_VERSION);
+    ConfigurationCache.getInstance().setIntegrationType(MoEConstants.INTEGRATION_TYPE_SEGMENT);
+    ConfigurationCache.getInstance().setIntegrationVersion(BuildConfig.MOENGAGE_SEGMENT_SDK_VERSION);
   }
 
   @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
