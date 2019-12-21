@@ -1,5 +1,6 @@
 buildscript {
   repositories {
+    google()
     mavenCentral()
   }
   repositories {
@@ -8,7 +9,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.5.2'
+    classpath 'com.android.tools.build:gradle:3.5.3'
     classpath 'com.f2prateek.checkstyle:checkstyle:1.0.1'
     classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
     classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
@@ -16,7 +17,7 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
-apply from: '../release_properties.gradle'
+apply from: 'release_properties.gradle'
 
 ext {
 
@@ -88,5 +89,9 @@ dependencies {
   testImplementation 'org.powermock:powermock-classloading-xstream:1.6.2'
 }
 
-apply from: '../bintray.gradle'
-apply from: '../installv.gradle'
+repositories {
+  google()
+}
+
+apply from: 'bintray.gradle'
+apply from: 'installv.gradle'
