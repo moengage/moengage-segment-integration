@@ -29,7 +29,7 @@ import static com.segment.analytics.internal.Utils.transform;
  *
  * @see <a href="http://www.moengage.com/">MoEngage</a>
  * @see <a href="https://segment.com/docs/integrations/moengage/">MoEngage Integration</a>
- * @see <a href="http://docs.moengage.com/en/latest/android.html">MoEngage Android SDK</a>
+ * @see <a href="https://docs.moengage.com/docs/android-integration">MoEngage Android SDK</a>
  */
 public class MoEngageIntegration extends Integration<MoEHelper> {
   public static final Factory FACTORY = new Factory() {
