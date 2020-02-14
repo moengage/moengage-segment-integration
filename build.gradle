@@ -68,7 +68,7 @@ dependencies {
 
   compileOnly 'com.segment.analytics.android:analytics:4.3.0'
 
-  api "com.moengage:moe-android-sdk:9.8.03"
+  api "com.moengage:moe-android-sdk:9.8.04"
 
   testImplementation 'junit:junit:4.12'
   testImplementation('org.robolectric:robolectric:3.0') {
