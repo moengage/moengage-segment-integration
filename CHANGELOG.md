@@ -1,6 +1,7 @@
+### v3.5.03 (14-02-2020)
+- Updated MoEngage SDK version to 9.8.04
 
-Version 1.0.0 (18th July, 2016)
-==============================
-*(Supports analytics-android 4.0.+ and MoEngage 6.0.29+)*
-
-  * Initial Release.
+### v3.5.03 (04-02-2020)
+- Updated MoEngage SDK version to 9.8.03
+### v3.5.02 (12-01-2020)
+- Updated MoEngage SDK version to 9.8.02
