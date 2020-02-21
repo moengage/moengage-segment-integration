@@ -25,7 +25,7 @@ ext {
       "artifactId" : "moengage-segment-integration",
       "name"       : "MoEngage Segment Integration",
       "description": "MoEngage-Segment Bundled integration",
-      "versionName": "3.5.04",
-      "versionCode": 3504
+      "versionName": "4.0.00",
+      "versionCode": 4000
   ]
 }
