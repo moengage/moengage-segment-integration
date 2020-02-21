@@ -19,8 +19,8 @@ buildscript {
 apply plugin: 'com.android.library'
 apply from: 'release_properties.gradle'
 
-ext {
 
+ext {
   bintrayRepo = bintrayMeta.repoName
   publishedGroupId = bintrayMeta.publisherId
 
@@ -43,12 +43,12 @@ ext {
 }
 
 android {
-  compileSdkVersion 26
+  compileSdkVersion 28
 
   defaultConfig {
-    minSdkVersion 14
-    targetSdkVersion 26
-    compileSdkVersion 26
+    minSdkVersion 16
+    targetSdkVersion 28
+
 
     buildConfigField "String", "MOENGAGE_SEGMENT_SDK_VERSION",
         "\"${segmentBintray.versionName}\""
@@ -68,7 +68,10 @@ dependencies {
 
   compileOnly 'com.segment.analytics.android:analytics:4.3.0'
 
-  api "com.moengage:moe-android-sdk:9.8.04"
+
+  api "com.moengage:moe-android-sdk:10.0.00"
+
+
 
   testImplementation 'junit:junit:4.12'
   testImplementation('org.robolectric:robolectric:3.0') {
