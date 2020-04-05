@@ -1,3 +1,7 @@
+### v4.0.03(05-04-2020)
+- Updated MoEngage SDK version to 10.0.03
+    - Migrated integration-verification module to Kotlin
+
 ### v4.0.02(18-03-2020)
 - Updated MoEngage SDK version to 10.0.02
     - Support added for India Cluster
