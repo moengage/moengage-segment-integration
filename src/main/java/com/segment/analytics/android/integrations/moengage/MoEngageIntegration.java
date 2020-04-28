@@ -7,8 +7,10 @@ import com.moe.pushlibrary.MoEHelper;
 import com.moe.pushlibrary.models.GeoLocation;
 import com.moe.pushlibrary.utils.MoEHelperConstants;
 import com.moengage.core.ConfigurationCache;
+import com.moengage.core.ConfigurationProvider;
 import com.moengage.core.Logger;
 import com.moengage.core.MoEConstants;
+import com.moengage.core.MoEUtils;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.AnalyticsContext;
 import com.segment.analytics.Traits;
@@ -71,6 +73,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     helper.initialize(pushSenderId, apiKey);
     ConfigurationCache.getInstance().setIntegrationType(MoEConstants.INTEGRATION_TYPE_SEGMENT);
     ConfigurationCache.getInstance().setIntegrationVersion(BuildConfig.MOENGAGE_SEGMENT_SDK_VERSION);
+    trackAnonymousId(context);
   }
 
   @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -156,5 +159,12 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
 
   @Override public MoEHelper getUnderlyingInstance() {
     return helper;
+  }
+
+  private void trackAnonymousId(Context context){
+    String anonymousId = Analytics.with(context).getAnalyticsContext().traits().anonymousId();
+    if (!MoEUtils.isEmptyString(anonymousId)){
+      ConfigurationProvider.getInstance(context).saveSegmentAnonymousId(anonymousId);
+    }
   }
 }
