@@ -63,6 +63,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
   }
 
   MoEHelper helper;
+  private Context context;
 
   MoEngageIntegration(Analytics analytics, ValueMap settings) throws IllegalStateException {
     Context context = analytics.getApplication();
@@ -73,6 +74,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     helper.initialize(pushSenderId, apiKey);
     ConfigurationCache.getInstance().setIntegrationType(MoEConstants.INTEGRATION_TYPE_SEGMENT);
     ConfigurationCache.getInstance().setIntegrationVersion(BuildConfig.MOENGAGE_SEGMENT_SDK_VERSION);
+    this.context = context;
     trackAnonymousId(context);
   }
 
@@ -150,6 +152,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
         helper.trackEvent(track.event());
       }
     }
+    trackAnonymousId(context);
   }
 
   @Override public void reset() {
