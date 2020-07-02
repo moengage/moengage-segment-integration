@@ -1,3 +1,7 @@
+### v4.1.00(02-07-2020)
+- Updated MoEngage SDK version to 10.1.00
+    - Cards support
+
 ### v4.0.03(05-04-2020)
 - Updated MoEngage SDK version to 10.0.03
     - Migrated integration-verification module to Kotlin
