@@ -1,3 +1,6 @@
+### v4.1.01(07-07-2020)
+- Updated MoEngage SDK version to 10.1.01
+    
 ### v4.1.00(02-07-2020)
 - Updated MoEngage SDK version to 10.1.00
     - Cards support

@@ -82,7 +82,7 @@ dependencies {
   compileOnly 'com.segment.analytics.android:analytics:4.3.0'
 
 
-  api "com.moengage:moe-android-sdk:10.1.00"
+  api "com.moengage:moe-android-sdk:10.1.01"
 
 
 
