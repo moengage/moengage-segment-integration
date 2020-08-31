@@ -9,6 +9,7 @@ import com.moe.pushlibrary.utils.MoEHelperConstants;
 import com.moengage.core.ConfigurationCache;
 import com.moengage.core.Logger;
 import com.moengage.core.MoEConstants;
+import com.moengage.core.MoEIntegrationHelper;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.AnalyticsContext;
 import com.segment.analytics.Traits;
@@ -61,14 +62,15 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
   }
 
   MoEHelper helper;
+  Context context;
 
   MoEngageIntegration(Analytics analytics, ValueMap settings) throws IllegalStateException {
-    Context context = analytics.getApplication();
+    context = analytics.getApplication();
     String apiKey = settings.getString("apiKey");
     String pushSenderId = settings.getString("pushSenderId");
     helper = MoEHelper.getInstance(context);
     Logger.d("MoEngageIntegration : Segment MoEngage Integration initialized");
-    helper.initialize(pushSenderId, apiKey);
+    MoEIntegrationHelper.initialize(context, pushSenderId, apiKey);
     ConfigurationCache.getInstance().setIntegrationType(MoEConstants.INTEGRATION_TYPE_SEGMENT);
     ConfigurationCache.getInstance().setIntegrationVersion(BuildConfig.MOENGAGE_SEGMENT_SDK_VERSION);
   }
@@ -113,7 +115,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     Traits traits = identify.traits();
 
     if (!isNullOrEmpty(traits)) {
-      helper.trackUserAttributeFromSegment(transform(traits, MAPPER));
+      MoEIntegrationHelper.trackUserAttributeFromSegment(context, transform(traits, MAPPER));
       Traits.Address address = traits.address();
       if (!isNullOrEmpty(address)) {
         String city = address.city();
@@ -142,7 +144,8 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
     super.track(track);
     if (!isNullOrEmpty(track)) {
       if (!isNullOrEmpty(track.properties())) {
-        helper.trackEventFromSegment(track.event(), track.properties().toJsonObject());
+        MoEIntegrationHelper.trackEventFromSegment(context, track.event(),
+            track.properties().toJsonObject());
       } else {
         helper.trackEvent(track.event());
       }
