@@ -6,10 +6,11 @@ import android.os.Bundle;
 import com.moe.pushlibrary.MoEHelper;
 import com.moe.pushlibrary.models.GeoLocation;
 import com.moe.pushlibrary.utils.MoEHelperConstants;
-import com.moengage.core.ConfigurationCache;
 import com.moengage.core.Logger;
 import com.moengage.core.MoEConstants;
 import com.moengage.core.MoEIntegrationHelper;
+import com.moengage.core.model.IntegrationMeta;
+import com.moengage.core.model.IntegrationPartner;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.AnalyticsContext;
 import com.segment.analytics.Traits;
@@ -20,6 +21,7 @@ import com.segment.analytics.integrations.TrackPayload;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.json.JSONObject;
 
 import static com.segment.analytics.internal.Utils.isNullOrEmpty;
 import static com.segment.analytics.internal.Utils.transform;
@@ -62,38 +64,41 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
   }
 
   MoEHelper helper;
-  Context context;
+  private Context context;
+  private MoEIntegrationHelper integrationHelper;
 
   MoEngageIntegration(Analytics analytics, ValueMap settings) throws IllegalStateException {
     context = analytics.getApplication();
     String apiKey = settings.getString("apiKey");
     String pushSenderId = settings.getString("pushSenderId");
     helper = MoEHelper.getInstance(context);
-    Logger.d("MoEngageIntegration : Segment MoEngage Integration initialized");
-    MoEIntegrationHelper.initialize(context, pushSenderId, apiKey);
-    ConfigurationCache.getInstance().setIntegrationType(MoEConstants.INTEGRATION_TYPE_SEGMENT);
-    ConfigurationCache.getInstance().setIntegrationVersion(BuildConfig.MOENGAGE_SEGMENT_SDK_VERSION);
+    integrationHelper = new MoEIntegrationHelper(context, IntegrationPartner.SEGMENT);
+    Logger.d(TAG + " Segment MoEngage Integration initialized");
+    integrationHelper.initialize(apiKey, pushSenderId);
+    MoEIntegrationHelper.setIntegrationMeta(new IntegrationMeta(
+        MoEConstants.INTEGRATION_TYPE_SEGMENT, BuildConfig.MOENGAGE_SEGMENT_SDK_VERSION));
+    trackAnonymousId(analytics);
   }
 
   @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
     super.onActivityCreated(activity, savedInstanceState);
+    Logger.v(TAG + " onActivityCreated() : ");
     if (helper == null && activity != null) {
       helper = MoEHelper.getInstance(activity.getApplicationContext());
-    }
-    if (savedInstanceState != null) {
-      if (helper != null) helper.onRestoreInstanceState(savedInstanceState);
     }
   }
 
   @Override public void onActivityStarted(Activity activity) {
     super.onActivityStarted(activity);
-    if (helper != null && activity != null) helper.onStartInternal(activity);
+    Logger.v(TAG + " onActivityStarted() : ");
+    if (helper != null && activity != null) integrationHelper.onActivityStart(activity);
   }
 
 
   @Override public void onActivityResumed(Activity activity) {
     super.onActivityResumed(activity);
-    if (helper != null && activity != null) helper.onResumeInternal(activity);
+    Logger.v(TAG + " onActivityResumed() : ");
+    if (helper != null && activity != null) integrationHelper.onActivityResumed(activity);
   }
 
   @Override public void onActivityPaused(Activity activity) {
@@ -102,20 +107,23 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
 
   @Override public void onActivityStopped(Activity activity) {
     super.onActivityStopped(activity);
-    if (helper != null && activity != null) helper.onStopInternal(activity);
+    Logger.v(TAG + " onActivityStopped() : ");
+    if (helper != null && activity != null) integrationHelper.onActivityStop(activity);
   }
 
   @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
     super.onActivitySaveInstanceState(activity, outState);
-    if (helper != null) helper.onSaveInstanceState(outState);
+    Logger.v(TAG + " onActivitySaveInstanceState() : ");
+    if (helper != null) integrationHelper.onActivitySavedInstance(activity, outState);
   }
 
   @Override public void identify(IdentifyPayload identify) {
     super.identify(identify);
+    Logger.v(TAG + " identify() : ");
     Traits traits = identify.traits();
 
     if (!isNullOrEmpty(traits)) {
-      MoEIntegrationHelper.trackUserAttributeFromSegment(context, transform(traits, MAPPER));
+      integrationHelper.trackUserAttribute(transform(traits, MAPPER));
       Traits.Address address = traits.address();
       if (!isNullOrEmpty(address)) {
         String city = address.city();
@@ -142,22 +150,31 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
 
   @Override public void track(TrackPayload track) {
     super.track(track);
+    Logger.v(TAG + " track() : ");
     if (!isNullOrEmpty(track)) {
       if (!isNullOrEmpty(track.properties())) {
-        MoEIntegrationHelper.trackEventFromSegment(context, track.event(),
-            track.properties().toJsonObject());
+        integrationHelper.trackEvent(track.event(), track.properties().toJsonObject());
       } else {
-        helper.trackEvent(track.event());
+        integrationHelper.trackEvent(track.event(), new JSONObject());
       }
     }
   }
 
   @Override public void reset() {
     super.reset();
+    Logger.v(TAG + " reset() : ");
     helper.logoutUser();
   }
 
   @Override public MoEHelper getUnderlyingInstance() {
     return helper;
+  }
+
+  private void trackAnonymousId(Analytics analytics){
+    try{
+     integrationHelper.trackAnonymousId(analytics.getAnalyticsContext().traits().anonymousId());
+    }catch(Throwable th){
+      Logger.e(TAG + " trackAnonymousId() : ", th);
+    }
   }
 }
