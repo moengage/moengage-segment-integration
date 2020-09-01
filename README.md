@@ -3,7 +3,7 @@ analytics-android-integration-moengage
 
 ![Downlaod](https://api.bintray.com/packages/moengage/android-sdk/moengage-segment-integration/images/download.svg)
 
-MoEngage integration for [analytics-android](https://github.com/moengage/Segment-Integration).
+MoEngage integration for [analytics-android](https://github.com/segmentio/analytics-android).
 
 ## Installation
 
