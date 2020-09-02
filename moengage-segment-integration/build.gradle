@@ -1,0 +1,57 @@
+plugins {
+  id("com.android.library")
+}
+
+apply(from: "../configuration.gradle")
+
+ext {
+  bintrayRepo = bintrayMeta.repoName
+  publishedGroupId = bintrayMeta.publisherId
+
+  bintrayName = segmentBintray.artifactId
+  libraryName = segmentBintray.name
+  artifact = segmentBintray.artifactId
+  libraryDescription = segmentBintray.description
+  libraryVersion = segmentBintray.versionName
+
+  siteUrl = urlMeta.siteUrl
+  gitUrl = urlMeta.gitUrl
+
+  developerId = developerMeta.developerId
+  developerName = developerMeta.developerName
+  developerEmail = developerMeta.developerEmail
+
+  licenseName = licenseMeta.licenseName
+  licenseUrl = licenseMeta.licenseUrl
+  allLicenses = licenseMeta.allLicenses
+}
+
+android {
+  compileSdkVersion buildConfiguration.compileSDKVersion
+
+  defaultConfig {
+
+    minSdkVersion buildConfiguration.minimumSDKVersion
+    targetSdkVersion buildConfiguration.targetSDKVersion
+
+    buildConfigField "String", "MOENGAGE_SEGMENT_SDK_VERSION", "\"${segmentBintray.versionName}\""
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_7
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+
+dependencies {
+  implementation fileTree(dir: "libs", include: ["*.jar"])
+  compileOnly(dependency.segment)
+  api(dependency.moengage)
+}

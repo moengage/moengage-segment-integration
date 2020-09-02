@@ -37,6 +37,6 @@ ext {
 
   dependency = [
       "moengage" : "com.moengage:moe-android-sdk:10.3.00",
-      "segment" : "com.segment.analytics.android:analytics:4.3.0"
+      "segment" : "com.segment.analytics.android:analytics:4.8.2"
   ]
 }
