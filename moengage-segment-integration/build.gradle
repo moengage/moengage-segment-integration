@@ -55,3 +55,5 @@ dependencies {
   compileOnly(dependency.segment)
   api(dependency.moengage)
 }
+
+apply(from: "../releaseScript.gradle")
