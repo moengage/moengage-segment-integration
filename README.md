@@ -24,7 +24,7 @@ import com.segment.analytics.android.integrations.moengage.MoEngageIntegration;
 And add the following line:
 
 ```
-analytics = new Analytics.Builder(this, "write_key")
+Analytics analytics = new Analytics.Builder(this, "write_key")
                 .use(MoEngageIntegration.FACTORY)
                 .build();
 ```
