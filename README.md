@@ -209,6 +209,15 @@ This will send the event to MoEngage with the associated properties. Tracking ev
 #### Reset
 If your app supports the ability for a user to logout and login with a new identity, then you’ll need to call reset for the Analytics client.
 
+### Example App
+
+To build and run the example application you need to add your `write_key` from the Segment Dashboard to the `local
+.properties` file
+
+```
+segmentWriteKey=[your_write_key]
+```
+
 ## License
 
 ```
