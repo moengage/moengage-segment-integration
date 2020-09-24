@@ -180,7 +180,7 @@ Add the following snippet and replace `[PARENT_ACTIVITY_NAME]` with the name of 
  <activity
     android:name="com.moe.pushlibrary.activities.MoEActivity"
     android:label="[ACTIVITY_NAME]"
-    android:parentActivityName="[PARENT_ACTIVITY_AME]" >
+    android:parentActivityName="[PARENT_ACTIVITY_NAME]" >
  </activity>
  ```
 
