@@ -1,3 +1,6 @@
+### 4.2.01(25-09-2020)
+- Updated MoEngage SDK version to `10.4.01`
+
 ### 4.2.00(17-09-2020)
 - Updated MoEngage SDK version to `10.4.00`. Refer to the [Release Notes](https://docs.moengage.com/docs/android-release-notes#v10400) for more details.
 - Moved to `androidx` namespace.
