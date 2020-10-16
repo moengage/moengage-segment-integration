@@ -1,5 +1,5 @@
 ### 4.2.02(16-10-2020)
-- Updated MoEngage SDK version to `10.4.02`
+- Updated MoEngage SDK version to `10.4.03`
 
 ### 4.2.01(25-09-2020)
 - Updated MoEngage SDK version to `10.4.01`
