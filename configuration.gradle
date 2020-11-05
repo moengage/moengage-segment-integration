@@ -25,8 +25,8 @@ ext {
       "artifactId" : "moengage-segment-integration",
       "name"       : "MoEngage Segment Integration",
       "description": "MoEngage-Segment Bundled integration",
-      "versionName": "4.2.02",
-      "versionCode": 4202
+      "versionName": "4.2.03",
+      "versionCode": 4203
   ]
 
   buildConfiguration = [
