@@ -30,7 +30,13 @@
 - Updated MoEngage SDK version to 10.0.01
 
 ### v4.0.00 (21-02-2020)
-- Updated MoEngage SDK version to 10.0.00
+- Removed Support for manifest based integration
+- Removed support for MoEngage's GCM library. If you are still using the GCM dependency move to FCM dependency.
+- Removed support for Fresco, use Glide instead if you are using Gifs for In-Apps.
+- If sender id is provided while initializing the SDK it will be used for token registration instead of the default sender id in the google-services.json file.
+- InApp Callbacks - InApp Callbacks listener is now a concrete class rather than an interface. Refer to the API documentation for more details.
+- Self-Handled in-app delivered on the Main thread
+Refer to [Migration Guide](doc:migration-to-10xxx)  documentation for more details.
 
 ### v3.5.03 (14-02-2020)
 - Updated MoEngage SDK version to 9.8.04
