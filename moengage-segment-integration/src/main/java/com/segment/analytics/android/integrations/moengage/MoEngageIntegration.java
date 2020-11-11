@@ -47,7 +47,8 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
   private static final String KEY_MOENGAGE = "MoEngage";
   private static final Map<String, String> MAPPER;
 
-  private static final String TAG = "MoEngageIntegration";
+  private static final String TAG =
+      "MoEngageIntegration_" + BuildConfig.MOENGAGE_SEGMENT_SDK_VERSION;
 
   static {
     Map<String, String> mapper = new LinkedHashMap<>();
