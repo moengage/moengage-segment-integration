@@ -2,7 +2,7 @@ plugins {
   id("com.android.library")
 }
 
-apply(from: "../configuration.gradle")
+apply(from: "../scripts/configuration.gradle")
 
 ext {
   bintrayRepo = bintrayMeta.repoName
@@ -56,4 +56,4 @@ dependencies {
   api(dependency.moengage)
 }
 
-apply(from: "../releaseScript.gradle")
+apply(from: "../scripts/releaseScript.gradle")
