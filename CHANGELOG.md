@@ -1,3 +1,7 @@
+### 4.3.00
+- MoEngage SDK version is no longer pinned to a specific version. Latest version within the defined range would be
+ picked. In the defined range major version of the SDK is maintained.
+
 ### 4.2.03(05-11-2020)
 - Updated MoEngage SDK version to `10.4.04`
 
