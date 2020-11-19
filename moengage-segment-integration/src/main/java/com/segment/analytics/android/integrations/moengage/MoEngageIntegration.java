@@ -82,35 +82,35 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
   }
 
   @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-    super.onActivityCreated(activity, savedInstanceState);
-    Logger.v(TAG + " onActivityCreated() : ");
     try {
+      super.onActivityCreated(activity, savedInstanceState);
+      Logger.v(TAG + " onActivityCreated() : ");
       if (helper == null && activity != null) {
         helper = MoEHelper.getInstance(activity.getApplicationContext());
       }
     } catch (Exception e) {
-      Logger.e(TAG + "onActivityCreated() :", e);
+      Logger.e(TAG + "onActivityCreated() : ", e);
     }
   }
 
   @Override public void onActivityStarted(Activity activity) {
-    super.onActivityStarted(activity);
     try {
+      super.onActivityStarted(activity);
       Logger.v(TAG + " onActivityStarted() : ");
       if (helper != null && activity != null) integrationHelper.onActivityStart(activity);
     } catch (Exception e) {
-    Logger.e(TAG + "onActivityStarted() :", e);
+      Logger.e(TAG + "onActivityStarted() : ", e);
     }
   }
 
 
   @Override public void onActivityResumed(Activity activity) {
-    super.onActivityResumed(activity);
     try {
+      super.onActivityResumed(activity);
       Logger.v(TAG + " onActivityResumed() : ");
       if (integrationHelper != null && activity != null) integrationHelper.onActivityResumed(activity);
     } catch (Exception e) {
-      Logger.e(TAG + "onActivityResumed() :", e);
+      Logger.e(TAG + "onActivityResumed() : ", e);
     }
   }
 
@@ -119,28 +119,28 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
   }
 
   @Override public void onActivityStopped(Activity activity) {
-    super.onActivityStopped(activity);
     try {
+      super.onActivityStopped(activity);
       Logger.v(TAG + " onActivityStopped() : ");
       if (integrationHelper != null && activity != null) integrationHelper.onActivityStop(activity);
     } catch (Exception e) {
-      Logger.e(TAG + "onActivityStopped() :", e);
+      Logger.e(TAG + "onActivityStopped() : ", e);
     }
   }
 
   @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-    super.onActivitySaveInstanceState(activity, outState);
     try {
+      super.onActivitySaveInstanceState(activity, outState);
       Logger.v(TAG + " onActivitySaveInstanceState() : ");
       if (integrationHelper != null) integrationHelper.onActivitySavedInstance(activity, outState);
     } catch (Exception e) {
-      Logger.e(TAG + "onActivitySaveInstanceState() :", e);
+      Logger.e(TAG + "onActivitySaveInstanceState() : ", e);
     }
   }
 
   @Override public void identify(IdentifyPayload identify) {
-    super.identify(identify);
     try {
+      super.identify(identify);
       Logger.v(TAG + " identify() : ");
       Traits traits = identify.traits();
 
@@ -169,13 +169,13 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
             new GeoLocation(location.latitude(), location.longitude()));
       }
     } catch (Exception e) {
-      Logger.e(TAG + " identify() :", e);
+      Logger.e(TAG + " identify() : ", e);
     }
   }
 
   @Override public void track(TrackPayload track) {
-    super.track(track);
     try {
+      super.track(track);
       Logger.v(TAG + " track() : ");
       if (!isNullOrEmpty(track)) {
         if (!isNullOrEmpty(track.properties())) {
@@ -185,17 +185,17 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
         }
       }
     } catch (Exception e) {
-      Logger.e(TAG + " track() :", e);
+      Logger.e(TAG + " track() : ", e);
     }
   }
 
   @Override public void reset() {
-    super.reset();
     try {
+      super.reset();
       Logger.v(TAG + " reset() : ");
       helper.logoutUser();
     } catch (Exception e) {
-      Logger.e(TAG + " reset() :", e);
+      Logger.e(TAG + " reset() : ", e);
     }
   }
 
