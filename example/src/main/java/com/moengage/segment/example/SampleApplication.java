@@ -1,7 +1,7 @@
 package com.moengage.segment.example;
 
 import android.app.Application;
-import com.moengage.core.Logger;
+import com.moengage.core.LogLevel;
 import com.moengage.core.MoEngage;
 import com.moengage.firebase.MoEFireBaseHelper;
 import com.moengage.inapp.MoEInAppHelper;
@@ -26,7 +26,7 @@ public class SampleApplication extends Application {
 
     MoEngage moEngage =
         new MoEngage.Builder(this, "")//enter your own app id
-            .setLogLevel(Logger.VERBOSE)//enabling Logs for debugging
+            .enableLogs(LogLevel.VERBOSE)//enabling Logs for debugging
             .enableLogsForSignedBuild() //Make sure this is removed before apps are pushed to
             // production
             .setNotificationSmallIcon(

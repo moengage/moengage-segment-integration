@@ -3,6 +3,7 @@ package com.segment.analytics.android.integrations.moengage;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import com.moe.pushlibrary.MoEHelper;
 import com.moe.pushlibrary.models.GeoLocation;
 import com.moe.pushlibrary.utils.MoEHelperConstants;
@@ -40,7 +41,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
       return new MoEngageIntegration(analytics, settings);
     }
 
-    @Override public String key() {
+    @Override @NonNull public String key() {
       return KEY_MOENGAGE;
     }
   };
@@ -83,22 +84,34 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
   @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
     super.onActivityCreated(activity, savedInstanceState);
     Logger.v(TAG + " onActivityCreated() : ");
-    if (helper == null && activity != null) {
-      helper = MoEHelper.getInstance(activity.getApplicationContext());
+    try {
+      if (helper == null && activity != null) {
+        helper = MoEHelper.getInstance(activity.getApplicationContext());
+      }
+    } catch (Exception e) {
+      Logger.e(TAG + "onActivityCreated() :", e);
     }
   }
 
   @Override public void onActivityStarted(Activity activity) {
     super.onActivityStarted(activity);
-    Logger.v(TAG + " onActivityStarted() : ");
-    if (helper != null && activity != null) integrationHelper.onActivityStart(activity);
+    try {
+      Logger.v(TAG + " onActivityStarted() : ");
+      if (helper != null && activity != null) integrationHelper.onActivityStart(activity);
+    } catch (Exception e) {
+    Logger.e(TAG + "onActivityStarted() :", e);
+    }
   }
 
 
   @Override public void onActivityResumed(Activity activity) {
     super.onActivityResumed(activity);
-    Logger.v(TAG + " onActivityResumed() : ");
-    if (helper != null && activity != null) integrationHelper.onActivityResumed(activity);
+    try {
+      Logger.v(TAG + " onActivityResumed() : ");
+      if (integrationHelper != null && activity != null) integrationHelper.onActivityResumed(activity);
+    } catch (Exception e) {
+      Logger.e(TAG + "onActivityResumed() :", e);
+    }
   }
 
   @Override public void onActivityPaused(Activity activity) {
@@ -107,63 +120,83 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
 
   @Override public void onActivityStopped(Activity activity) {
     super.onActivityStopped(activity);
-    Logger.v(TAG + " onActivityStopped() : ");
-    if (helper != null && activity != null) integrationHelper.onActivityStop(activity);
+    try {
+      Logger.v(TAG + " onActivityStopped() : ");
+      if (integrationHelper != null && activity != null) integrationHelper.onActivityStop(activity);
+    } catch (Exception e) {
+      Logger.e(TAG + "onActivityStopped() :", e);
+    }
   }
 
   @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
     super.onActivitySaveInstanceState(activity, outState);
-    Logger.v(TAG + " onActivitySaveInstanceState() : ");
-    if (helper != null) integrationHelper.onActivitySavedInstance(activity, outState);
+    try {
+      Logger.v(TAG + " onActivitySaveInstanceState() : ");
+      if (integrationHelper != null) integrationHelper.onActivitySavedInstance(activity, outState);
+    } catch (Exception e) {
+      Logger.e(TAG + "onActivitySaveInstanceState() :", e);
+    }
   }
 
   @Override public void identify(IdentifyPayload identify) {
     super.identify(identify);
-    Logger.v(TAG + " identify() : ");
-    Traits traits = identify.traits();
+    try {
+      Logger.v(TAG + " identify() : ");
+      Traits traits = identify.traits();
 
-    if (!isNullOrEmpty(traits)) {
-      integrationHelper.trackUserAttribute(transform(traits, MAPPER));
-      Traits.Address address = traits.address();
-      if (!isNullOrEmpty(address)) {
-        String city = address.city();
-        if (!isNullOrEmpty(city)) {
-          helper.setUserAttribute("city", city);
-        }
-        String country = address.country();
-        if (!isNullOrEmpty(country)) {
-          helper.setUserAttribute("country", country);
-        }
-        String state = address.state();
-        if (!isNullOrEmpty(state)) {
-          helper.setUserAttribute("state", state);
+      if (!isNullOrEmpty(traits)) {
+        integrationHelper.trackUserAttribute(transform(traits, MAPPER));
+        Traits.Address address = traits.address();
+        if (!isNullOrEmpty(address)) {
+          String city = address.city();
+          if (!isNullOrEmpty(city)) {
+            helper.setUserAttribute("city", city);
+          }
+          String country = address.country();
+          if (!isNullOrEmpty(country)) {
+            helper.setUserAttribute("country", country);
+          }
+          String state = address.state();
+          if (!isNullOrEmpty(state)) {
+            helper.setUserAttribute("state", state);
+          }
         }
       }
-    }
 
-    AnalyticsContext.Location location = identify.context().location();
-    if (!isNullOrEmpty(location)) {
-      helper.setUserAttribute(MoEHelperConstants.USER_ATTRIBUTE_USER_LOCATION,
-          new GeoLocation(location.latitude(), location.longitude()));
+      AnalyticsContext.Location location = identify.context().location();
+      if (!isNullOrEmpty(location)) {
+        helper.setUserAttribute(MoEHelperConstants.USER_ATTRIBUTE_USER_LOCATION,
+            new GeoLocation(location.latitude(), location.longitude()));
+      }
+    } catch (Exception e) {
+      Logger.e(TAG + " identify() :", e);
     }
   }
 
   @Override public void track(TrackPayload track) {
     super.track(track);
-    Logger.v(TAG + " track() : ");
-    if (!isNullOrEmpty(track)) {
-      if (!isNullOrEmpty(track.properties())) {
-        integrationHelper.trackEvent(track.event(), track.properties().toJsonObject());
-      } else {
-        integrationHelper.trackEvent(track.event(), new JSONObject());
+    try {
+      Logger.v(TAG + " track() : ");
+      if (!isNullOrEmpty(track)) {
+        if (!isNullOrEmpty(track.properties())) {
+          integrationHelper.trackEvent(track.event(), track.properties().toJsonObject());
+        } else {
+          integrationHelper.trackEvent(track.event(), new JSONObject());
+        }
       }
+    } catch (Exception e) {
+      Logger.e(TAG + " track() :", e);
     }
   }
 
   @Override public void reset() {
     super.reset();
-    Logger.v(TAG + " reset() : ");
-    helper.logoutUser();
+    try {
+      Logger.v(TAG + " reset() : ");
+      helper.logoutUser();
+    } catch (Exception e) {
+      Logger.e(TAG + " reset() :", e);
+    }
   }
 
   @Override public MoEHelper getUnderlyingInstance() {
