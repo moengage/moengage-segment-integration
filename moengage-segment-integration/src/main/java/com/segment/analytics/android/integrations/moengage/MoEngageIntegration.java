@@ -98,7 +98,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
   @Override public void onActivityResumed(Activity activity) {
     super.onActivityResumed(activity);
     Logger.v(TAG + " onActivityResumed() : ");
-    if (helper != null && activity != null) integrationHelper.onActivityResumed(activity);
+    if (integrationHelper != null && activity != null) integrationHelper.onActivityResumed(activity);
   }
 
   @Override public void onActivityPaused(Activity activity) {
@@ -108,13 +108,13 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
   @Override public void onActivityStopped(Activity activity) {
     super.onActivityStopped(activity);
     Logger.v(TAG + " onActivityStopped() : ");
-    if (helper != null && activity != null) integrationHelper.onActivityStop(activity);
+    if (integrationHelper != null && activity != null) integrationHelper.onActivityStop(activity);
   }
 
   @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
     super.onActivitySaveInstanceState(activity, outState);
     Logger.v(TAG + " onActivitySaveInstanceState() : ");
-    if (helper != null) integrationHelper.onActivitySavedInstance(activity, outState);
+    if (integrationHelper != null) integrationHelper.onActivitySavedInstance(activity, outState);
   }
 
   @Override public void identify(IdentifyPayload identify) {
