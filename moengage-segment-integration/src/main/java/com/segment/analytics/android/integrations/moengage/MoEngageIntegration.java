@@ -89,7 +89,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
         helper = MoEHelper.getInstance(activity.getApplicationContext());
       }
     } catch (Exception e) {
-      Logger.e(TAG + "onActivityCreated() : Exception: ", e);
+      Logger.e(TAG + "onActivityCreated() :", e);
     }
   }
 
@@ -99,7 +99,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
       Logger.v(TAG + " onActivityStarted() : ");
       if (helper != null && activity != null) integrationHelper.onActivityStart(activity);
     } catch (Exception e) {
-    Logger.e(TAG + "onActivityStarted() : Exception: ", e);
+    Logger.e(TAG + "onActivityStarted() :", e);
     }
   }
 
@@ -110,7 +110,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
       Logger.v(TAG + " onActivityResumed() : ");
       if (integrationHelper != null && activity != null) integrationHelper.onActivityResumed(activity);
     } catch (Exception e) {
-      Logger.e(TAG + "onActivityResumed() : Exception: ", e);
+      Logger.e(TAG + "onActivityResumed() :", e);
     }
   }
 
@@ -124,7 +124,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
       Logger.v(TAG + " onActivityStopped() : ");
       if (integrationHelper != null && activity != null) integrationHelper.onActivityStop(activity);
     } catch (Exception e) {
-      Logger.e(TAG + "onActivityStopped() : Exception: ", e);
+      Logger.e(TAG + "onActivityStopped() :", e);
     }
   }
 
@@ -134,7 +134,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
       Logger.v(TAG + " onActivitySaveInstanceState() : ");
       if (integrationHelper != null) integrationHelper.onActivitySavedInstance(activity, outState);
     } catch (Exception e) {
-      Logger.e(TAG + "onActivitySaveInstanceState() : Exception: ", e);
+      Logger.e(TAG + "onActivitySaveInstanceState() :", e);
     }
   }
 
@@ -169,7 +169,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
             new GeoLocation(location.latitude(), location.longitude()));
       }
     } catch (Exception e) {
-      Logger.e(TAG + " identify() : Exception: ", e);
+      Logger.e(TAG + " identify() :", e);
     }
   }
 
@@ -185,7 +185,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
         }
       }
     } catch (Exception e) {
-      Logger.e(TAG + " track() : Exception: ", e);
+      Logger.e(TAG + " track() :", e);
     }
   }
 
@@ -195,7 +195,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
       Logger.v(TAG + " reset() : ");
       helper.logoutUser();
     } catch (Exception e) {
-      Logger.e(TAG + " reset() : Exception: ", e);
+      Logger.e(TAG + " reset() :", e);
     }
   }
 
