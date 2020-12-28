@@ -35,12 +35,16 @@ public class SampleApplication extends Application {
     Analytics.setSingletonInstance(analytics);
 
     MoEngage moEngage =
-        new MoEngage.Builder(this, "DAO6UGZ73D9RTK8B5W96TPYN")//enter your own app id
+        new MoEngage.Builder(this, "")//enter your own app id
+            //set notification data(small icon, large icon, notification color,
+            // notification tone, show multiple notifications in drawer etc..)
             .configureNotificationMetaData(
                 new NotificationConfig(R.drawable.icon, R.drawable.ic_launcher,
                     R.color.notificationColor, null, true, false, true))
-            .configureGeofence(new GeofenceConfig(true, true))//enabled To track location and run
+            //enabled To track location and run geo-fence campaigns
+            .configureGeofence(new GeofenceConfig(true, true))
             .enablePartnerIntegration(IntegrationPartner.SEGMENT)
+            //Configure logs
             .configureLogs(new LogConfig(LogLevel.VERBOSE, false))
             .build();
     // initialize MoEngage
