@@ -11,8 +11,6 @@ import com.moengage.core.model.IntegrationPartner;
 import com.moengage.firebase.MoEFireBaseHelper;
 import com.moengage.inapp.MoEInAppHelper;
 import com.moengage.pushbase.MoEPushHelper;
-import com.moengage.sampleapp.BuildConfig;
-import com.moengage.sampleapp.R;
 import com.moengage.segment.example.callbacks.FcmEventListener;
 import com.moengage.segment.example.callbacks.InAppCallback;
 import com.segment.analytics.Analytics;

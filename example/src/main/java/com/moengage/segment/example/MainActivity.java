@@ -3,7 +3,6 @@ package com.moengage.segment.example;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import com.moengage.sampleapp.R;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
 import com.segment.analytics.Traits;
