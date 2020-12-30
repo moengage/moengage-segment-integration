@@ -11,7 +11,7 @@ android {
   properties.load(file('../local.properties').newDataInputStream())
 
   defaultConfig {
-    applicationId "com.moengage.sampleapp"
+    applicationId "com.moengage.segment.example"
     minSdkVersion 16
     targetSdkVersion 29
     versionCode 1
