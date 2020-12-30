@@ -1,4 +1,4 @@
-### 5.3.00
+### 5.0.00
 - Updated MoEngage SDK version range to `[11.0.00, 11.9.99]`
 
 ### 4.3.00 (19-11-2020)
