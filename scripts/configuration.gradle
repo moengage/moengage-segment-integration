@@ -25,8 +25,8 @@ ext {
       "artifactId" : "moengage-segment-integration",
       "name"       : "MoEngage Segment Integration",
       "description": "MoEngage-Segment Bundled integration",
-      "versionName": "5.0.00",
-      "versionCode": 5000
+      "versionName": "4.3.00",
+      "versionCode": 4300
   ]
 
   buildConfiguration = [
@@ -36,7 +36,7 @@ ext {
   ]
 
   dependency = [
-      "moengage" : "com.moengage:moe-android-sdk:[11.0.0, 11.9.99]",
+      "moengage" : "com.moengage:moe-android-sdk:[11.0.02, 11.9.99]",
       "segment" : "com.segment.analytics.android:analytics:4.8.2"
   ]
 }
