@@ -6,11 +6,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import com.moe.pushlibrary.MoEHelper;
 import com.moe.pushlibrary.models.GeoLocation;
-import com.moe.pushlibrary.utils.MoEHelperConstants;
-import com.moengage.core.Logger;
-import com.moengage.core.MoEConstants;
-import com.moengage.core.MoEIntegrationHelper;
-import com.moengage.core.model.IntegrationMeta;
+import com.moengage.core.internal.MoEConstants;
+import com.moengage.core.internal.integrations.MoEIntegrationHelper;
+import com.moengage.core.internal.logger.Logger;
+import com.moengage.core.internal.model.IntegrationMeta;
 import com.moengage.core.model.IntegrationPartner;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.AnalyticsContext;
@@ -54,14 +53,14 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
   static {
     Map<String, String> mapper = new LinkedHashMap<>();
     mapper.put("anonymousId", "USER_ATTRIBUTE_SEGMENT_ID");
-    mapper.put("email", MoEHelperConstants.USER_ATTRIBUTE_USER_EMAIL);
-    mapper.put("userId", MoEHelperConstants.USER_ATTRIBUTE_UNIQUE_ID);
-    mapper.put("name", MoEHelperConstants.USER_ATTRIBUTE_USER_NAME);
-    mapper.put("phone", MoEHelperConstants.USER_ATTRIBUTE_USER_MOBILE);
-    mapper.put("firstName", MoEHelperConstants.USER_ATTRIBUTE_USER_FIRST_NAME);
-    mapper.put("lastName", MoEHelperConstants.USER_ATTRIBUTE_USER_LAST_NAME);
-    mapper.put("gender", MoEHelperConstants.USER_ATTRIBUTE_USER_GENDER);
-    mapper.put("birthday", MoEHelperConstants.USER_ATTRIBUTE_USER_BDAY);
+    mapper.put("email", MoEConstants.USER_ATTRIBUTE_USER_EMAIL);
+    mapper.put("userId", MoEConstants.USER_ATTRIBUTE_UNIQUE_ID);
+    mapper.put("name", MoEConstants.USER_ATTRIBUTE_USER_NAME);
+    mapper.put("phone", MoEConstants.USER_ATTRIBUTE_USER_MOBILE);
+    mapper.put("firstName", MoEConstants.USER_ATTRIBUTE_USER_FIRST_NAME);
+    mapper.put("lastName", MoEConstants.USER_ATTRIBUTE_USER_LAST_NAME);
+    mapper.put("gender", MoEConstants.USER_ATTRIBUTE_USER_GENDER);
+    mapper.put("birthday", MoEConstants.USER_ATTRIBUTE_USER_BDAY);
     MAPPER = Collections.unmodifiableMap(mapper);
   }
 
@@ -165,7 +164,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
 
       AnalyticsContext.Location location = identify.context().location();
       if (!isNullOrEmpty(location)) {
-        helper.setUserAttribute(MoEHelperConstants.USER_ATTRIBUTE_USER_LOCATION,
+        helper.setUserAttribute(MoEConstants.USER_ATTRIBUTE_USER_LOCATION,
             new GeoLocation(location.latitude(), location.longitude()));
       }
     } catch (Exception e) {

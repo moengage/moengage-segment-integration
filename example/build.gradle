@@ -47,7 +47,7 @@ dependencies {
   implementation("com.segment.analytics.android:analytics:4.8.2")
   implementation project(":moengage-segment-integration")
 
-  implementation("com.google.firebase:firebase-messaging:20.2.4")
+  implementation("com.google.firebase:firebase-messaging:21.0.1")
   // logging library used in the sample app, not required by the SDK
   implementation("com.jakewharton.timber:timber:4.7.1")
 
