@@ -1,3 +1,6 @@
+### 4.3.01 (10-02-2021)
+- Published artifact to maven central.
+
 ### 4.3.00 (19-11-2020)
 - MoEngage SDK version is no longer pinned to a specific version. Latest version within the defined range would be
  picked. In the defined range major version of the SDK is maintained.
