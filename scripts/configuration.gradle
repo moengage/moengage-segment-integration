@@ -1,33 +1,4 @@
 ext {
-  developerMeta = [
-      developerId   : "moengage",
-      developerName : "MoEngage Inc",
-      developerEmail: "androidteam@moengage.com"
-  ]
-
-  licenseMeta = [
-      licenseName: "MoEngage License",
-      licenseUrl : "https://s3.amazonaws.com/licensesmoe/iplicense.txt",
-      allLicenses: ['MoEngage License']
-  ]
-
-  urlMeta = [
-      siteUrl: "https://github.com/moengage/moengage-segment-integration",
-      gitUrl : "https://github.com/moengage/moengage-segment-integration.git"
-  ]
-
-  bintrayMeta = [
-      "repoName"   : "android-sdk",
-      "publisherId": "com.moengage"
-  ]
-
-  segmentBintray = [
-      "artifactId" : "moengage-segment-integration",
-      "name"       : "MoEngage Segment Integration",
-      "description": "MoEngage-Segment Bundled integration",
-      "versionName": "4.3.00",
-      "versionCode": 4300
-  ]
 
   buildConfiguration = [
       minimumSDKVersion: 16,

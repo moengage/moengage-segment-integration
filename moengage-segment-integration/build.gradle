@@ -4,27 +4,6 @@ plugins {
 
 apply(from: "../scripts/configuration.gradle")
 
-ext {
-  bintrayRepo = bintrayMeta.repoName
-  publishedGroupId = bintrayMeta.publisherId
-
-  bintrayName = segmentBintray.artifactId
-  libraryName = segmentBintray.name
-  artifact = segmentBintray.artifactId
-  libraryDescription = segmentBintray.description
-  libraryVersion = segmentBintray.versionName
-
-  siteUrl = urlMeta.siteUrl
-  gitUrl = urlMeta.gitUrl
-
-  developerId = developerMeta.developerId
-  developerName = developerMeta.developerName
-  developerEmail = developerMeta.developerEmail
-
-  licenseName = licenseMeta.licenseName
-  licenseUrl = licenseMeta.licenseUrl
-  allLicenses = licenseMeta.allLicenses
-}
 
 android {
   compileSdkVersion buildConfiguration.compileSDKVersion
@@ -34,7 +13,7 @@ android {
     minSdkVersion buildConfiguration.minimumSDKVersion
     targetSdkVersion buildConfiguration.targetSDKVersion
 
-    buildConfigField "String", "MOENGAGE_SEGMENT_SDK_VERSION", "\"${segmentBintray.versionName}\""
+    buildConfigField "String", "MOENGAGE_SEGMENT_SDK_VERSION", "\"${VERSION_NAME}\""
   }
 
   compileOptions {
@@ -56,4 +35,4 @@ dependencies {
   api(dependency.moengage)
 }
 
-apply(from: "../scripts/releaseScript.gradle")
+apply plugin: "com.vanniktech.maven.publish"
