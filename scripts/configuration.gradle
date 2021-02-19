@@ -29,12 +29,6 @@ ext {
       "versionCode": 5000
   ]
 
-  buildConfiguration = [
-      minimumSDKVersion: 16,
-      targetSDKVersion : 29,
-      compileSDKVersion: 29
-  ]
-
   dependency = [
       "moengage" : "com.moengage:moe-android-sdk:[11.0.03, 11.9.99]",
       "segment" : "com.segment.analytics.android:analytics:4.8.2"

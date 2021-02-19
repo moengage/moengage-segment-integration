@@ -1,4 +1,0 @@
-include ':moengage-segment-integration'
-include(":example")
-
-rootProject.name = "moengage-segment"
