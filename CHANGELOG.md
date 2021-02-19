@@ -1,4 +1,8 @@
-### 5.0.00
+### 5.0.01 
+- Updating minimum dependency of MoEngage SDK to version published on maven central
+- Publishing artifact on Maven Central.
+
+### 5.0.00 (28-01-2021)
 - MoEngage SDK version updated to support `11.0.03` and above. Refer to the [Release Notes](https://docs.moengage.com/docs/android-release-notes#11003-28-01-2021) for more details.
 
 ### 4.3.00 (19-11-2020)
