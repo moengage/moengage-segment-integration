@@ -1,3 +1,6 @@
+### 5.1.00 (01-03-2021)
+- MoEngage SDK version pinned to a specific version. `11.0.04` in this release. 
+
 ### 5.0.01 (24-02-2021)
 - Updating minimum dependency of MoEngage SDK to version published on maven central
 - Publishing moved to Maven Central. All future updates would be published on Maven Central only.
