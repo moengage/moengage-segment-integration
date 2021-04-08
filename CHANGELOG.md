@@ -1,3 +1,6 @@
+### 5.1.01 (08-04-2021)
+- MoEngage SDK version updated to `11.0.05`, [Release Notes](https://docs.moengage.com/docs/android-release-notes#11005-08-04-2021) 
+
 ### 5.1.00 (01-03-2021)
 - MoEngage SDK version pinned to a specific version. `11.0.04` in this release. 
 
