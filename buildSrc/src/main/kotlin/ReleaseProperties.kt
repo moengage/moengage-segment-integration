@@ -13,5 +13,5 @@ object ReleaseConfig {
     const val artifactId = "moengage-segment-integration"
     const val artifactName = "MoEngage Segment Integration"
     const val description = "MoEngage-Segment Bundled integration"
-    const val versionName = "5.2.00"
+    const val versionName = "5.3.00"
 }
