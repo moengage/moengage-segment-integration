@@ -1,28 +1,28 @@
+import java.io.FileInputStream
+import java.util.*
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.dokka")
+    id("kotlin-android")
 }
 
-ext {
-    set(PomKeys.artifactId, ReleaseConfig.artifactId)
-    set(PomKeys.description, ReleaseConfig.description)
-    set(PomKeys.name, ReleaseConfig.artifactName)
-    set(PomKeys.versionName, ReleaseConfig.versionName)
+fun getVersionName(): String {
+    val properties = Properties()
+    properties.load(FileInputStream("${project.rootDir.absolutePath}/moengage-segment-integration/gradle.properties"))
+    return properties.getProperty("VERSION_NAME") ?: throw GradleException(
+        "VERSION_NAME not found in ./moengage-segment-integration/gradle.properties"
+    )
 }
+
 
 android {
-    compileSdkVersion(SdkBuildConfig.compileSdkVersion)
-
+    compileSdkVersion(29)
     defaultConfig {
+        minSdkVersion(16)
+        targetSdkVersion(29)
 
-        minSdkVersion(SdkBuildConfig.minimumSdkVersion)
-        targetSdkVersion(SdkBuildConfig.targetSdkVersion)
-
-        buildConfigField(
-          "String",
-          "MOENGAGE_SEGMENT_SDK_VERSION",
-          "\"${ReleaseConfig.versionName}\""
-        )
+        buildConfigField("String", "MOENGAGE_SEGMENT_SDK_VERSION", "\"${getVersionName()}\"")
     }
 
     compileOptions {
@@ -40,8 +40,8 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    compileOnly(Deps.segment)
-    api(Deps.moengage)
+    compileOnly("com.segment.analytics.android:analytics:4.8.2")
+    api("com.moengage:moe-android-sdk:11.3.01")
 }
 
-apply(plugin= "com.vanniktech.maven.publish")
+apply(plugin = "com.vanniktech.maven.publish")
