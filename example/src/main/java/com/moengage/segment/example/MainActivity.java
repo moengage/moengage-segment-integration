@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     //track user attributes
     trackUserInfo(getBaseContext(), "25", "Male", "Bengaluru");
     //track event without attributes
-    Analytics.with(MainActivity.this).track("only event");
+    //Analytics.with(MainActivity.this).track("only event");
     //track event with attributes
     Analytics.with(MainActivity.this)
         .track("Email button Click", new Properties().putValue("email", "opened"));
