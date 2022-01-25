@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import com.moengage.core.LogLevel;
 import com.moengage.core.MoECoreHelper;
 import com.moengage.core.analytics.MoEAnalyticsHelper;
-import com.moengage.core.internal.MoEConstants;
+import com.moengage.core.internal.CoreConstants;
 import com.moengage.core.internal.integrations.MoEIntegrationHelper;
 import com.moengage.core.internal.logger.Logger;
 import com.moengage.core.internal.model.IntegrationMeta;
@@ -57,14 +57,14 @@ public class MoEngageIntegration extends Integration<MoEAnalyticsHelper> {
   static {
     Map<String, String> mapper = new LinkedHashMap<>();
     mapper.put("anonymousId", "USER_ATTRIBUTE_SEGMENT_ID");
-    mapper.put("email", MoEConstants.USER_ATTRIBUTE_USER_EMAIL);
-    mapper.put("userId", MoEConstants.USER_ATTRIBUTE_UNIQUE_ID);
-    mapper.put("name", MoEConstants.USER_ATTRIBUTE_USER_NAME);
-    mapper.put("phone", MoEConstants.USER_ATTRIBUTE_USER_MOBILE);
-    mapper.put("firstName", MoEConstants.USER_ATTRIBUTE_USER_FIRST_NAME);
-    mapper.put("lastName", MoEConstants.USER_ATTRIBUTE_USER_LAST_NAME);
-    mapper.put("gender", MoEConstants.USER_ATTRIBUTE_USER_GENDER);
-    mapper.put("birthday", MoEConstants.USER_ATTRIBUTE_USER_BDAY);
+    mapper.put("email", CoreConstants.USER_ATTRIBUTE_USER_EMAIL);
+    mapper.put("userId", CoreConstants.USER_ATTRIBUTE_UNIQUE_ID);
+    mapper.put("name", CoreConstants.USER_ATTRIBUTE_USER_NAME);
+    mapper.put("phone", CoreConstants.USER_ATTRIBUTE_USER_MOBILE);
+    mapper.put("firstName", CoreConstants.USER_ATTRIBUTE_USER_FIRST_NAME);
+    mapper.put("lastName", CoreConstants.USER_ATTRIBUTE_USER_LAST_NAME);
+    mapper.put("gender", CoreConstants.USER_ATTRIBUTE_USER_GENDER);
+    mapper.put("birthday", CoreConstants.USER_ATTRIBUTE_USER_BDAY);
     MAPPER = Collections.unmodifiableMap(mapper);
   }
 
@@ -165,7 +165,7 @@ public class MoEngageIntegration extends Integration<MoEAnalyticsHelper> {
 
       AnalyticsContext.Location location = identify.context().location();
       if (!isNullOrEmpty(location)) {
-        helper.setUserAttribute(context, MoEConstants.USER_ATTRIBUTE_USER_LOCATION,
+        helper.setUserAttribute(context, CoreConstants.USER_ATTRIBUTE_USER_LOCATION,
             new GeoLocation(location.latitude(), location.longitude()), instanceId);
       }
     } catch (Exception e) {
