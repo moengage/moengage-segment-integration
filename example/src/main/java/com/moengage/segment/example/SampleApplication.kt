@@ -11,6 +11,7 @@ import com.moengage.core.model.IntegrationPartner
 import com.moengage.core.config.LogConfig
 import com.moengage.inapp.MoEInAppHelper
 import com.moengage.pushbase.MoEPushHelper
+import com.moengage.segment.example.callbacks.inapp.InAppClickListener
 import com.moengage.segment.example.callbacks.inapp.InAppLifecycleCallback
 
 /**
@@ -52,5 +53,6 @@ class SampleApplication : Application() {
 
         //in-app related callbacks
         MoEInAppHelper.getInstance().addInAppLifeCycleListener(InAppLifecycleCallback())
+        MoEInAppHelper.getInstance().setClickActionListener(InAppClickListener())
     }
 }
