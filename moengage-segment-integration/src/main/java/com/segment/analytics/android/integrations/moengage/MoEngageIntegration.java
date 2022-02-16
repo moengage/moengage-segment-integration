@@ -81,7 +81,7 @@ public class MoEngageIntegration extends Integration<MoEAnalyticsHelper> {
     Logger.print(() -> TAG + " Segment Integration initialised.");
     integrationHelper.initialize(instanceId, analytics.getApplication());
     MoEIntegrationHelper.Companion.addIntegrationMeta(
-        new IntegrationMeta("", BuildConfig.MOENGAGE_SEGMENT_SDK_VERSION), instanceId);
+        new IntegrationMeta("segment", BuildConfig.MOENGAGE_SEGMENT_SDK_VERSION), instanceId);
     trackAnonymousId(analytics);
   }
 
