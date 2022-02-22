@@ -41,7 +41,7 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     compileOnly("com.segment.analytics.android:analytics:4.8.2")
-    api("com.moengage:moe-android-sdk:11.4.03")
+    api("com.moengage:moe-android-sdk:11.4.04")
 }
 
 apply(plugin = "com.vanniktech.maven.publish")
