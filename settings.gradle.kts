@@ -2,7 +2,6 @@ enableFeaturePreview("VERSION_CATALOGS")
 
 dependencyResolutionManagement {
     repositories {
-        mavenLocal()
         mavenCentral()
     }
     versionCatalogs {
@@ -10,7 +9,7 @@ dependencyResolutionManagement {
             from("com.moengage:android-dependency-catalog:2.0.0")
         }
         create("moengageInternal") {
-            from("com.moengage:android-dependency-internal:0.0.3")
+            from("com.moengage:android-dependency-catalog-internal:1.0.0")
         }
     }
 }
