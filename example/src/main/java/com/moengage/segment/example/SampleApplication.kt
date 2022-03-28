@@ -26,7 +26,7 @@ class SampleApplication : Application() {
             .build()
         Analytics.setSingletonInstance(analytics)
         //enter your account's app id
-        val moEngage: MoEngage = MoEngage.Builder(this, "DAO6UGZ73D9RTK8B5W96TPYN")
+        val moEngage: MoEngage = MoEngage.Builder(this, BuildConfig.MOENAGE_APP_ID)
                 //set notification data(small icon, large icon, notification color,
                 // notification tone, show multiple notifications in drawer etc..)
                 .configureNotificationMetaData(
