@@ -49,8 +49,8 @@ class CustomPushMessageListener : PushMessageListener() {
         //callback for push notification received.
     }
 
-    override fun onHandleRedirection(activity: Activity, payload: Bundle) {
-        super.onHandleRedirection(activity, payload)
+    override fun onNotificationClick(activity: Activity, payload: Bundle) {
+        super.onNotificationClick(activity, payload)
         //callback for notification clicked. if you want to handle redirection then do not call super()
         // and add the redirection logic here.
     }
