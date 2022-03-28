@@ -17,10 +17,10 @@ fun getVersionName(): String {
 
 
 android {
-    compileSdkVersion(29)
+    compileSdk = 30
     defaultConfig {
-        minSdkVersion(16)
-        targetSdkVersion(29)
+        minSdk = 21
+        targetSdk = 30
 
         buildConfigField("String", "MOENGAGE_SEGMENT_SDK_VERSION", "\"${getVersionName()}\"")
     }
@@ -40,8 +40,8 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    compileOnly("com.segment.analytics.android:analytics:4.8.2")
-    api("com.moengage:moe-android-sdk:11.5.00")
+    compileOnly(libs.segment)
+    api(libs.moengageCore)
 }
 
 apply(plugin = "com.vanniktech.maven.publish")

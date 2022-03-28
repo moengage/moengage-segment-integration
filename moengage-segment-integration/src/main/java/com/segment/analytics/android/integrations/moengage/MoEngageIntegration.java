@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
-import com.moe.pushlibrary.MoEHelper;
-import com.moe.pushlibrary.models.GeoLocation;
-import com.moengage.core.internal.MoEConstants;
+import com.moengage.core.LogLevel;
+import com.moengage.core.MoECoreHelper;
+import com.moengage.core.analytics.MoEAnalyticsHelper;
+import com.moengage.core.internal.CoreConstants;
 import com.moengage.core.internal.integrations.MoEIntegrationHelper;
 import com.moengage.core.internal.logger.Logger;
 import com.moengage.core.internal.model.IntegrationMeta;
+import com.moengage.core.model.GeoLocation;
 import com.moengage.core.model.IntegrationPartner;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.AnalyticsContext;
@@ -34,7 +36,8 @@ import static com.segment.analytics.internal.Utils.transform;
  * @see <a href="https://segment.com/docs/integrations/moengage/">MoEngage Integration</a>
  * @see <a href="https://docs.moengage.com/docs/android-integration">MoEngage Android SDK</a>
  */
-public class MoEngageIntegration extends Integration<MoEHelper> {
+public class MoEngageIntegration extends Integration<MoEAnalyticsHelper> {
+
   public static final Factory FACTORY = new Factory() {
     @Override public Integration<?> create(ValueMap settings, Analytics analytics) {
       return new MoEngageIntegration(analytics, settings);
@@ -44,6 +47,7 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
       return KEY_MOENGAGE;
     }
   };
+
   private static final String KEY_MOENGAGE = "MoEngage";
   private static final Map<String, String> MAPPER;
 
@@ -53,63 +57,60 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
   static {
     Map<String, String> mapper = new LinkedHashMap<>();
     mapper.put("anonymousId", "USER_ATTRIBUTE_SEGMENT_ID");
-    mapper.put("email", MoEConstants.USER_ATTRIBUTE_USER_EMAIL);
-    mapper.put("userId", MoEConstants.USER_ATTRIBUTE_UNIQUE_ID);
-    mapper.put("name", MoEConstants.USER_ATTRIBUTE_USER_NAME);
-    mapper.put("phone", MoEConstants.USER_ATTRIBUTE_USER_MOBILE);
-    mapper.put("firstName", MoEConstants.USER_ATTRIBUTE_USER_FIRST_NAME);
-    mapper.put("lastName", MoEConstants.USER_ATTRIBUTE_USER_LAST_NAME);
-    mapper.put("gender", MoEConstants.USER_ATTRIBUTE_USER_GENDER);
-    mapper.put("birthday", MoEConstants.USER_ATTRIBUTE_USER_BDAY);
+    mapper.put("email", CoreConstants.USER_ATTRIBUTE_USER_EMAIL);
+    mapper.put("userId", CoreConstants.USER_ATTRIBUTE_UNIQUE_ID);
+    mapper.put("name", CoreConstants.USER_ATTRIBUTE_USER_NAME);
+    mapper.put("phone", CoreConstants.USER_ATTRIBUTE_USER_MOBILE);
+    mapper.put("firstName", CoreConstants.USER_ATTRIBUTE_USER_FIRST_NAME);
+    mapper.put("lastName", CoreConstants.USER_ATTRIBUTE_USER_LAST_NAME);
+    mapper.put("gender", CoreConstants.USER_ATTRIBUTE_USER_GENDER);
+    mapper.put("birthday", CoreConstants.USER_ATTRIBUTE_USER_BDAY);
     MAPPER = Collections.unmodifiableMap(mapper);
   }
 
-  MoEHelper helper;
-  private MoEIntegrationHelper integrationHelper;
+  MoEAnalyticsHelper helper;
+  private final MoEIntegrationHelper integrationHelper;
+  private final Context context;
+  private final String instanceId;
 
   MoEngageIntegration(Analytics analytics, ValueMap settings) throws IllegalStateException {
-    Context context = analytics.getApplication();
-    String apiKey = settings.getString("apiKey");
-    String pushSenderId = settings.getString("pushSenderId");
-    helper = MoEHelper.getInstance(context);
+    context = analytics.getApplication();
+    instanceId = settings.getString("apiKey");
+    helper = MoEAnalyticsHelper.INSTANCE;
     integrationHelper = new MoEIntegrationHelper(context, IntegrationPartner.SEGMENT);
-    Logger.d(TAG + " Segment MoEngage Integration initialized");
-    integrationHelper.initialize(apiKey, pushSenderId);
-    MoEIntegrationHelper.setIntegrationMeta(new IntegrationMeta(
-        MoEConstants.INTEGRATION_TYPE_SEGMENT, BuildConfig.MOENGAGE_SEGMENT_SDK_VERSION));
+    Logger.print(() -> TAG + " Segment Integration initialised.");
+    integrationHelper.initialize(instanceId, analytics.getApplication());
+    MoEIntegrationHelper.Companion.addIntegrationMeta(
+        new IntegrationMeta("segment", BuildConfig.MOENGAGE_SEGMENT_SDK_VERSION), instanceId);
     trackAnonymousId(analytics);
   }
 
   @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
     try {
       super.onActivityCreated(activity, savedInstanceState);
-      Logger.v(TAG + " onActivityCreated() : ");
-      if (helper == null && activity != null) {
-        helper = MoEHelper.getInstance(activity.getApplicationContext());
-      }
+      Logger.print(() -> TAG + " onActivityCreated(): ");
     } catch (Exception e) {
-      Logger.e(TAG + "onActivityCreated() : ", e);
+      Logger.print(LogLevel.ERROR, e, () -> TAG + " onActivityCreated(): ");
     }
   }
 
   @Override public void onActivityStarted(Activity activity) {
     try {
       super.onActivityStarted(activity);
-      Logger.v(TAG + " onActivityStarted() : ");
-      if (helper != null && activity != null) integrationHelper.onActivityStart(activity);
+      Logger.print(() -> TAG + " onActivityStarted(): ");
+      integrationHelper.onActivityStart(activity);
     } catch (Exception e) {
-      Logger.e(TAG + "onActivityStarted() : ", e);
+      Logger.print(LogLevel.ERROR, e, () -> TAG + " onActivityStarted(): ");
     }
   }
-
 
   @Override public void onActivityResumed(Activity activity) {
     try {
       super.onActivityResumed(activity);
-      Logger.v(TAG + " onActivityResumed() : ");
-      if (integrationHelper != null && activity != null) integrationHelper.onActivityResumed(activity);
+      Logger.print(() -> TAG + " onActivityResumed(): ");
+        integrationHelper.onActivityResumed(activity);
     } catch (Exception e) {
-      Logger.e(TAG + "onActivityResumed() : ", e);
+      Logger.print(LogLevel.ERROR, e, () -> TAG + " onActivityResumed() ");
     }
   }
 
@@ -120,93 +121,95 @@ public class MoEngageIntegration extends Integration<MoEHelper> {
   @Override public void onActivityStopped(Activity activity) {
     try {
       super.onActivityStopped(activity);
-      Logger.v(TAG + " onActivityStopped() : ");
-      if (integrationHelper != null && activity != null) integrationHelper.onActivityStop(activity);
+      Logger.print(() -> TAG + " onActivityStopped(): ");
+      integrationHelper.onActivityStop(activity);
     } catch (Exception e) {
-      Logger.e(TAG + "onActivityStopped() : ", e);
+      Logger.print(LogLevel.ERROR, e, () -> TAG + " onActivityStopped(): ");
     }
   }
 
   @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
     try {
       super.onActivitySaveInstanceState(activity, outState);
-      Logger.v(TAG + " onActivitySaveInstanceState() : ");
-      if (integrationHelper != null) integrationHelper.onActivitySavedInstance(activity, outState);
+      Logger.print(() -> TAG + " onActivitySaveInstanceState(): ");
+      integrationHelper.onActivitySavedInstance(activity, outState);
     } catch (Exception e) {
-      Logger.e(TAG + "onActivitySaveInstanceState() : ", e);
+      Logger.print(LogLevel.ERROR, e, () -> TAG + " onActivitySaveInstanceState(): ");
     }
   }
 
   @Override public void identify(IdentifyPayload identify) {
     try {
       super.identify(identify);
-      Logger.v(TAG + " identify() : ");
+      Logger.print(() -> TAG + " identify(): ");
       Traits traits = identify.traits();
 
       if (!isNullOrEmpty(traits)) {
-        integrationHelper.trackUserAttribute(transform(traits, MAPPER));
+        integrationHelper.trackUserAttribute(transform(traits, MAPPER), instanceId);
         Traits.Address address = traits.address();
         if (!isNullOrEmpty(address)) {
           String city = address.city();
           if (!isNullOrEmpty(city)) {
-            helper.setUserAttribute("city", city);
+            helper.setUserAttribute(context, "city", city, instanceId);
           }
           String country = address.country();
           if (!isNullOrEmpty(country)) {
-            helper.setUserAttribute("country", country);
+            helper.setUserAttribute(context, "country", country, instanceId);
           }
           String state = address.state();
           if (!isNullOrEmpty(state)) {
-            helper.setUserAttribute("state", state);
+            helper.setUserAttribute(context, "state", state, instanceId);
           }
         }
       }
 
       AnalyticsContext.Location location = identify.context().location();
       if (!isNullOrEmpty(location)) {
-        helper.setUserAttribute(MoEConstants.USER_ATTRIBUTE_USER_LOCATION,
-            new GeoLocation(location.latitude(), location.longitude()));
+        helper.setUserAttribute(context, CoreConstants.USER_ATTRIBUTE_USER_LOCATION,
+            new GeoLocation(location.latitude(), location.longitude()), instanceId);
       }
     } catch (Exception e) {
-      Logger.e(TAG + " identify() : ", e);
+      Logger.print(LogLevel.ERROR, e, () -> TAG + " identify(): ");
     }
   }
 
   @Override public void track(TrackPayload track) {
     try {
       super.track(track);
-      Logger.v(TAG + " track() : ");
+      Logger.print(() -> TAG + " track(): ");
       if (!isNullOrEmpty(track)) {
         if (!isNullOrEmpty(track.properties())) {
-          integrationHelper.trackEvent(track.event(), track.properties().toJsonObject());
+          integrationHelper.trackEvent(track.event(), track.properties().toJsonObject(),
+              instanceId);
         } else {
-          integrationHelper.trackEvent(track.event(), new JSONObject());
+          integrationHelper.trackEvent(track.event(), new JSONObject(), instanceId);
         }
       }
     } catch (Exception e) {
-      Logger.e(TAG + " track() : ", e);
+      Logger.print(LogLevel.ERROR, e, () -> TAG + " track(): ");
     }
   }
 
   @Override public void reset() {
     try {
       super.reset();
-      Logger.v(TAG + " reset() : ");
-      helper.logoutUser();
+      Logger.print(() -> TAG + " reset(): ");
+      MoECoreHelper.INSTANCE.logoutUser(context, instanceId);
     } catch (Exception e) {
-      Logger.e(TAG + " reset() : ", e);
+      Logger.print(LogLevel.ERROR, e, () -> TAG + " reset(): ");
     }
   }
 
-  @Override public MoEHelper getUnderlyingInstance() {
+  @Override public MoEAnalyticsHelper getUnderlyingInstance() {
     return helper;
   }
 
-  private void trackAnonymousId(Analytics analytics){
-    try{
-     integrationHelper.trackAnonymousId(analytics.getAnalyticsContext().traits().anonymousId());
-    }catch(Throwable th){
-      Logger.e(TAG + " trackAnonymousId() : ", th);
+  private void trackAnonymousId(Analytics analytics) {
+    try {
+      integrationHelper.trackAnonymousId(analytics.getAnalyticsContext().traits().anonymousId(),
+          instanceId);
+    } catch (Throwable th) {
+      Logger.print(LogLevel.ERROR, th, () -> TAG + " trackAnonymousId(): ");
     }
   }
 }

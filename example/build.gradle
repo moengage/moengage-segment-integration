@@ -1,19 +1,19 @@
 plugins {
   id("com.android.application")
   id("com.google.gms.google-services")
+  id("kotlin-android")
 }
 
 android {
-  compileSdkVersion 29
-  buildToolsVersion "30.0.0"
+  compileSdkVersion 31
 
   Properties properties = new Properties()
   properties.load(file('../local.properties').newDataInputStream())
 
   defaultConfig {
     applicationId "com.moengage.segment.example"
-    minSdkVersion 16
-    targetSdkVersion 29
+    minSdkVersion 21
+    targetSdkVersion 31
     versionCode 1
     versionName "1.0"
 
@@ -38,16 +38,18 @@ android {
 dependencies {
   implementation fileTree(dir: "libs", include: ["*.jar"])
   // required jetpack library
-  implementation("androidx.core:core:1.3.1")
-  implementation("androidx.appcompat:appcompat:1.2.0")
-  implementation("androidx.lifecycle:lifecycle-process:2.2.0")
+  implementation("androidx.core:core:1.7.0")
+  implementation("androidx.appcompat:appcompat:1.4.0")
+  implementation("androidx.lifecycle:lifecycle-process:2.4.0")
 
-  implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+  implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
 
-  implementation("com.segment.analytics.android:analytics:4.8.2")
+  implementation("com.segment.analytics.android:analytics:4.9.0")
   implementation project(":moengage-segment-integration")
+  implementation(moengage.inapp)
+  implementation(moengageInternal.kotlinStdLib)
 
-  implementation("com.google.firebase:firebase-messaging:21.0.1")
+  implementation("com.google.firebase:firebase-messaging:23.0.0")
   // logging library used in the sample app, not required by the SDK
   implementation("com.jakewharton.timber:timber:4.7.1")
 
