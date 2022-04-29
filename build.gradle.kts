@@ -1,21 +1,21 @@
 buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
     dependencies {
-        classpath(moengageInternal.bundles.gradlePlugins)
-        classpath("com.google.gms:google-services:4.3.10")
+        classpath(moengageInternal.gradlePluginMavenPublish)
+        classpath(moengageInternal.gradlePluginAndroid)
+        classpath(libs.bundles.gradlePlugins)
     }
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
+@Suppress("DSL_SCOPE_VIOLATION")
+plugins {
+    alias(moengageInternal.plugins.plugin.android.app) apply false
+    alias(moengageInternal.plugins.plugin.android.lib) apply false
+    alias(moengageInternal.plugins.plugin.kotlin.android) apply false
+    alias(moengageInternal.plugins.plugin.dokka) apply false
 }
 
-tasks.register<Delete>("clean") {
-    delete(rootProject.buildDir)
+subprojects {
+    apply(plugin = "org.jetbrains.dokka")
 }
+
+apply(plugin = "org.jetbrains.dokka")
