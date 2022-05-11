@@ -1,5 +1,5 @@
 [libraries]
-moengageCore = { module = "com.moengage:moe-android-sdk", version = "12.2.00" }
+moengageCore = { module = "com.moengage:moe-android-sdk", version = "12.2.01" }
 segment = { module = "com.segment.analytics.android:analytics", version = "4.9.0" }
 # plugins
 gradlePlugin-googleService = { module = "com.google.gms:google-services", version = "4.3.10" }
