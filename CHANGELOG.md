@@ -1,8 +1,8 @@
-### 6.2.1
+### 6.2.1 (11-05-2022)
 - Fixed multiple Android Gradle Plugin version error.
 - MoEngage SDK Version updated to `12.2.01`, [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#11-05-2022-0-0)
 
-### 6.2.0 (09-07-2022)
+### 6.2.0 (09-05-2022)
 - MoEngage SDK Version updated to `12.2.00`, [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#12-1-00-29-04-2022--0-0)
 
 ### 6.1.0 (29-04-2022)
