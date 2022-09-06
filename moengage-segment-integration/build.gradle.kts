@@ -1,6 +1,3 @@
-import java.io.FileInputStream
-import java.util.*
-
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(moengageInternal.plugins.plugin.dokka)
@@ -8,14 +5,9 @@ plugins {
     alias(moengageInternal.plugins.plugin.kotlin.android)
 }
 
-fun getVersionName(): String {
-    val properties = Properties()
-    properties.load(FileInputStream("${project.rootDir.absolutePath}/moengage-segment-integration/gradle.properties"))
-    return properties.getProperty("VERSION_NAME") ?: throw GradleException(
-        "VERSION_NAME not found in ./moengage-segment-integration/gradle.properties"
-    )
-}
+apply(from = "../scripts/gradle/release.gradle")
 
+val libVersionName = project.findProperty("VERSION_NAME") as String
 
 android {
     compileSdk = 30
@@ -23,7 +15,7 @@ android {
         minSdk = 21
         targetSdk = 30
 
-        buildConfigField("String", "MOENGAGE_SEGMENT_SDK_VERSION", "\"${getVersionName()}\"")
+        buildConfigField("String", "MOENGAGE_SEGMENT_SDK_VERSION", "\"$libVersionName\"")
     }
 
     compileOptions {
@@ -44,5 +36,3 @@ dependencies {
     compileOnly(libs.segment)
     api(libs.moengageCore)
 }
-
-apply(plugin = "com.vanniktech.maven.publish")

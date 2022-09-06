@@ -1,7 +1,5 @@
 buildscript {
     dependencies {
-        classpath(moengageInternal.gradlePluginMavenPublish)
-        classpath(moengageInternal.gradlePluginAndroid)
         classpath(libs.bundles.gradlePlugins)
     }
 }
