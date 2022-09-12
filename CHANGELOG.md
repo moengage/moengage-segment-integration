@@ -2,6 +2,7 @@
 - Release Script updated.
   - Removed vanniktech plugin.
   - Added support for component creation.
+- MoEngage SDK Version updated to `12.3.01`.
 
 ### 6.2.5 (02-09-2022)
 - MoEngage SDK Version updated to `12.2.05` [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#02-09-2022-0-0)
