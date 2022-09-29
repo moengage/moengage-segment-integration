@@ -10,10 +10,10 @@ apply(from = "../scripts/gradle/release.gradle")
 val libVersionName = project.findProperty("VERSION_NAME") as String
 
 android {
-    compileSdk = 30
+    compileSdk = 31
     defaultConfig {
         minSdk = 21
-        targetSdk = 30
+        targetSdk = 31
 
         buildConfigField("String", "MOENGAGE_SEGMENT_SDK_VERSION", "\"$libVersionName\"")
     }

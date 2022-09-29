@@ -1,3 +1,6 @@
+### Next Release
+- Target & Compile Sdk Version updated to 31
+
 ### 6.3.1 (20-09-2022)
 - MoEngage SDK Version updated to `12.3.02` [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#20-09-2022-0-0)
 
