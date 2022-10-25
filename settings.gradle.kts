@@ -14,11 +14,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
     }
     versionCatalogs {
         create("moengageInternal") {
-            from("com.moengage:android-dependency-catalog-internal:1.2.1-SNAPSHOT")
+            from("com.moengage:android-dependency-catalog-internal:1.2.0")
         }
         create("moengage") {
             from("com.moengage:android-dependency-catalog:2.5.1")
