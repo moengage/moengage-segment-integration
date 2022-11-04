@@ -1,3 +1,3 @@
 [libraries]
-moengageCore = { module = "com.moengage:moe-android-sdk", version = "12.4.00" }
+moengageCore = { module = "com.moengage:moe-android-sdk", version = "12.5.00" }
 segment = { module = "com.segment.analytics.android:analytics", version = "4.9.0" }

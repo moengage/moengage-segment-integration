@@ -1,9 +1,14 @@
+# 04-11-2022
+
+## 6.5.0
+- MoEngage SDK Version updated to `12.5.00`, [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540#04-11-2022-0-0)
+
 # 26-10-2022
 
 ## 6.4.0
 - Android Gradle Plugin version updated to `7.3.1`
 - Target & Compile Sdk Version updated to 31
-- MoEngage SDK Version updated to `12.4.00`, [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#25-10-2022-0-0)
+- MoEngage SDK Version updated to `12.4.00`, [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540#26-10-2022-0-5)
 
 ### 6.3.1 (20-09-2022)
 - MoEngage SDK Version updated to `12.3.02` [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#20-09-2022-0-0)
