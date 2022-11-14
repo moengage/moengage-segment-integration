@@ -1,3 +1,8 @@
+# 14-11-2022
+
+## 6.5.1
+- MoEngage SDK version updated to `12.5.01`, [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540#14-11-2022-0-0)
+
 # 04-11-2022
 
 ## 6.5.0
