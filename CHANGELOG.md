@@ -1,3 +1,8 @@
+# Next Release
+
+## MoEngage-Segment: Kotlin Destination
+- New library module for providing support to Analytics-Kotlin: Segment
+
 # 19-12-2022
 
 ## 6.5.4
