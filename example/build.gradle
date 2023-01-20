@@ -46,14 +46,17 @@ dependencies {
 
   implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
 
+  implementation("com.segment.analytics.kotlin:android:1.10.0")
   implementation("com.segment.analytics.android:analytics:4.9.0")
   implementation project(":moengage-segment-integration")
+  implementation project(":moengage-segment-kotlin-destination")
   implementation(moengage.inapp)
   implementation(moengageInternal.kotlinStdLib)
 
   implementation("com.google.firebase:firebase-messaging:23.0.0")
   // logging library used in the sample app, not required by the SDK
   implementation("com.jakewharton.timber:timber:4.7.1")
+  implementation 'com.google.android.material:material:1.4.0'
 
   testImplementation 'junit:junit:4.12'
   androidTestImplementation 'androidx.test.ext:junit:1.1.2'

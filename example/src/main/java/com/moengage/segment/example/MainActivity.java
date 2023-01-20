@@ -1,6 +1,7 @@
 package com.moengage.segment.example;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.segment.analytics.Analytics;
@@ -21,6 +22,10 @@ public class MainActivity extends AppCompatActivity {
     //track event with attributes
     Analytics.with(MainActivity.this)
         .track("Email button Click", new Properties().putValue("email", "opened"));
+
+    findViewById(R.id.second_activity_button).setOnClickListener(v -> {
+      startActivity(new Intent(this, KotlinActivity.class));
+    });
   }
 
   // Method to track User Attributes

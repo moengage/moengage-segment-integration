@@ -24,6 +24,6 @@ dependencyResolutionManagement {
         }
     }
 }
-include(":example", ":moengage-segment-integration")
+include(":example", ":moengage-segment-integration", ":moengage-segment-kotlin-destination")
 
 rootProject.name = "moengage-segment"
