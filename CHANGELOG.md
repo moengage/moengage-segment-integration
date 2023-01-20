@@ -3,6 +3,10 @@
 ## MoEngage-Segment: Kotlin Destination
 - New library module for providing support to Analytics-Kotlin: Segment
 
+# 19-01-2022
+## 6.5.5
+- MoEngage SDK version updated to `12.5.05`, [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#19-01-2023-0-0)
+
 # 19-12-2022
 
 ## 6.5.4

@@ -49,8 +49,6 @@ class SampleApplication : Application() {
                         isLargeIconDisplayEnabled = true
                     )
                 )
-                //enabled To track location and run geo-fence campaigns
-                .configureGeofence(GeofenceConfig(true))
                 .enablePartnerIntegration(IntegrationPartner.SEGMENT)
                 //Configure logs
                 .configureLogs(LogConfig(LogLevel.VERBOSE, false))
