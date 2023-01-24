@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
-class KotlinActivity : AppCompatActivity() {
+class AnalyticsKotlinActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_kotlin)
+        setContentView(R.layout.activity_analytics_kotlin)
         val analytics = (application as SampleApplication).analyticsKt
 
         //track user attributes
@@ -56,7 +56,7 @@ class KotlinActivity : AppCompatActivity() {
                     put("user_location", city)
                 }
             })
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 }

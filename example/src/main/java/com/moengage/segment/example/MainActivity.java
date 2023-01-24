@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         .track("Email button Click", new Properties().putValue("email", "opened"));
 
     findViewById(R.id.second_activity_button).setOnClickListener(v -> {
-      startActivity(new Intent(this, KotlinActivity.class));
+      startActivity(new Intent(this, AnalyticsKotlinActivity.class));
     });
   }
 

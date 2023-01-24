@@ -92,11 +92,11 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
     }
 
     override fun alias(payload: AliasEvent): BaseEvent {
-        try{
+        try {
             super.alias(payload)
             Logger.print { "$tag alias(): " }
             analyticsHelper.setAlias(application.applicationContext, payload.userId, instanceId)
-        }catch (t : Throwable){
+        } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR) { "$tag alias(): " }
         }
         return payload
@@ -159,7 +159,7 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
             super.reset()
             Logger.print { "$tag reset(): " }
             logoutUser(application.applicationContext, instanceId)
-        } catch (t : Throwable) {
+        } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag reset(): " }
         }
     }
