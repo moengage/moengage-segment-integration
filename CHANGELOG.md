@@ -1,7 +1,7 @@
 # Next Release
 
-## MoEngage-Segment: Kotlin Destination
-- New library module for providing support to Analytics-Kotlin: Segment
+## moengage-segment-kotlin-destination 1.0.0
+- Segment Analytics-Kotlin support
 
 # 19-01-2022
 ## 6.5.5
