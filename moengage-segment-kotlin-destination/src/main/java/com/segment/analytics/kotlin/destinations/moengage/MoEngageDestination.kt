@@ -82,7 +82,7 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
                     Logger.print { "$tag Segment Integration initialised." }
                     integrationHelper.initialize(instanceId, application)
                     addIntegrationMeta(
-                        IntegrationMeta("segment", BuildConfig.MOENGAGE_SEGMENT_SDK_VERSION),
+                        IntegrationMeta("segment", BuildConfig.MOENGAGE_SEGMENT_KOTLIN_VERSION),
                         instanceId
                     )
                 }
@@ -184,7 +184,7 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
     }
 
     override fun version(): String {
-        return BuildConfig.MOENGAGE_SEGMENT_SDK_VERSION
+        return BuildConfig.MOENGAGE_SEGMENT_KOTLIN_VERSION
     }
 
     private fun Map<String, JsonElement>.map(
