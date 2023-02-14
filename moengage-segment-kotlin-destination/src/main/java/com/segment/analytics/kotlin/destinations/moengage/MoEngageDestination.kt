@@ -2,7 +2,7 @@ package com.segment.analytics.kotlin.destinations.moengage
 
 import android.app.Application
 import com.moengage.core.LogLevel
-import com.moengage.core.MoECoreHelper.logoutUser
+import com.moengage.core.MoECoreHelper
 import com.moengage.core.analytics.MoEAnalyticsHelper
 import com.moengage.core.internal.USER_ATTRIBUTE_UNIQUE_ID
 import com.moengage.core.internal.USER_ATTRIBUTE_USER_BDAY
@@ -14,7 +14,6 @@ import com.moengage.core.internal.USER_ATTRIBUTE_USER_LOCATION
 import com.moengage.core.internal.USER_ATTRIBUTE_USER_MOBILE
 import com.moengage.core.internal.USER_ATTRIBUTE_USER_NAME
 import com.moengage.core.internal.integrations.MoEIntegrationHelper
-import com.moengage.core.internal.integrations.MoEIntegrationHelper.Companion.addIntegrationMeta
 import com.moengage.core.internal.logger.Logger
 import com.moengage.core.internal.model.IntegrationMeta
 import com.moengage.core.model.GeoLocation
@@ -36,25 +35,26 @@ import com.segment.analytics.kotlin.core.utilities.mapTransform
 import com.segment.analytics.kotlin.core.utilities.toContent
 import kotlinx.serialization.json.jsonObject
 import org.json.JSONObject
+import java.util.concurrent.Executors
 
 private const val MOENGAGE_SEGMENT_INTEGRATION_KEY = "MoEngage"
 private const val INTEGRATION_META_TYPE = "segment"
 private const val USER_TRAIT_ANONYMOUS_ID = "anonymousId"
-private const val USER_TRAIT_USER_EMAIL = "email"
+private const val USER_TRAIT_EMAIL = "email"
 private const val USER_TRAIT_UNIQUE_ID = "userId"
 private const val USER_TRAIT_NAME = "name"
-private const val USER_TRAIT_USER_MOBILE = "phone"
+private const val USER_TRAIT_MOBILE = "phone"
 private const val USER_TRAIT_FIRST_NAME = "firstName"
 private const val USER_TRAIT_LAST_NAME = "lastName"
-private const val USER_TRAIT_USER_GENDER = "gender"
-private const val USER_TRAIT_USER_BDAY = "birthday"
-private const val USER_TRAIT_USER_ADDRESS = "address"
-private const val USER_TRAIT_USER_ADDRESS_CITY = "city"
-private const val USER_TRAIT_USER_ADDRESS_STATE = "state"
-private const val USER_TRAIT_USER_ADDRESS_COUNTRY = "country"
-private const val USER_TRAIT_USER_LOCATION = "location"
-private const val USER_TRAIT_USER_LOCATION_LONGITUDE = "longitude"
-private const val USER_TRAIT_USER_LOCATION_LATITUDE = "latitude"
+private const val USER_TRAIT_GENDER = "gender"
+private const val USER_TRAIT_BIRTHDAY = "birthday"
+private const val USER_TRAIT_ADDRESS = "address"
+private const val USER_TRAIT_ADDRESS_CITY = "city"
+private const val USER_TRAIT_ADDRESS_STATE = "state"
+private const val USER_TRAIT_ADDRESS_COUNTRY = "country"
+private const val USER_TRAIT_LOCATION = "location"
+private const val USER_TRAIT_LOCATION_LONGITUDE = "longitude"
+private const val USER_TRAIT_LOCATION_LATITUDE = "latitude"
 private const val USER_ATTRIBUTE_SEGMENT_ID = "USER_ATTRIBUTE_SEGMENT_ID"
 
 @kotlinx.serialization.Serializable
@@ -68,18 +68,18 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
 
 
     companion object {
-        private const val tag = "MoEngageDestination_" + BuildConfig.MOENGAGE_SEGMENT_KOTLIN_VERSION
+        private const val tag = "MoEngageDestination_${BuildConfig.MOENGAGE_SEGMENT_KOTLIN_VERSION}"
 
         val mapper: Map<String, String> = mapOf(
             USER_TRAIT_ANONYMOUS_ID to USER_ATTRIBUTE_SEGMENT_ID,
-            USER_TRAIT_USER_EMAIL to USER_ATTRIBUTE_USER_EMAIL,
+            USER_TRAIT_EMAIL to USER_ATTRIBUTE_USER_EMAIL,
             USER_TRAIT_UNIQUE_ID to USER_ATTRIBUTE_UNIQUE_ID,
             USER_TRAIT_NAME to USER_ATTRIBUTE_USER_NAME,
-            USER_TRAIT_USER_MOBILE to USER_ATTRIBUTE_USER_MOBILE,
+            USER_TRAIT_MOBILE to USER_ATTRIBUTE_USER_MOBILE,
             USER_TRAIT_FIRST_NAME to USER_ATTRIBUTE_USER_FIRST_NAME,
             USER_TRAIT_LAST_NAME to USER_ATTRIBUTE_USER_LAST_NAME,
-            USER_TRAIT_USER_GENDER to USER_ATTRIBUTE_USER_GENDER,
-            USER_TRAIT_USER_BDAY to USER_ATTRIBUTE_USER_BDAY
+            USER_TRAIT_GENDER to USER_ATTRIBUTE_USER_GENDER,
+            USER_TRAIT_BIRTHDAY to USER_ATTRIBUTE_USER_BDAY
 
         )
     }
@@ -99,10 +99,9 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
                     integrationHelper =
                         MoEIntegrationHelper(application, IntegrationPartner.SEGMENT)
                     integrationHelper.initialize(instanceId, application)
-                    addIntegrationMeta(
+                    MoEIntegrationHelper.addIntegrationMeta(
                         IntegrationMeta(
-                            INTEGRATION_META_TYPE,
-                            BuildConfig.MOENGAGE_SEGMENT_KOTLIN_VERSION
+                            INTEGRATION_META_TYPE, version()
                         ), instanceId
                     )
                     Logger.print { "$tag update(): Segment Integration initialised." }
@@ -134,47 +133,44 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
             Logger.print { "$tag identify(): in" }
             val traits: Traits = payload.traits
             if (traits.isNotEmpty()) {
-                integrationHelper.trackUserAttribute(
-                    filterOutNonNullTraits(traits),
-                    instanceId
-                )
-                val address = traits[USER_TRAIT_USER_ADDRESS]
+                integrationHelper.trackUserAttribute(removeTraitsWithNullValues(traits), instanceId)
+                val address = traits[USER_TRAIT_ADDRESS]
                 if (address != null && address.jsonObject.isNotEmpty()) {
-                    val city = address.jsonObject.getString(USER_TRAIT_USER_ADDRESS_CITY)
+                    val city = address.jsonObject.getString(USER_TRAIT_ADDRESS_CITY)
                     if (!city.isNullOrEmpty()) {
                         MoEAnalyticsHelper.setUserAttribute(
                             application.applicationContext,
-                            USER_TRAIT_USER_ADDRESS_CITY,
+                            USER_TRAIT_ADDRESS_CITY,
                             city,
                             instanceId
                         )
                     }
-                    val country = address.jsonObject.getString(USER_TRAIT_USER_ADDRESS_COUNTRY)
+                    val country = address.jsonObject.getString(USER_TRAIT_ADDRESS_COUNTRY)
                     if (!country.isNullOrEmpty()) {
                         MoEAnalyticsHelper.setUserAttribute(
                             application.applicationContext,
-                            USER_TRAIT_USER_ADDRESS_COUNTRY,
+                            USER_TRAIT_ADDRESS_COUNTRY,
                             country,
                             instanceId
                         )
                     }
-                    val state = address.jsonObject.getString(USER_TRAIT_USER_ADDRESS_STATE)
+                    val state = address.jsonObject.getString(USER_TRAIT_ADDRESS_STATE)
                     if (!state.isNullOrEmpty()) {
                         MoEAnalyticsHelper.setUserAttribute(
                             application.applicationContext,
-                            USER_TRAIT_USER_ADDRESS_STATE,
+                            USER_TRAIT_ADDRESS_STATE,
                             state,
                             instanceId
                         )
                     }
                 }
             }
-            val location = payload.traits[USER_TRAIT_USER_LOCATION]
-            if (location != null && !location.jsonObject.isEmpty()) {
+            val location = payload.traits[USER_TRAIT_LOCATION]
+            if (location != null && location.jsonObject.isNotEmpty()) {
                 MoEAnalyticsHelper.setUserAttribute(
                     application.applicationContext, USER_ATTRIBUTE_USER_LOCATION, GeoLocation(
-                        location.jsonObject.getDouble(USER_TRAIT_USER_LOCATION_LATITUDE) ?: 0.0,
-                        location.jsonObject.getDouble(USER_TRAIT_USER_LOCATION_LONGITUDE) ?: 0.0
+                        location.jsonObject.getDouble(USER_TRAIT_LOCATION_LATITUDE) ?: 0.0,
+                        location.jsonObject.getDouble(USER_TRAIT_LOCATION_LONGITUDE) ?: 0.0
                     ), instanceId
                 )
             }
@@ -190,7 +186,7 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
         try {
             super.reset()
             Logger.print { "$tag reset(): in" }
-            logoutUser(application.applicationContext, instanceId)
+            MoECoreHelper.logoutUser(application.applicationContext, instanceId)
             Logger.print { "$tag reset(): out" }
         } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag reset(): " }
@@ -203,7 +199,9 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
             Logger.print { "$tag track(): in" }
             if (payload.properties.isNotEmpty()) {
                 integrationHelper.trackEvent(
-                    payload.event, payload.properties.toJSONObject(), instanceId
+                    payload.event,
+                    payload.properties.toJSONObject(),
+                    instanceId
                 )
             } else {
                 integrationHelper.trackEvent(payload.event, JSONObject(), instanceId)
@@ -220,21 +218,23 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
     }
 
     private fun trackAnonymousId() {
-        try {
-            Logger.print { "$tag trackAnonymousId() : in" }
-            val anonymousId = analytics.storage.read(Storage.Constants.AnonymousId)
-            Logger.print(LogLevel.DEBUG) { "$tag trackAnonymousId() : $anonymousId" }
-            integrationHelper.trackAnonymousId(
-                anonymousId,
-                instanceId
-            )
-            Logger.print { "$tag trackAnonymousId() : out" }
-        } catch (t: Throwable) {
-            Logger.print(LogLevel.ERROR, t) { "$tag trackAnonymousId(): " }
+        Executors.newSingleThreadExecutor().submit {
+            try {
+                Logger.print { "$tag trackAnonymousId() : in" }
+                val anonymousId = analytics.storage.read(Storage.Constants.AnonymousId)
+                Logger.print(LogLevel.DEBUG) { "$tag trackAnonymousId() : $anonymousId" }
+                integrationHelper.trackAnonymousId(
+                    anonymousId, instanceId
+                )
+                Logger.print { "$tag trackAnonymousId() : out" }
+            } catch (t: Throwable) {
+                Logger.print(LogLevel.ERROR, t) { "$tag trackAnonymousId(): " }
+            }
         }
+
     }
 
-    private fun filterOutNonNullTraits(traits: Traits): Map<String, Any> {
+    private fun removeTraitsWithNullValues(traits: Traits): Map<String, Any> {
         val traitsMapWithNonNullValues = mutableMapOf<String, Any>()
         val traitsMap = traits.mapTransform(mapper).toContent()
         for (trait in traitsMap) {
