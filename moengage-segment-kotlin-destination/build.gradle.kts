@@ -11,15 +11,10 @@ val libVersionName = project.findProperty("VERSION_NAME") as String
 
 android {
     compileSdk = 31
-    buildToolsVersion = "31.0.0"
 
     defaultConfig {
-        multiDexEnabled = true
         minSdk = 21
         targetSdk = 31
-
-        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("proguard-consumer-rules.pro")
 
         buildConfigField("String", "MOENGAGE_SEGMENT_KOTLIN_VERSION", "\"$libVersionName\"")
     }
@@ -34,7 +29,6 @@ android {
         }
     }
     compileOptions {
-        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
