@@ -12,7 +12,6 @@ import com.moengage.segment.example.callbacks.inapp.InAppClickListener
 import com.moengage.segment.example.callbacks.inapp.InAppLifecycleCallback
 import com.segment.analytics.Analytics
 import com.segment.analytics.android.integrations.moengage.MoEngageIntegration
-import com.segment.analytics.kotlin.destinations.moengage.MoEngageDestination
 
 /**
  * @author Umang Chamaria
@@ -20,7 +19,6 @@ import com.segment.analytics.kotlin.destinations.moengage.MoEngageDestination
  */
 class SampleApplication : Application() {
 
-    lateinit var analyticsKt: com.segment.analytics.kotlin.core.Analytics
     override fun onCreate() {
         super.onCreate()
         //Initialization Analytics Android Instance
@@ -29,12 +27,6 @@ class SampleApplication : Application() {
             .build()
         Analytics.setSingletonInstance(analytics)
 
-        //Initialization Analytics Kotlin Instance
-        analyticsKt = com.segment.analytics.kotlin.android.Analytics(
-            BuildConfig.SEGMENT_WRITE_KEY,
-            applicationContext
-        )
-        analyticsKt.add(MoEngageDestination(this))
         //enter your account's app id
         val moEngage: MoEngage = MoEngage.Builder(this, BuildConfig.MOENAGE_APP_ID)
             //set notification data(small icon, large icon, notification color,

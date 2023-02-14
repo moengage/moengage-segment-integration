@@ -20,8 +20,7 @@ android {
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     buildConfigField "String", "SEGMENT_WRITE_KEY", "\"${properties.getProperty("segmentWriteKey")}\""
-    buildConfigField "String", "MOENAGE_APP_ID",
-        "\"${properties.getProperty("moengageAppId")}\""
+    buildConfigField "String", "MOENAGE_APP_ID", "\"${properties.getProperty("moengageAppId")}\""
   }
 
   compileOptions {
@@ -58,9 +57,4 @@ dependencies {
   testImplementation 'junit:junit:4.12'
   androidTestImplementation 'androidx.test.ext:junit:1.1.2'
   androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
-
-  implementation 'com.google.android.material:material:1.4.0'
-  implementation("com.segment.analytics.kotlin:android:1.10.0")
-  implementation project(":moengage-segment-kotlin-destination")
 }

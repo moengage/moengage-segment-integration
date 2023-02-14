@@ -1,4 +1,4 @@
-package com.moengage.segment.example
+package `in`.co.kotlinsampleapp
 
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -8,7 +8,6 @@ import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.segment.analytics.Analytics
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import java.text.DateFormat
@@ -19,9 +18,8 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_analytics_kotlin)
-        title = "Segment Analytics : Kotlin (Android)"
 
-        val analytics = (application as SampleApplication).analyticsKt
+        val analytics = KotlinSampleApplication.analytics
 
         findViewById<TextView>(R.id.moengage_app_id).text = buildString {
             append("MoEngage App Id : ")
@@ -74,8 +72,8 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.button_reset).setOnClickListener {
-            Analytics.with(this).reset()
-            Analytics.with(this).track("EVENT_RESET_CLICKED")
+            analytics.reset()
+            analytics.track("EVENT_RESET_CLICKED")
             Toast.makeText(this, "Tracking Event: Reset Clicked", Toast.LENGTH_SHORT).show()
         }
     }

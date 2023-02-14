@@ -20,7 +20,6 @@ class AnalyticsAndroidActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_analytics_android)
-        title = "Segment Analytics : Android"
         findViewById<TextView>(R.id.moengage_app_id).text = buildString {
             append("MoEngage App Id : ")
             append(BuildConfig.MOENAGE_APP_ID)
