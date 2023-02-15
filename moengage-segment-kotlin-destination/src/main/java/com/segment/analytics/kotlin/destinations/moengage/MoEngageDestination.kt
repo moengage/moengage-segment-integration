@@ -90,7 +90,7 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
     override fun update(settings: Settings, type: Plugin.UpdateType) {
         try {
             super.update(settings, type)
-            Logger.print { "$tag update(): in" }
+            Logger.print { "$tag update(): will try to sync settings" }
             if (type == Plugin.UpdateType.Initial) {
                 if (settings.hasIntegrationSettings(key)) {
                     val moEngageSettings: MoEngageSettings =
@@ -101,14 +101,14 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
                     integrationHelper.initialize(instanceId, application)
                     MoEIntegrationHelper.addIntegrationMeta(
                         IntegrationMeta(
-                            INTEGRATION_META_TYPE, version()
+                            INTEGRATION_META_TYPE,
+                            version()
                         ), instanceId
                     )
                     Logger.print { "$tag update(): Segment Integration initialised." }
                 }
                 trackAnonymousId()
             }
-            Logger.print { "$tag update(): out" }
         } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag update(): " }
         }
@@ -118,9 +118,8 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
     override fun alias(payload: AliasEvent): BaseEvent {
         try {
             super.alias(payload)
-            Logger.print { "$tag alias(): in" }
+            Logger.print { "$tag alias(): will try to update alias" }
             MoEAnalyticsHelper.setAlias(application.applicationContext, payload.userId, instanceId)
-            Logger.print { "$tag alias(): out" }
         } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag alias(): " }
         }
@@ -130,7 +129,7 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
     override fun identify(payload: IdentifyEvent): BaseEvent {
         try {
             super.identify(payload)
-            Logger.print { "$tag identify(): in" }
+            Logger.print { "$tag identify(): will try to track IdentifyEvent" }
             val traits: Traits = payload.traits
             if (traits.isNotEmpty()) {
                 integrationHelper.trackUserAttribute(removeTraitsWithNullValues(traits), instanceId)
@@ -174,7 +173,6 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
                     ), instanceId
                 )
             }
-            Logger.print { "$tag identify(): out" }
         } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag identify(): " }
         }
@@ -185,9 +183,8 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
     override fun reset() {
         try {
             super.reset()
-            Logger.print { "$tag reset(): in" }
+            Logger.print { "$tag reset(): will try to reset" }
             MoECoreHelper.logoutUser(application.applicationContext, instanceId)
-            Logger.print { "$tag reset(): out" }
         } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag reset(): " }
         }
@@ -196,7 +193,7 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
     override fun track(payload: TrackEvent): BaseEvent {
         try {
             super.track(payload)
-            Logger.print { "$tag track(): in" }
+            Logger.print { "$tag track(): will try to track TrackEvent" }
             if (payload.properties.isNotEmpty()) {
                 integrationHelper.trackEvent(
                     payload.event,
@@ -206,7 +203,6 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
             } else {
                 integrationHelper.trackEvent(payload.event, JSONObject(), instanceId)
             }
-            Logger.print { "$tag track(): out" }
         } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag track(): " }
         }
@@ -220,13 +216,11 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
     private fun trackAnonymousId() {
         Executors.newSingleThreadExecutor().submit {
             try {
-                Logger.print { "$tag trackAnonymousId() : in" }
+                Logger.print { "$tag trackAnonymousId() : will try to sync anonymousId" }
                 val anonymousId = analytics.storage.read(Storage.Constants.AnonymousId)
                 Logger.print(LogLevel.DEBUG) { "$tag trackAnonymousId() : $anonymousId" }
-                integrationHelper.trackAnonymousId(
-                    anonymousId, instanceId
-                )
-                Logger.print { "$tag trackAnonymousId() : out" }
+                integrationHelper.trackAnonymousId(anonymousId, instanceId)
+                Logger.print { "$tag trackAnonymousId() : anonymousId synced" }
             } catch (t: Throwable) {
                 Logger.print(LogLevel.ERROR, t) { "$tag trackAnonymousId(): " }
             }
