@@ -232,10 +232,8 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
         val traitsMapWithNonNullValues = mutableMapOf<String, Any>()
         val traitsMap = traits.mapTransform(mapper).toContent()
         for (trait in traitsMap) {
-            if (trait.value != null) {
-                trait.value?.let {
-                    traitsMapWithNonNullValues[trait.key] = it
-                }
+            trait.value?.let {
+                traitsMapWithNonNullValues[trait.key] = it
             }
         }
         return traitsMapWithNonNullValues
