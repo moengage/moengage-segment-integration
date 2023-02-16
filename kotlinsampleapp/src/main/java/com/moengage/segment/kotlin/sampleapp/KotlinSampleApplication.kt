@@ -1,4 +1,4 @@
-package `in`.co.kotlinsampleapp
+package com.moengage.segment.kotlin.sampleapp
 
 import android.app.Application
 import com.moengage.core.LogLevel
@@ -9,6 +9,8 @@ import com.moengage.core.ktx.MoEngageBuilderKtx
 import com.moengage.core.model.IntegrationPartner
 import com.moengage.inapp.MoEInAppHelper
 import com.moengage.pushbase.MoEPushHelper
+import com.moengage.segment.kotlin.sampleapp.callback.inapp.InAppClickListener
+import com.moengage.segment.kotlin.sampleapp.callback.inapp.InAppLifecycleCallback
 import com.segment.analytics.kotlin.android.Analytics
 import com.segment.analytics.kotlin.core.Analytics
 import com.segment.analytics.kotlin.destinations.moengage.MoEngageDestination

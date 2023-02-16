@@ -1,4 +1,4 @@
-package `in`.co.kotlinsampleapp
+package com.moengage.segment.kotlin.sampleapp.callback.inapp
 
 import android.util.Log
 import com.moengage.inapp.listeners.InAppLifeCycleListener

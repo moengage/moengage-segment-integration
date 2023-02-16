@@ -12,7 +12,7 @@ android {
     properties.load(file("../local.properties").inputStream())
 
     defaultConfig {
-        applicationId = "in.co.kotlinsampleapp"
+        applicationId = "com.moengage.segment.kotlin.sampleapp"
         minSdk = 21
         targetSdk = 33
         versionCode = 1

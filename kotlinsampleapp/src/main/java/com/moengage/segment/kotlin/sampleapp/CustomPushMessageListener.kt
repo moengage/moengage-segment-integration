@@ -1,4 +1,4 @@
-package `in`.co.kotlinsampleapp
+package com.moengage.segment.kotlin.sampleapp
 
 import android.os.Bundle
 import android.app.Activity
