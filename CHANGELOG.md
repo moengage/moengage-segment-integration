@@ -3,7 +3,23 @@
 ## moengage-segment-kotlin-destination 1.0.0
 - Segment Analytics-Kotlin support
 
+# 14-02-2023
+
+## 6.5.8
+- MoEngage SDK version updated to `12.6.01`, [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540#14-02-2023-0-0) 
+
+# 07-02-2023
+
+## 6.5.7
+- MoEngage SDK version updated to `12.6.00`, [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540#07-02-2023-0-0)
+
+# 31-01-2023
+
+## 6.5.6
+- MoEngage SDK version updated to `12.5.06`, [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#31-01-2023-0-0)
+
 # 19-01-2022
+
 ## 6.5.5
 - MoEngage SDK version updated to `12.5.05`, [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#19-01-2023-0-0)
 
