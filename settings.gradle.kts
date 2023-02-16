@@ -28,7 +28,7 @@ include(
     ":example",
     ":moengage-segment-integration",
     ":moengage-segment-kotlin-destination",
-    ":kotlinsampleapp"
+    ":kotlin-example"
 )
 
 rootProject.name = "moengage-segment"

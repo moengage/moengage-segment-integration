@@ -10,6 +10,7 @@ apply(from = "../scripts/gradle/release.gradle")
 val libVersionName = project.findProperty("VERSION_NAME") as String
 
 android {
+    namespace = "com.segment.analytics.kotlin.destinations.moengage"
     compileSdk = 31
 
     defaultConfig {

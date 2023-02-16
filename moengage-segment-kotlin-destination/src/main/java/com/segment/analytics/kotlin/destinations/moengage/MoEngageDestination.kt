@@ -90,23 +90,19 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
     override fun update(settings: Settings, type: Plugin.UpdateType) {
         try {
             super.update(settings, type)
-            Logger.print { "$tag update(): will try to sync settings" }
-            if (type == Plugin.UpdateType.Initial) {
-                if (settings.hasIntegrationSettings(key)) {
-                    val moEngageSettings: MoEngageSettings =
-                        settings.destinationSettings(key) ?: return
-                    instanceId = moEngageSettings.apiKey
-                    integrationHelper =
-                        MoEIntegrationHelper(application, IntegrationPartner.SEGMENT)
-                    integrationHelper.initialize(instanceId, application)
-                    MoEIntegrationHelper.addIntegrationMeta(
-                        IntegrationMeta(
-                            INTEGRATION_META_TYPE,
-                            version()
-                        ), instanceId
-                    )
-                    Logger.print { "$tag update(): Segment Integration initialised." }
-                }
+            Logger.print { "$tag update(): will try to sync $settings" }
+            if (type == Plugin.UpdateType.Initial && settings.hasIntegrationSettings(key)) {
+                val moEngageSettings: MoEngageSettings = settings.destinationSettings(key) ?: return
+                instanceId = moEngageSettings.apiKey
+                integrationHelper = MoEIntegrationHelper(application, IntegrationPartner.SEGMENT)
+                integrationHelper.initialize(instanceId, application)
+                MoEIntegrationHelper.addIntegrationMeta(
+                    IntegrationMeta(
+                        INTEGRATION_META_TYPE,
+                        version()
+                    ), instanceId
+                )
+                Logger.print { "$tag update(): Segment Integration initialised." }
                 trackAnonymousId()
             }
         } catch (t: Throwable) {
@@ -118,7 +114,7 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
     override fun alias(payload: AliasEvent): BaseEvent {
         try {
             super.alias(payload)
-            Logger.print { "$tag alias(): will try to update alias" }
+            Logger.print { "$tag alias(): will try to update $payload" }
             MoEAnalyticsHelper.setAlias(application.applicationContext, payload.userId, instanceId)
         } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag alias(): " }
@@ -129,8 +125,8 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
     override fun identify(payload: IdentifyEvent): BaseEvent {
         try {
             super.identify(payload)
-            Logger.print { "$tag identify(): will try to track IdentifyEvent" }
-            val traits: Traits = payload.traits
+            Logger.print { "$tag identify(): will try to track $payload" }
+            val traits = payload.traits
             if (traits.isNotEmpty()) {
                 integrationHelper.trackUserAttribute(removeTraitsWithNullValues(traits), instanceId)
                 val address = traits[USER_TRAIT_ADDRESS]
@@ -193,7 +189,7 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
     override fun track(payload: TrackEvent): BaseEvent {
         try {
             super.track(payload)
-            Logger.print { "$tag track(): will try to track TrackEvent" }
+            Logger.print { "$tag track(): will try to track $payload" }
             if (payload.properties.isNotEmpty()) {
                 integrationHelper.trackEvent(
                     payload.event,
@@ -214,29 +210,33 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
     }
 
     private fun trackAnonymousId() {
-        Executors.newSingleThreadExecutor().submit {
-            try {
-                Logger.print { "$tag trackAnonymousId() : will try to sync anonymousId" }
-                val anonymousId = analytics.storage.read(Storage.Constants.AnonymousId)
-                Logger.print(LogLevel.DEBUG) { "$tag trackAnonymousId() : $anonymousId" }
-                integrationHelper.trackAnonymousId(anonymousId, instanceId)
-                Logger.print { "$tag trackAnonymousId() : anonymousId synced" }
-            } catch (t: Throwable) {
-                Logger.print(LogLevel.ERROR, t) { "$tag trackAnonymousId(): " }
+        try {
+            Executors.newSingleThreadExecutor().submit {
+                try {
+                    Logger.print { "$tag trackAnonymousId() : will try to sync anonymousId" }
+                    val anonymousId = analytics.storage.read(Storage.Constants.AnonymousId)
+                    Logger.print { "$tag trackAnonymousId() : $anonymousId" }
+                    integrationHelper.trackAnonymousId(anonymousId, instanceId)
+                    Logger.print { "$tag trackAnonymousId() : anonymousId synced" }
+                } catch (t: Throwable) {
+                    Logger.print(LogLevel.ERROR, t) { "$tag trackAnonymousId(): " }
+                }
             }
+        } catch (t: Throwable) {
+            Logger.print(LogLevel.ERROR, t) { "$tag trackAnonymousId(): " }
         }
 
     }
 
     private fun removeTraitsWithNullValues(traits: Traits): Map<String, Any> {
-        val traitsMapWithNonNullValues = mutableMapOf<String, Any>()
-        val traitsMap = traits.mapTransform(mapper).toContent()
-        for (trait in traitsMap) {
+        val traitsWithNonNullValues = mutableMapOf<String, Any>()
+        val traitsWithNullValues = traits.mapTransform(mapper).toContent()
+        for (trait in traitsWithNullValues) {
             trait.value?.let {
-                traitsMapWithNonNullValues[trait.key] = it
+                traitsWithNonNullValues[trait.key] = it
             }
         }
-        return traitsMapWithNonNullValues
+        return traitsWithNonNullValues
     }
 
 }
