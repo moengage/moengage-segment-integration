@@ -10,8 +10,9 @@ import com.moengage.inapp.MoEInAppHelper
 import com.moengage.pushbase.MoEPushHelper
 import com.moengage.segment.example.callbacks.inapp.InAppClickListener
 import com.moengage.segment.example.callbacks.inapp.InAppLifecycleCallback
-import com.segment.analytics.Analytics
-import com.segment.analytics.android.integrations.moengage.MoEngageIntegration
+import com.segment.analytics.kotlin.android.Analytics
+import com.segment.analytics.kotlin.core.Analytics
+import com.segment.analytics.kotlin.destinations.moengage.MoEngageDestination
 
 /**
  * @author Umang Chamaria
@@ -19,13 +20,16 @@ import com.segment.analytics.android.integrations.moengage.MoEngageIntegration
  */
 class SampleApplication : Application() {
 
+    companion object {
+        lateinit var analytics: Analytics
+    }
+
     override fun onCreate() {
         super.onCreate()
-        //Initialization Analytics Android Instance
-        val analytics = Analytics.Builder(this, BuildConfig.SEGMENT_WRITE_KEY)
-            .use(MoEngageIntegration.FACTORY)
-            .build()
-        Analytics.setSingletonInstance(analytics)
+        //Initialization Analytics Kotlin Instance
+        analytics = Analytics(BuildConfig.SEGMENT_WRITE_KEY, this)
+        analytics.add(MoEngageDestination(this))
+        //enter your account's app id
 
         //enter your account's app id
         val moEngage: MoEngage = MoEngage.Builder(this, BuildConfig.MOENAGE_APP_ID)

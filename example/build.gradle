@@ -45,8 +45,8 @@ dependencies {
 
   implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
 
-  implementation("com.segment.analytics.android:analytics:4.9.0")
-  implementation project(":moengage-segment-integration")
+  implementation("com.segment.analytics.kotlin:android:1.10.0")
+  implementation project(":moengage-segment-kotlin-destination")
   implementation(moengage.inapp)
   implementation(moengageInternal.kotlinStdLib)
 

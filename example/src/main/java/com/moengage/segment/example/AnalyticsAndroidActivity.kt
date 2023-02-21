@@ -8,9 +8,8 @@ import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.segment.analytics.Analytics
-import com.segment.analytics.Properties
-import com.segment.analytics.Traits
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,6 +19,8 @@ class AnalyticsAndroidActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_analytics_android)
+        val analytics = SampleApplication.analytics
+
         findViewById<TextView>(R.id.moengage_app_id).text = buildString {
             append("MoEngage App Id : ")
             append(BuildConfig.MOENAGE_APP_ID)
@@ -32,10 +33,10 @@ class AnalyticsAndroidActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.button_alias).setOnClickListener {
             val userId = findViewById<EditText>(R.id.text_alias).text.toString()
-            Analytics.with(this).alias(userId)
-            val properties = Properties()
-            properties["alias_name"] = properties[userId]
-            Analytics.with(this).track("EVENT_ALIAS_CLICKED", properties)
+            analytics.alias(userId)
+            analytics.track("EVENT_ALIAS_CLICKED", buildJsonObject {
+                put("alias_name", userId)
+            })
             Toast.makeText(this, "Tracking Event: ALIAS Clicked", Toast.LENGTH_SHORT).show()
         }
 
@@ -58,24 +59,21 @@ class AnalyticsAndroidActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.button_identify).setOnClickListener {
-            val traits = Traits()
             val attributeName =
                 findViewById<EditText>(R.id.text_user_attribute_name).text.toString()
             val attributeValue =
                 findViewById<EditText>(R.id.text_user_attribute_value).text.toString()
-            traits[attributeName] = attributeValue
-
-            Analytics.with(this).identify(traits)
-
-            val properties = Properties()
-            properties[attributeName] = attributeValue
-            Analytics.with(this).track("EVENT_IDENTIFY_CLICKED", properties)
+            val traits = buildJsonObject {
+                put(attributeName, attributeValue)
+            }
+            analytics.identify(traits)
+            analytics.track("EVENT_IDENTIFY_CLICKED", traits)
             Toast.makeText(this, "Tracking Event: Identify Clicked", Toast.LENGTH_SHORT).show()
         }
 
         findViewById<Button>(R.id.button_reset).setOnClickListener {
-            Analytics.with(this).reset()
-            Analytics.with(this).track("EVENT_RESET_CLICKED")
+            analytics.reset()
+            analytics.track("EVENT_RESET_CLICKED")
             Toast.makeText(this, "Tracking Event: Reset Clicked", Toast.LENGTH_SHORT).show()
         }
     }
