@@ -1,4 +1,4 @@
 <resources>
-  <string name="app_name">Analytics Android</string>
+  <string name="app_name">Analytics Kotlin</string>
   <string name="moengage_app_id_xxxxxxx">MoEngage App ID : XXXXXXX</string>
 </resources>

@@ -1,3 +1,8 @@
+# Next Release
+
+## moengage-segment-kotlin-destination 1.0.0
+- Segment Analytics-Kotlin support
+
 # 14-02-2023
 
 ## 6.5.8
