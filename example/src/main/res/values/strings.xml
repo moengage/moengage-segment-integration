@@ -1,12 +1,4 @@
 <resources>
-  <string name="app_name">example</string>
-  <string name="reset">Reset</string>
-  <string name="identify">Identify</string>
-  <string name="pick_time">Pick Time</string>
-  <string name="user_trait_value">User Trait Value</string>
-  <string name="user_trait_name">User Trait Name</string>
-  <string name="set_alias">Set Alias</string>
-  <string name="alias">Alias</string>
-  <string name="segment_write_key_xxxxxxx">Segment Write Key : XXXXXXX</string>
+  <string name="app_name">Analytics Android</string>
   <string name="moengage_app_id_xxxxxxx">MoEngage App ID : XXXXXXX</string>
 </resources>

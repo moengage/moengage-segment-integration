@@ -1,80 +1,66 @@
 package com.moengage.segment.kotlin.sampleapp
 
-import android.app.TimePickerDialog
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
+import android.os.Handler
+import android.os.Looper
 import android.widget.TextView
-import android.widget.TimePicker
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.moengage.core.internal.utils.currentISOTime
+import com.segment.analytics.kotlin.core.Analytics
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
 
 class AnalyticsKotlinActivity : AppCompatActivity() {
+
+    private lateinit var analytics: Analytics
+
+    private val name: String = "MoEngage"
+    private val email: String = "abc@example.com"
+    private val date: String = currentISOTime()
+    private val dob: String = currentISOTime()
+    private val salary: Float = 190000.0f
+    private val isEmployed: Boolean = true
+    private val latitude: Double = 12.971599
+    private val longitude: Double = 77.594566
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_analytics_kotlin)
-
-        val analytics = KotlinSampleApplication.analytics
-
+        analytics = KotlinSampleApplication.analytics
         findViewById<TextView>(R.id.moengage_app_id).text = buildString {
-            append("MoEngage App Id : ")
+            append("MoEngage App Id: ")
             append(BuildConfig.MOENAGE_APP_ID)
         }
 
-        findViewById<TextView>(R.id.segment_write_key).text = buildString {
-            append("Segment Write Key : ")
-            append(BuildConfig.SEGMENT_WRITE_KEY)
+        analytics.identify(getTraits())
+        analytics.track("ON_CREATE")
+        analytics.track("TRACK_LOCATION", getEventProperties())
+    }
+
+    private fun getTraits(): JsonObject {
+        return buildJsonObject {
+            put("userId", email)
+            put("name", name)
+            put("email", email)
+            put("date", date)
+            put("birthday", dob)
+            put("location", getLocationProperties())
+            put("salary", salary)
+            put("isEmployed", isEmployed)
         }
+    }
 
-        findViewById<Button>(R.id.button_alias).setOnClickListener {
-            val userId = findViewById<EditText>(R.id.text_alias).text.toString()
-            analytics.alias(userId)
-            analytics.track("EVENT_ALIAS_CLICKED", buildJsonObject {
-                put("alias_name", userId)
-            })
-            Toast.makeText(this, "Tracking Event: ALIAS Clicked", Toast.LENGTH_SHORT).show()
+    private fun getEventProperties(): JsonObject {
+        return buildJsonObject {
+            put("location", getLocationProperties())
         }
+    }
 
-        findViewById<Button>(R.id.pick_time).setOnClickListener {
-            object : TimePickerDialog(this, object : OnTimeSetListener {
-                override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-                    view ?: return
-                    val df: DateFormat =
-                        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'", Locale.ENGLISH)
-                    findViewById<EditText>(R.id.text_user_attribute_value).setText(
-                        df.format(
-                            Date(
-                                view.drawingTime
-                            )
-                        )
-                    )
-
-                }
-            }, 12, 0, false) {}.show()
-        }
-
-        findViewById<Button>(R.id.button_identify).setOnClickListener {
-            val attributeName =
-                findViewById<EditText>(R.id.text_user_attribute_name).text.toString()
-            val attributeValue =
-                findViewById<EditText>(R.id.text_user_attribute_value).text.toString()
-            val traits = buildJsonObject {
-                put(attributeName, attributeValue)
-            }
-            analytics.identify(traits)
-            analytics.track("EVENT_IDENTIFY_CLICKED", traits)
-            Toast.makeText(this, "Tracking Event: Identify Clicked", Toast.LENGTH_SHORT).show()
-        }
-
-        findViewById<Button>(R.id.button_reset).setOnClickListener {
-            analytics.reset()
-            analytics.track("EVENT_RESET_CLICKED")
-            Toast.makeText(this, "Tracking Event: Reset Clicked", Toast.LENGTH_SHORT).show()
+    private fun getLocationProperties(): JsonObject {
+        return buildJsonObject {
+            put("latitude", latitude)
+            put("longitude", longitude)
         }
     }
 }
