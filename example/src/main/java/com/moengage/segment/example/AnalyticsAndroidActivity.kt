@@ -10,13 +10,6 @@ import java.util.*
 
 class AnalyticsAndroidActivity : AppCompatActivity() {
 
-    private val name: String = "MoEngage"
-    private val email: String = "abc@example.com"
-    private val salary: Float = 190000.0f
-    private val isEmployed: Boolean = true
-    private val latitude: Double = 12.971599
-    private val longitude: Double = 77.594566
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_analytics_android)
@@ -32,27 +25,19 @@ class AnalyticsAndroidActivity : AppCompatActivity() {
 
     private fun getTraits(): Traits {
         val traits = Traits()
-        traits.putName(name)
+        traits.putName("MoEngage")
         traits.putBirthday(Date())
-        traits.putEmail(email)
+        traits.putEmail("abc@example.com")
         traits["time"] = Date()
-        traits["salary"] = salary
-        traits["isEmployed"] = isEmployed
-        traits["location"] = getLocationProperties()
+        traits["salary"] = 190000.0f
+        traits["isEmployed"] = true
         return traits
     }
 
     private fun getEventProperties(): Properties {
         val properties = Properties()
-        properties["latitude"] = latitude
-        properties["longitude"] = longitude
+        properties["latitude"] = 12.971599
+        properties["longitude"] = 77.594566
         return properties
-    }
-
-    private fun getLocationProperties(): Traits {
-        val traits = Traits()
-        traits["latitude"] = latitude
-        traits["longitude"] = longitude
-        return traits
     }
 }

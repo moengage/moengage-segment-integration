@@ -15,15 +15,6 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
 
     private lateinit var analytics: Analytics
 
-    private val name: String = "MoEngage"
-    private val email: String = "abc@example.com"
-    private val date: String = currentISOTime()
-    private val dob: String = currentISOTime()
-    private val salary: Float = 190000.0f
-    private val isEmployed: Boolean = true
-    private val latitude: Double = 12.971599
-    private val longitude: Double = 77.594566
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_analytics_kotlin)
@@ -40,14 +31,14 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
 
     private fun getTraits(): JsonObject {
         return buildJsonObject {
-            put("userId", email)
-            put("name", name)
-            put("email", email)
-            put("date", date)
-            put("birthday", dob)
+            put("userId", "abc@example.com")
+            put("name", "MoEngage")
+            put("email", "abc@example.com")
+            put("date", currentISOTime())
+            put("birthday", currentISOTime())
             put("location", getLocationProperties())
-            put("salary", salary)
-            put("isEmployed", isEmployed)
+            put("salary", 190000.0f)
+            put("isEmployed", true)
         }
     }
 
@@ -59,8 +50,8 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
 
     private fun getLocationProperties(): JsonObject {
         return buildJsonObject {
-            put("latitude", latitude)
-            put("longitude", longitude)
+            put("latitude", 12.971599)
+            put("longitude", 77.594566)
         }
     }
 }
