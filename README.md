@@ -6,6 +6,9 @@ To use MoEngage in an Android app, you must perform the following steps to set u
 
 ![MavenBadge](https://maven-badges.herokuapp.com/maven-central/com.moengage/moengage-segment-kotlin-destination/badge.svg)
 
+> info ""
+> **Note:** `analytics-android-integration-moengage` will no longer be receiving updates. We recommend you to use `analytics-kotlin-destination-moengage`. For more details refer [moengage-segment-android-integration](https://partners.moengage.com/hc/en-us/articles/4409143474964-Android-device-mode-)
+
 To enable the full functionality of MoEngage (like Push Notifications, InApp Messaging), complete the following steps in your Android app.
 
 ### Adding the MoEngage Dependency
@@ -125,6 +128,7 @@ To opt-out of MoEngage token registration mechanism disable token registration w
 
 ```kotlin
 val moEngage = MoEngage.Builder(this, "XXXXXXXX")
+    .enablePartnerIntegration(IntegrationPartner.SEGMENT)
     .configureNotificationMetaData(NotificationConfig(R.drawable.small_icon, R.drawable.large_icon, R.color.notiColor, null, true, isBuildingBackStackEnabled = false, isLargeIconDisplayEnabled = true))
     .configureFcm(FcmConfig(false))
     .build()
