@@ -1,5 +1,13 @@
 # moengage-segment-kotlin-destination
 
+# Next Release
+
+## Next Version
+- MoEngage SDK version updated to `12.8.00`
+- Target & Compile SDK version updated to 33
+- Library Update
+  - `com.google.gms:google-services` 4.3.14 --> 4.3.15
+
 # 20-04-2023
 
 ## 1.1.2
