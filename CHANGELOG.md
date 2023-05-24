@@ -1,5 +1,11 @@
 # moengage-segment-kotlin-destination
 
+# Next Release Date
+
+## Next Release Version
+- Bugfixes
+  - MOEN-24022: Wrong mapping of userId(SegmentId) to uniqueId(MoEngageId)
+
 # 16-05-2023
 
 ## 1.2.0

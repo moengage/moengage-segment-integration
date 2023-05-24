@@ -126,6 +126,14 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
         try {
             super.identify(payload)
             Logger.print { "$tag identify(): will try to track $payload" }
+            if (payload.userId.isNotEmpty()) {
+                Logger.print { "$tag identify(): will try to track userId" }
+                MoEAnalyticsHelper.setUniqueId(
+                    application.applicationContext,
+                    payload.userId,
+                    instanceId
+                )
+            }
             val traits = payload.traits
             if (traits.isNotEmpty()) {
                 integrationHelper.trackUserAttribute(removeTraitsWithNullValues(traits), instanceId)
