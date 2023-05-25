@@ -127,24 +127,23 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
             super.identify(payload)
             Logger.print { "$tag identify(): will try to track $payload" }
 
+            val traits = payload.traits
+            val internalTraits = removeTraitsWithNullValues(traits)
+
+            val uniqueId = if (payload.userId.isNotEmpty()) {
+                payload.userId
+            } else if (internalTraits.containsKey(USER_ATTRIBUTE_UNIQUE_ID)) {
+                internalTraits.remove(USER_ATTRIBUTE_UNIQUE_ID) ?: ""
+            } else {
+                ""
+            }
             MoEAnalyticsHelper.setUniqueId(
                 application.applicationContext,
-                payload.userId,
+                uniqueId,
                 instanceId
             )
-
-            val traits = payload.traits
+            integrationHelper.trackUserAttribute(internalTraits, instanceId)
             if (traits.isNotEmpty()) {
-                val internalTraits = removeTraitsWithNullValues(traits)
-                if (internalTraits.containsKey(USER_ATTRIBUTE_UNIQUE_ID)) {
-                    MoEAnalyticsHelper.setUniqueId(
-                        application.applicationContext,
-                        internalTraits[USER_ATTRIBUTE_UNIQUE_ID] ?: "",
-                        instanceId
-                    )
-                    internalTraits.remove(USER_ATTRIBUTE_UNIQUE_ID)
-                }
-                integrationHelper.trackUserAttribute(internalTraits, instanceId)
                 val address = traits[USER_TRAIT_ADDRESS]
                 if (address != null && address.jsonObject.isNotEmpty()) {
                     val city = address.jsonObject.getString(USER_TRAIT_ADDRESS_CITY)
