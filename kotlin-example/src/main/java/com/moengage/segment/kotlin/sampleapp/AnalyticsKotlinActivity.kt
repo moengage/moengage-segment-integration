@@ -23,7 +23,7 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
             append(BuildConfig.MOENAGE_APP_ID)
         }
         findViewById<Button>(R.id.button_identify_1).setOnClickListener {
-            analytics.identify("abc1@example.com", getTraitsWithoutUniqueId())
+            analytics.identify("abc@example.com", getTraitsWithoutUniqueId())
         }
         findViewById<Button>(R.id.button_identify_2).setOnClickListener {
             analytics.identify(getTraitsWithoutUniqueId())
@@ -58,7 +58,7 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
 
     private fun getTraits(): JsonObject {
         return buildJsonObject {
-            put("userId", "abc@example.com")
+            put("userId", "abc2@example.com")
             put("name", "MoEngage")
             put("email", "abc@example.com")
             put("date", currentISOTime())

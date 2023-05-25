@@ -126,17 +126,25 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
         try {
             super.identify(payload)
             Logger.print { "$tag identify(): will try to track $payload" }
-            if (payload.userId.isNotEmpty()) {
-                Logger.print { "$tag identify(): will try to track userId" }
-                MoEAnalyticsHelper.setUniqueId(
-                    application.applicationContext,
-                    payload.userId,
-                    instanceId
-                )
-            }
+
+            MoEAnalyticsHelper.setUniqueId(
+                application.applicationContext,
+                payload.userId,
+                instanceId
+            )
+
             val traits = payload.traits
             if (traits.isNotEmpty()) {
-                integrationHelper.trackUserAttribute(removeTraitsWithNullValues(traits), instanceId)
+                val internalTraits = removeTraitsWithNullValues(traits)
+                if (internalTraits.containsKey(USER_ATTRIBUTE_UNIQUE_ID)) {
+                    MoEAnalyticsHelper.setUniqueId(
+                        application.applicationContext,
+                        internalTraits[USER_ATTRIBUTE_UNIQUE_ID] ?: "",
+                        instanceId
+                    )
+                    internalTraits.remove(USER_ATTRIBUTE_UNIQUE_ID)
+                }
+                integrationHelper.trackUserAttribute(internalTraits, instanceId)
                 val address = traits[USER_TRAIT_ADDRESS]
                 if (address != null && address.jsonObject.isNotEmpty()) {
                     val city = address.jsonObject.getString(USER_TRAIT_ADDRESS_CITY)
@@ -236,7 +244,7 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
 
     }
 
-    private fun removeTraitsWithNullValues(traits: Traits): Map<String, Any> {
+    private fun removeTraitsWithNullValues(traits: Traits): MutableMap<String, Any> {
         val traitsWithNonNullValues = mutableMapOf<String, Any>()
         val traitsWithNullValues = traits.mapTransform(mapper).toContent()
         for (trait in traitsWithNullValues) {
