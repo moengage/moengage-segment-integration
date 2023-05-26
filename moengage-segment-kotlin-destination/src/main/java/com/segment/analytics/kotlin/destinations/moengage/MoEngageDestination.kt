@@ -25,7 +25,6 @@ import com.segment.analytics.kotlin.core.IdentifyEvent
 import com.segment.analytics.kotlin.core.Settings
 import com.segment.analytics.kotlin.core.Storage
 import com.segment.analytics.kotlin.core.TrackEvent
-import com.segment.analytics.kotlin.core.Traits
 import com.segment.analytics.kotlin.core.platform.DestinationPlugin
 import com.segment.analytics.kotlin.core.platform.Plugin
 import com.segment.analytics.kotlin.core.platform.VersionedPlugin
@@ -128,12 +127,14 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
             Logger.print { "$tag identify(): will try to track $payload" }
 
             val traits = payload.traits
-            val internalTraits = removeTraitsWithNullValues(traits)
+            val transformedTraits = traits.mapTransform(mapper).toContent().filter {
+                it.value != null
+            } as MutableMap<String, Any>
 
             val uniqueId = if (payload.userId.isNotEmpty()) {
                 payload.userId
-            } else if (internalTraits.containsKey(USER_ATTRIBUTE_UNIQUE_ID)) {
-                internalTraits.remove(USER_ATTRIBUTE_UNIQUE_ID) ?: ""
+            } else if (transformedTraits.containsKey(USER_ATTRIBUTE_UNIQUE_ID)) {
+                transformedTraits.remove(USER_ATTRIBUTE_UNIQUE_ID) ?: ""
             } else {
                 ""
             }
@@ -142,7 +143,7 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
                 uniqueId,
                 instanceId
             )
-            integrationHelper.trackUserAttribute(internalTraits, instanceId)
+            integrationHelper.trackUserAttribute(transformedTraits, instanceId)
             if (traits.isNotEmpty()) {
                 val address = traits[USER_TRAIT_ADDRESS]
                 if (address != null && address.jsonObject.isNotEmpty()) {
@@ -241,17 +242,6 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
             Logger.print(LogLevel.ERROR, t) { "$tag trackAnonymousId(): " }
         }
 
-    }
-
-    private fun removeTraitsWithNullValues(traits: Traits): MutableMap<String, Any> {
-        val traitsWithNonNullValues = mutableMapOf<String, Any>()
-        val traitsWithNullValues = traits.mapTransform(mapper).toContent()
-        for (trait in traitsWithNullValues) {
-            trait.value?.let {
-                traitsWithNonNullValues[trait.key] = it
-            }
-        }
-        return traitsWithNonNullValues
     }
 
 }
