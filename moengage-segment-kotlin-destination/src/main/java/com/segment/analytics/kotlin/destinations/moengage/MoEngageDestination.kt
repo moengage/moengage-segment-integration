@@ -121,14 +121,16 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
         return payload
     }
 
+
+    @Suppress("UNCHECKED_CAST")
     override fun identify(payload: IdentifyEvent): BaseEvent {
         try {
             super.identify(payload)
             Logger.print { "$tag identify(): will try to track $payload" }
 
             val traits = payload.traits
-            val transformedTraits = traits.mapTransform(mapper).toContent().filter {
-                it.value != null
+            val transformedTraits = traits.mapTransform(mapper).toContent().filter { entry ->
+                entry.value != null
             } as MutableMap<String, Any>
 
             val uniqueId = if (payload.userId.isNotEmpty()) {
