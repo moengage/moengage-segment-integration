@@ -1,8 +1,8 @@
 # moengage-segment-kotlin-destination
 
-# Next Release Date
+# 08-06-2023
 
-## Next Release Version
+## 1.2.1
 - MoEngage SDK version updated to `12.8.01`, [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540#08-06-2023-0-0)
 - Bugfixes
   - MOEN-24022: Wrong mapping of userId(SegmentId) to uniqueId(MoEngageId)
