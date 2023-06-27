@@ -25,8 +25,6 @@ dependencyResolutionManagement {
     }
 }
 include(
-    ":example",
-    ":moengage-segment-integration",
     ":moengage-segment-kotlin-destination",
     ":kotlin-example"
 )
