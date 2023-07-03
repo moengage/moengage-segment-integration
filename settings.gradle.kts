@@ -1,5 +1,3 @@
-import org.gradle.kotlin.dsl.execution.ProgramText.Companion.from
-
 pluginManagement {
     repositories {
         google()
@@ -17,7 +15,7 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         create("moengageInternal") {
-            from("com.moengage:android-dependency-catalog-internal:1.2.0")
+            from("com.moengage:android-dependency-catalog-internal:1.3.0-SNAPSHOT")
         }
         create("moengage") {
             from("com.moengage:android-dependency-catalog:3.0.1")

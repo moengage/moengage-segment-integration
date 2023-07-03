@@ -1,5 +1,10 @@
 # moengage-segment-kotlin-destination
 
+# Next Release
+
+## Version
+- Android Gradle Plugin version updated to `8.0.2`
+
 # 27-06-2023
 
 ## 1.2.2

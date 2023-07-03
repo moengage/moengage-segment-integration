@@ -7,7 +7,7 @@ plugins {
 
 android {
     compileSdk = 33
-
+    namespace = "com.moengage.segment.kotlin.sampleapp"
     val properties = Properties()
     properties.load(file("../local.properties").inputStream())
 
