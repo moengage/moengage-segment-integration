@@ -1,5 +1,11 @@
 # moengage-segment-kotlin-destination
 
+# Next Release Date
+
+## Next Version
+
+- MOEN-25762: Upgrade Kotlin Version to `1.7.10`
+
 # 15-11-2023
 
 ## 1.4.1
