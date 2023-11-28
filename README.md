@@ -1,23 +1,24 @@
 ![Logo](/.github/logo.png)
 
-analytics-android-integration-moengage
+analytics-kotlin-destination-moengage
 ======================================
 To use MoEngage in an Android app, you must perform the following steps to set up your environment.
 
-![MavenBadge](https://maven-badges.herokuapp.com/maven-central/com.moengage/moengage-segment-integration/badge.svg)
+![MavenBadge](https://maven-badges.herokuapp.com/maven-central/com.moengage/moengage-segment-kotlin-destination/badge.svg)
+
+> info ""
+> **Note:** `analytics-android-integration-moengage` will no longer be receiving updates. We recommend you to use `analytics-kotlin-destination-moengage`. For more details refer [moengage-segment-android-integration](https://partners.moengage.com/hc/en-us/articles/4409143474964-Android-device-mode-)
 
 To enable the full functionality of MoEngage (like Push Notifications, InApp Messaging), complete the following steps in your Android app.
 
 ### Adding the MoEngage Dependency
 
-Along with the Segment dependency, add the below dependency in your `build.gradle` file.
+Along with the Segment dependency, add the below dependency in your `app/build.gradle` file.
 
 ```groovy
- implementation("com.moengage:moengage-segment-integration:$sdkVersion") {
-        transitive = true
-    }
+   implementation("com.moengage:moengage-segment-kotlin-destination:$sdkVersion"   
 ```
-with `$sdkVersion` replaced by the latest version of the MoEngage SDK.
+replace `$sdkVersion` with the appropriate SDK version
 
 The MoEngage SDK depends on the below Jetpack libraries provided by Google for its functioning, make you add them if not
  done already.
@@ -31,35 +32,34 @@ Refer to the [SDK Configuration](https://developers.moengage.com/hc/en-us/articl
 
 ### Register MoEngage with Segment SDK
 
-After adding the dependency, you must register the integration with Segment SDK. To do this, import the MoEngage
- integration:
+After adding the dependency, you must register the destination with Segment SDK. To do this, import the MoEngage
+ destination:
 
-```java
-import com.segment.analytics.android.integrations.moengage.MoEngageIntegration;
+```kotlin
+import com.segment.analytics.kotlin.destinations.moengage.MoEngageDestination
 ```
 
 Add the following line:
 
-```java
-Analytics analytics = new Analytics.Builder(this, "write_key")
-                .use(MoEngageIntegration.FACTORY)
-                .build();
+```kotlin
+val analytics = Analytics("write_key", this)
+analytics.add(MoEngageDestination(this))
 ```
 
 
 ### Initialize the MoEngage SDK
 
-Copy the APP ID from the Settings Page `Dashboard --> Settings --> App --> General` and initialize the MoEngage SDK in the onCreate method of the `Application` class
+Copy the APP ID from the Settings Page `Dashboard --> Settings --> App --> General` and initialize the MoEngage SDK in the `onCreate()` method of the `Application` class
 
 > info ""
 > **Note:** MoEngage recommend that you initialize the SDK on the main thread inside `onCreate()` and not create a worker thread and initialize the SDK on that thread.
 
-```java
+```kotlin
 // this is the instance of the application class and "XXXXXXXXXXX" is the APP ID from the dashboard.
-MoEngage moEngage = new MoEngage.Builder(this, "XXXXXXXXXXX")
-            .enableSegmentIntegration()
-            .build();
-MoEngage.initialiseDefaultInstance(moEngage);
+val moEngage = MoEngage.Builder(this, "XXXXXXXXXXX")
+       .enablePartnerIntegration(IntegrationPartner.SEGMENT)
+       .build()
+MoEngage.initialiseDefaultInstance(moEngage)
 ```
 ### Exclude MoEngage Storage File from Auto-Backup
 Auto backup service of Andriod periodically backs up the Shared Preference file, Database files, and so on.
@@ -78,14 +78,14 @@ This is required for migrations to the MoEngage Platform so the SDK can determin
 
 If the user was already using your application and has just updated to a new version which has the MoEngage SDK, below is an example call:
 
-```java
- MoEAnalyticsHelper.INSTANCE.setAppStatus(context, AppStatus.UPDATE);
+```kotlin
+ MoEAnalyticsHelper.setAppStatus(context, AppStatus.UPDATE);
 ```
 
 If this is a fresh install:
 
-```java
-MoEAnalyticsHelper.INSTANCE.setAppStatus(context, AppStatus.INSTALL);
+```kotlin
+MoEAnalyticsHelper.setAppStatus(context, AppStatus.INSTALL);
 ```
 
 ### Configure Push Notifications
@@ -104,13 +104,13 @@ Refer to the [MoEngage - NotificationConfig](https://moengage.github.io/android-
 Use the `configureNotificationMetaData()` to pass on the configuration to the SDK.
 
 
-```java
-MoEngage moEngage =
-        new MoEngage.Builder(this, "XXXXXXXXXX")
-            .configureNotificationMetaData(new NotificationConfig(R.drawable.small_icon, R.drawable.large_icon))
-            .enablePartnerIntegration(IntegrationPartner.SEGMENT)
-            .build();
-MoEngage.initialiseDefaultInstance(moEngage);
+```kotlin
+val moEngage = MoEngage.Builder(this, "XXXXXXXX")
+     .configureNotificationMetaData(NotificationConfig(R.drawable.small_icon, R.drawable.large_icon)) 
+     .enablePartnerIntegration(IntegrationPartner.SEGMENT)
+     .build()
+     
+MoEngage.initialiseDefaultInstance(moEngage)
 ```
 
 #### Configuring Firebase Cloud Messaging
@@ -126,13 +126,14 @@ For showing Push notifications there are 2 important steps:
 
 To opt-out of MoEngage token registration mechanism disable token registration while configuring FCM in the `MoEngage.Builder` as shown below
 
-```java
-MoEngage moEngage = new MoEngage.Builder(this, "XXXXXXXXXX")
-            .configureNotificationMetaData(new NotificationConfig(R.drawable.small_icon, R.drawable.large_icon))
-            .configureFcm(FcmConfig(false))
-            .enablePartnerIntegration(IntegrationPartner.SEGMENT)
-            .build();
-MoEngage.initialiseDefaultInstance(moEngage);
+```kotlin
+val moEngage = MoEngage.Builder(this, "XXXXXXXX")
+    .enablePartnerIntegration(IntegrationPartner.SEGMENT)
+    .configureNotificationMetaData(NotificationConfig(R.drawable.small_icon, R.drawable.large_icon, R.color.notiColor, null, true, isBuildingBackStackEnabled = false, isLargeIconDisplayEnabled = true))
+    .configureFcm(FcmConfig(false))
+    .build()
+    
+MoEngage.initialiseDefaultInstance(moEngage)
 ```
 
 ###### Pass the push token to the MoEngage SDK
@@ -140,7 +141,7 @@ MoEngage.initialiseDefaultInstance(moEngage);
 The Application must pass the Push Token received from FCM to the MoEngage SDK for the MoEngage platform to send out push notifications to the device.
 Use the below API to pass the push token to the MoEngage SDK.
 
-```java
+```kotlin
 MoEFireBaseHelper.getInstance().passPushToken(getApplicationContext(), token);
 ```
 
@@ -151,7 +152,7 @@ Please make sure token is passed to MoEngage SDK whenever push token is refreshe
 To pass the push payload to the MoEngage SDK call the MoEngage API from the `onMessageReceived()` from the Firebase receiver.
 Before passing the payload to the MoEngage SDK you should check if the payload is from the MoEngage platform using the helper API provided by the SDK.
 
-```java
+```kotlin
 if (MoEPushHelper.getInstance().isFromMoEngagePlatform(remoteMessage.getData())) {
   MoEFireBaseHelper.getInstance().passPushPayload(getApplicationContext(), remoteMessage.getData());
 } else {
@@ -226,10 +227,20 @@ You are now all set up to receive push notifications from MoEngage. For more inf
 
 * [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog)
 
+### Identify
+Use [identify](https://segment.com/docs/connections/sources/catalog/libraries/mobile/kotlin-android/#identify) to track user-specific attributes. It is equivalent to tracking user attributes on MoEngage. MoEngage supports traits supported by Segment as well as custom traits. If you set traits.id, we set that as the Unique ID for that user.
+
+### Track
+Use [track](https://segment.com/docs/connections/sources/catalog/libraries/mobile/kotlin-android/#track) to track events and user behavior in your app.
+This will send the event to MoEngage with the associated properties. Tracking events is essential and will help you create segments for engaging users.
+
+### Reset
+Reset
+If your app supports the ability for a user to log out and log in with a new identity, then you’ll need to call [reset](https://segment.com/docs/connections/sources/catalog/libraries/mobile/kotlin-android/#reset) for the Analytics client.
 
 ### Example App
 
-To build and run the example application you need to add your `write_key` from the Segment Dashboard and MoEngage App Id to the `local.properties` file
+To build and run the `kotlin-example` application you need to add your `write_key` from the Segment Dashboard and MoEngage App Id to the `local.properties` file
 
 ```
 segmentWriteKey=[your_write_key]
