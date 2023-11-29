@@ -4,6 +4,7 @@
 
 ## Next Version
 
+- MoEngage SDK version updated to `12.10.02`, [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#29-11-2023-0-0)
 - MOEN-25762: Upgrade Kotlin Version to `1.7.10`
 
 # 15-11-2023
