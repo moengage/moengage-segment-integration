@@ -1,5 +1,10 @@
 # moengage-segment-kotlin-destination
 
+# 07-02-2024
+
+## 1.5.2
+- MoEngage SDK version updated to `12.10.04`
+
 # 23-01-2024
 
 ## 1.5.1
