@@ -1,8 +1,8 @@
 # moengage-segment-kotlin-destination
 
-# Next Release
+# 27-02-2024
 
- ## Version
+## 2.0.0
 - MOEN-29601: AGP Version update from `8.0.2` to `8.2.2`
 - MoEngage SDK version updated to `13.00.00`
 
