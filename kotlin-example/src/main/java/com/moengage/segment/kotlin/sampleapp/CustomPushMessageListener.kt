@@ -28,13 +28,13 @@ class CustomPushMessageListener : PushMessageListener() {
     override fun onCreateNotification(
         context: Context,
         notificationPayload: NotificationPayload
-    ): NotificationCompat.Builder {
+    ): NotificationCompat.Builder? {
         // get the object constructed by MoEngage SDK
         val builder = super.onCreateNotification(context, notificationPayload)
         // customise as required.
         // below customisation is only for illustration purpose. You can chose to have other
         // customisations as required by the application.
-        builder.setOngoing(true)
+        builder?.setOngoing(true)
         // return the builder object to the SDK for posting notification.
         return builder
     }
@@ -49,9 +49,8 @@ class CustomPushMessageListener : PushMessageListener() {
         //callback for push notification received.
     }
 
-    override fun onNotificationClick(activity: Activity, payload: Bundle) {
-        super.onNotificationClick(activity, payload)
-        //callback for notification clicked. if you want to handle redirection then do not call super()
-        // and add the redirection logic here.
+    override fun onNotificationClick(activity: Activity, payload: Bundle): Boolean {
+        // callback for notification clicked. if you want to handle redirection then return true
+        return false
     }
 }

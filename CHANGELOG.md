@@ -4,6 +4,7 @@
 
  ## Version
 - MOEN-29601: AGP Version update from `8.0.2` to `8.2.2`
+- MoEngage SDK version updated to `13.00.00`
 
 # 07-02-2024
 
