@@ -9,7 +9,7 @@
 # 07-02-2024
 
 ## 1.5.2
-- MoEngage SDK version updated to `12.10.04`
+- MoEngage SDK version updated to `12.10.04`, [Release Notes](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#h_01HHKCXZQPYTFCT6R8MDCME3Z1)
 
 # 23-01-2024
 
