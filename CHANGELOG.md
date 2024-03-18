@@ -1,8 +1,8 @@
 # moengage-segment-kotlin-destination
 
-# Next Release Data
+# 18-03-2024
 
-## Next Version
+## 2.0.1
 - Release Notes [here](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#18-03-2024-0-0)
 - MoEngage SDK version updated to `13.00.01`
 
