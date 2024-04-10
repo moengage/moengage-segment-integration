@@ -1,6 +1,7 @@
 package com.moengage.segment.kotlin.sampleapp
 
 import android.app.Application
+import com.moengage.core.DataCenter
 import com.moengage.core.LogLevel
 import com.moengage.core.MoEngage
 import com.moengage.core.config.LogConfig
@@ -30,6 +31,7 @@ class KotlinSampleApplication : Application() {
 
         val moEngage = MoEngageBuilderKtx(
             this, BuildConfig.MOENAGE_APP_ID,
+            dataCenter = DataCenter.DATA_CENTER_1,
             notificationConfig = NotificationConfig(
                 smallIcon = R.drawable.icon,
                 largeIcon = R.drawable.ic_launcher,
