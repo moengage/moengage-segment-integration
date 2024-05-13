@@ -1,4 +1,16 @@
 [libraries]
 moengageCore = { module = "com.moengage:moe-android-sdk", version = "13.01.00" }
-segment = { module = "com.segment.analytics.android:analytics", version = "4.9.0" }
-segmentKotlin = { module = "com.segment.analytics.kotlin:android", version = "1.5.0" }
+segment = { module = "com.segment.analytics.android:analytics", version = "4.11.0" }
+segmentKotlin = { module = "com.segment.analytics.kotlin:android", version = "1.16.0" }
+core = { module = "androidx.core:core", version = "1.13.1" }
+constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version = "2.1.4" }
+lifecycleProcess = { module = "androidx.lifecycle:lifecycle-process", version = "2.7.0" }
+appcompat = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
+timber = { module = "com.jakewharton.timber:timber", version = "4.7.1" }
+espressoCore = { module = "androidx.test.espresso:espresso-core", version = "3.5.1" }
+extJunit = { module = "androidx.test.ext:junit", version = "1.1.5" }
+firebaseMessaging = { module = "com.google.firebase:firebase-messaging", version = "24.0.0" }
+junit = { module = "junit:junit", version = "4.13.2" }
+
+[plugins]
+plugin-google-play-service = { id = "com.google.gms.google-services", version = "4.4.1" }

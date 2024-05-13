@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-  compileSdkVersion 31
+  compileSdkVersion 34
 
   Properties properties = new Properties()
   properties.load(file('../local.properties').newDataInputStream())
@@ -13,7 +13,7 @@ android {
   defaultConfig {
     applicationId "com.moengage.segment.example"
     minSdkVersion 21
-    targetSdkVersion 31
+    targetSdkVersion 34
     versionCode 1
     versionName "1.0"
 
@@ -39,22 +39,21 @@ android {
 dependencies {
   implementation fileTree(dir: "libs", include: ["*.jar"])
   // required jetpack library
-  implementation("androidx.core:core:1.7.0")
-  implementation("androidx.appcompat:appcompat:1.4.0")
-  implementation("androidx.lifecycle:lifecycle-process:2.4.0")
+  implementation(libs.core)
+  implementation(libs.appcompat)
+  implementation(libs.lifecycleProcess)
+  implementation(libs.constraintlayout)
 
-  implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
-
-  implementation("com.segment.analytics.android:analytics:4.9.0")
+  implementation(libs.segment)
   implementation project(":moengage-segment-integration")
   implementation(moengage.inapp)
   implementation(moengageInternal.kotlinStdLib)
 
-  implementation("com.google.firebase:firebase-messaging:23.0.0")
+  implementation(libs.firebaseMessaging)
   // logging library used in the sample app, not required by the SDK
-  implementation("com.jakewharton.timber:timber:4.7.1")
+  implementation(libs.timber)
 
-  testImplementation 'junit:junit:4.12'
-  androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-  androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+  testImplementation(libs.junit)
+  androidTestImplementation(libs.extJunit)
+  androidTestImplementation(libs.espressoCore)
 }
