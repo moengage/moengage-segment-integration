@@ -11,7 +11,7 @@ val libVersionName = project.findProperty("VERSION_NAME") as String
 
 android {
     namespace = "com.segment.analytics.kotlin.destinations.moengage"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21
