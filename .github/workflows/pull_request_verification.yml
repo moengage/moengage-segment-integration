@@ -15,6 +15,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Set up repository
+        run: |
+          echo segmentWriteKey="Dummy Segment Key" >> ./local.properties
+          echo moengageAppId="Dummy MoEngage Key" >> ./local.properties
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
