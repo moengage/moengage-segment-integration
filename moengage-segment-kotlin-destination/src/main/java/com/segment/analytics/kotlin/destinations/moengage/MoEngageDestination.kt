@@ -18,7 +18,6 @@ import com.moengage.core.internal.logger.Logger
 import com.moengage.core.internal.model.IntegrationMeta
 import com.moengage.core.model.GeoLocation
 import com.moengage.core.model.IntegrationPartner
-import com.segment.analytics.kotlin.destinations.moengage.internal.map
 import com.segment.analytics.kotlin.android.utilities.toJSONObject
 import com.segment.analytics.kotlin.core.AliasEvent
 import com.segment.analytics.kotlin.core.BaseEvent
@@ -31,6 +30,7 @@ import com.segment.analytics.kotlin.core.platform.Plugin
 import com.segment.analytics.kotlin.core.platform.VersionedPlugin
 import com.segment.analytics.kotlin.core.utilities.getDouble
 import com.segment.analytics.kotlin.core.utilities.getString
+import com.segment.analytics.kotlin.destinations.moengage.internal.map
 import kotlinx.serialization.json.jsonObject
 import org.json.JSONObject
 import java.util.concurrent.Executors

@@ -19,13 +19,17 @@ internal fun isEqual(
         when (actualValue) {
             is JSONObject -> {
                 JSONAssert.assertEquals(
-                    actualValue, expected[actualKey] as JSONObject, JSONCompareMode.LENIENT
+                    actualValue,
+                    expected[actualKey] as JSONObject,
+                    JSONCompareMode.LENIENT
                 )
             }
 
             is JSONArray -> {
                 JSONAssert.assertEquals(
-                    actualValue, expected[actualKey] as JSONArray, JSONCompareMode.LENIENT
+                    actualValue,
+                    expected[actualKey] as JSONArray,
+                    JSONCompareMode.LENIENT
                 )
             }
 

@@ -18,7 +18,7 @@ jobs:
       - name: Set up repository
         run: |
           echo segmentWriteKey="Dummy Segment Key" >> ./local.properties
-          echo moengageAppId="Dummy MoEngage Key" >> ./local.properties
+          echo moengageWorkspaceId="Dummy MoEngage Key" >> ./local.properties
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:

@@ -23,12 +23,13 @@ class KotlinSampleApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
         // Initialization Analytics Kotlin Instance
         analytics = Analytics(BuildConfig.SEGMENT_WRITE_KEY, this)
         analytics.add(MoEngageDestination(this))
-        // enter your account's app id
 
-        val moEngage = MoEngage.Builder(this, BuildConfig.MOENAGE_APP_ID, DataCenter.DATA_CENTER_1)
+        // enter your account's app id
+        val moEngage = MoEngage.Builder(this, BuildConfig.MOENGAGE_WORKSPACE_ID, DataCenter.DATA_CENTER_1)
             .configureNotificationMetaData(
                 NotificationConfig(
                     smallIcon = R.drawable.icon,
