@@ -6,10 +6,12 @@ plugins {
     alias(moengageInternal.plugins.plugin.dokka) apply false
     id("com.google.gms.google-services") version "4.3.15" apply false
     alias(moengageInternal.plugins.plugin.kotlin.serialization) apply false
+    alias(moengageInternal.plugins.plugin.ktlint) apply false
 }
 
 subprojects {
     apply(plugin = "org.jetbrains.dokka")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 }
 
 apply(plugin = "org.jetbrains.dokka")

@@ -49,7 +49,6 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button_reset).setOnClickListener {
             analytics.reset()
         }
-
     }
 
     private fun getTraitsWithoutUniqueId(): JsonObject {

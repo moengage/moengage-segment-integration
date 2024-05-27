@@ -4,7 +4,6 @@ import android.util.Log
 import com.moengage.inapp.listeners.InAppLifeCycleListener
 import com.moengage.inapp.model.InAppData
 
-
 class InAppLifecycleCallback : InAppLifeCycleListener {
     override fun onDismiss(inAppData: InAppData) {
         Log.i("InAppLifecycleCallback", "InApp Dismissed callback: $inAppData")

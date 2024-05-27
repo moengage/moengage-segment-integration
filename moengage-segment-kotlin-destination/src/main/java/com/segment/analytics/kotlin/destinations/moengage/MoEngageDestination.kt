@@ -58,12 +58,12 @@ private const val USER_ATTRIBUTE_SEGMENT_ID = "USER_ATTRIBUTE_SEGMENT_ID"
 @kotlinx.serialization.Serializable
 data class MoEngageSettings(val apiKey: String)
 
-class MoEngageDestination(private val application: Application) : DestinationPlugin(),
-    VersionedPlugin {
+class MoEngageDestination(
+    private val application: Application
+) : DestinationPlugin(), VersionedPlugin {
 
     private lateinit var integrationHelper: MoEIntegrationHelper
     private lateinit var instanceId: String
-
 
     companion object {
         private const val tag = "MoEngageDestination_${BuildConfig.MOENGAGE_SEGMENT_KOTLIN_VERSION}"
@@ -98,7 +98,8 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
                     IntegrationMeta(
                         INTEGRATION_META_TYPE,
                         version()
-                    ), instanceId
+                    ),
+                    instanceId
                 )
                 Logger.print { "$tag update(): Segment Integration initialised." }
                 trackAnonymousId()
@@ -106,7 +107,6 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
         } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag update(): " }
         }
-
     }
 
     override fun alias(payload: AliasEvent): BaseEvent {
@@ -119,7 +119,6 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
         }
         return payload
     }
-
 
     @Suppress("UNCHECKED_CAST")
     override fun identify(payload: IdentifyEvent): BaseEvent {
@@ -178,10 +177,13 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
             val location = payload.traits[USER_TRAIT_LOCATION]
             if (location != null && location.jsonObject.isNotEmpty()) {
                 MoEAnalyticsHelper.setUserAttribute(
-                    application.applicationContext, USER_ATTRIBUTE_USER_LOCATION, GeoLocation(
+                    application.applicationContext,
+                    USER_ATTRIBUTE_USER_LOCATION,
+                    GeoLocation(
                         location.jsonObject.getDouble(USER_TRAIT_LOCATION_LATITUDE) ?: 0.0,
                         location.jsonObject.getDouble(USER_TRAIT_LOCATION_LONGITUDE) ?: 0.0
-                    ), instanceId
+                    ),
+                    instanceId
                 )
             }
         } catch (t: Throwable) {
@@ -240,7 +242,5 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
         } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag trackAnonymousId(): " }
         }
-
     }
-
 }
