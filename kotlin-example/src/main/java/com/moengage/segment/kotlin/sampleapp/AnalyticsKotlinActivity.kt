@@ -6,8 +6,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.moengage.core.internal.utils.currentISOTime
 import com.segment.analytics.kotlin.core.Analytics
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.add
+import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
@@ -53,6 +54,25 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
             put("location", getLocationProperties())
             put("salary", 190000.0f)
             put("isEmployed", true)
+            put("address", buildJsonObject {
+                put("street", "6th St")
+                put("city", "San Francisco")
+                put("state", "CA")
+                put("postalCode", "94103")
+                put("country", "USA")
+            })
+            put("jsonArrayKey", buildJsonArray {
+                add("val1")
+                add("val2")
+                add("val3")
+                add(
+                    buildJsonObject {
+                        put("nestedKey1", "nestedValue1")
+                        put("nestedKey2", 1)
+                        put("nestedKey3", true)
+                    }
+                )
+            })
         }
     }
 
@@ -72,6 +92,16 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
     private fun getEventProperties(): JsonObject {
         return buildJsonObject {
             put("location", getLocationProperties())
+            put("jsonArrayKey", buildJsonArray {
+                add(1)
+                add(2)
+                add(3)
+            })
+            put("jsonObjectKey", buildJsonObject {
+                put("stringKey", "stringVal")
+                put("intKey", 1)
+                put("boolKey", false)
+            })
         }
     }
 

@@ -65,7 +65,6 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
     private lateinit var integrationHelper: MoEIntegrationHelper
     private lateinit var instanceId: String
 
-
     companion object {
         private const val tag = "MoEngageDestination_${BuildConfig.MOENGAGE_SEGMENT_KOTLIN_VERSION}"
 
@@ -120,7 +119,6 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
         }
         return payload
     }
-
 
     @Suppress("UNCHECKED_CAST")
     override fun identify(payload: IdentifyEvent): BaseEvent {
@@ -187,6 +185,15 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
                     ), instanceId
                 )
             }
+
+            val userAttributes = payload.traits.toJSONObject()
+            mapper.forEach { (standardKey, _) ->
+                if (userAttributes.has(standardKey)) {
+                    Logger.print{ "$tag identify(): removing standard key $standardKey from traits" }
+                    userAttributes.remove(standardKey)
+                }
+            }
+            trackGeneralUserAttributes(userAttributes)
         } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag identify(): " }
         }
@@ -246,4 +253,18 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
 
     }
 
+    private fun trackGeneralUserAttributes(userAttributes: JSONObject) {
+        Logger.print{ "$tag trackGeneralUserAttributes(): " }
+        for (itemKey in userAttributes.keys()) {
+            Logger.print{ "$tag trackGeneralUserAttributes(): tracking $itemKey" }
+            userAttributes.opt(itemKey)?.let {
+                MoEAnalyticsHelper.setUserAttribute(
+                    application.applicationContext,
+                    itemKey,
+                    it,
+                    instanceId
+                )
+            }
+        }
+    }
 }
