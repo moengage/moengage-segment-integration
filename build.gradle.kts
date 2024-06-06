@@ -5,7 +5,7 @@ plugins {
     alias(moengageInternal.plugins.plugin.kotlin.android) apply false
     alias(moengageInternal.plugins.plugin.dokka) apply false
     id("com.google.gms.google-services") version "4.3.15" apply false
-    kotlin("plugin.serialization") version "1.6.0" apply false
+    alias(moengageInternal.plugins.plugin.kotlin.serialization) apply false
 }
 
 subprojects {

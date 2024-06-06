@@ -49,7 +49,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.8.0")
-    implementation("androidx.lifecycle:lifecycle-process:2.4.0")
+    implementation("androidx.lifecycle:lifecycle-process:2.5.1")
     implementation("com.segment.analytics.kotlin:android:1.10.0")
     implementation(projects.moengageSegmentKotlinDestination)
     implementation(moengage.inapp)
