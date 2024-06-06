@@ -1,8 +1,8 @@
 plugins {
-    id("org.jetbrains.kotlin.plugin.serialization")
     alias(moengageInternal.plugins.plugin.dokka)
     alias(moengageInternal.plugins.plugin.android.lib)
     alias(moengageInternal.plugins.plugin.kotlin.android)
+    alias(moengageInternal.plugins.plugin.kotlin.serialization)
 }
 
 apply(from = "../scripts/gradle/release.gradle")
@@ -46,4 +46,10 @@ android {
 dependencies {
     compileOnly(libs.segmentKotlin)
     api(libs.moengageCore)
+
+    testImplementation(moengageInternal.bundles.junitBundle)
+    testImplementation(moengageInternal.kotlinStdLib)
+    testImplementation(libs.moengageCore)
+    testImplementation(libs.segmentKotlin)
+    testImplementation(moengageInternal.kotlinSerialization)
 }

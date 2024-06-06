@@ -18,6 +18,7 @@ import com.moengage.core.internal.logger.Logger
 import com.moengage.core.internal.model.IntegrationMeta
 import com.moengage.core.model.GeoLocation
 import com.moengage.core.model.IntegrationPartner
+import com.segment.analytics.kotlin.destinations.moengage.internal.map
 import com.segment.analytics.kotlin.android.utilities.toJSONObject
 import com.segment.analytics.kotlin.core.AliasEvent
 import com.segment.analytics.kotlin.core.BaseEvent
@@ -30,8 +31,6 @@ import com.segment.analytics.kotlin.core.platform.Plugin
 import com.segment.analytics.kotlin.core.platform.VersionedPlugin
 import com.segment.analytics.kotlin.core.utilities.getDouble
 import com.segment.analytics.kotlin.core.utilities.getString
-import com.segment.analytics.kotlin.core.utilities.mapTransform
-import com.segment.analytics.kotlin.core.utilities.toContent
 import kotlinx.serialization.json.jsonObject
 import org.json.JSONObject
 import java.util.concurrent.Executors
@@ -64,6 +63,7 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
 
     private lateinit var integrationHelper: MoEIntegrationHelper
     private lateinit var instanceId: String
+
 
     companion object {
         private const val tag = "MoEngageDestination_${BuildConfig.MOENGAGE_SEGMENT_KOTLIN_VERSION}"
@@ -120,6 +120,7 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
         return payload
     }
 
+
     @Suppress("UNCHECKED_CAST")
     override fun identify(payload: IdentifyEvent): BaseEvent {
         try {
@@ -127,9 +128,7 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
             Logger.print { "$tag identify(): will try to track $payload" }
 
             val traits = payload.traits
-            val transformedTraits = traits.mapTransform(mapper).toContent().filter { entry ->
-                entry.value != null
-            } as MutableMap<String, Any>
+            val transformedTraits = traits.map(mapper) as MutableMap<String, Any>
 
             val uniqueId = if (payload.userId.isNotEmpty()) {
                 payload.userId
@@ -185,15 +184,6 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
                     ), instanceId
                 )
             }
-
-            val userAttributes = payload.traits.toJSONObject()
-            mapper.forEach { (standardKey, _) ->
-                if (userAttributes.has(standardKey)) {
-                    Logger.print{ "$tag identify(): removing standard key $standardKey from traits" }
-                    userAttributes.remove(standardKey)
-                }
-            }
-            trackGeneralUserAttributes(userAttributes)
         } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag identify(): " }
         }
@@ -253,18 +243,4 @@ class MoEngageDestination(private val application: Application) : DestinationPlu
 
     }
 
-    private fun trackGeneralUserAttributes(userAttributes: JSONObject) {
-        Logger.print{ "$tag trackGeneralUserAttributes(): " }
-        for (itemKey in userAttributes.keys()) {
-            Logger.print{ "$tag trackGeneralUserAttributes(): tracking $itemKey" }
-            userAttributes.opt(itemKey)?.let {
-                MoEAnalyticsHelper.setUserAttribute(
-                    application.applicationContext,
-                    itemKey,
-                    it,
-                    instanceId
-                )
-            }
-        }
-    }
 }
