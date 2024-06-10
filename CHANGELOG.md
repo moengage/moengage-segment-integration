@@ -1,9 +1,11 @@
 # moengage-segment-kotlin-destination
 
-# Next Release
+# 10-06-2024
 
-## Next Version
+## 2.1.1
+- Release Notes [here](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#10-06-2024-0-0)
 - MOEN-31739: Support for JSONObject / JSONArray in UserAttributes and Event
+- MoEngage SDK version updated to `13.02.00`
 
 # 16-05-2024
 
