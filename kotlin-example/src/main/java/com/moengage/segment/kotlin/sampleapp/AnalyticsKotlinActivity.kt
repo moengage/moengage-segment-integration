@@ -19,6 +19,13 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_analytics_kotlin)
         analytics = KotlinSampleApplication.analytics
+
+        analytics.identify("user-123", buildJsonObject {
+            put("username", "MisterWhiskers")
+            put("email", "hello@test.com")
+            put("plan", "premium")
+        })
+
         findViewById<TextView>(R.id.moengage_app_id).text = buildString {
             append("MoEngage App Id: ")
             append(BuildConfig.MOENAGE_APP_ID)
@@ -34,7 +41,7 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
         }
         findViewById<Button>(R.id.button_track).setOnClickListener {
             analytics.track("ON_CREATE")
-            analytics.track("TRACK_LOCATION", getEventProperties())
+            analytics.track("Event1", getEventProperties())
         }
         findViewById<Button>(R.id.button_alias).setOnClickListener {
             analytics.alias("abc1@example.com")
