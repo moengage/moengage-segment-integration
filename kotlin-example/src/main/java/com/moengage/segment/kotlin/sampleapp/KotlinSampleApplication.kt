@@ -2,9 +2,8 @@ package com.moengage.segment.kotlin.sampleapp
 
 import android.app.Application
 import com.moengage.core.DataCenter
-import com.moengage.core.LogLevel
 import com.moengage.core.MoEngage
-import com.moengage.core.config.LogConfig
+import com.moengage.core.config.FcmConfig
 import com.moengage.core.config.NotificationConfig
 import com.moengage.core.model.IntegrationPartner
 import com.moengage.inapp.MoEInAppHelper
@@ -23,26 +22,31 @@ class KotlinSampleApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         // Initialization Analytics Kotlin Instance
         analytics = Analytics(BuildConfig.SEGMENT_WRITE_KEY, this)
         analytics.add(MoEngageDestination(this))
-
+        Analytics.debugLogsEnabled = true
         // enter your account's app id
-        val moEngage = MoEngage.Builder(this, BuildConfig.MOENGAGE_WORKSPACE_ID, DataCenter.DATA_CENTER_1)
+        val moEngage = MoEngage.Builder(
+            this,
+            BuildConfig.MOENGAGE_WORKSPACE_ID,
+            DataCenter.DATA_CENTER_1
+        )
             .configureNotificationMetaData(
                 NotificationConfig(
                     smallIcon = R.drawable.icon,
                     largeIcon = R.drawable.ic_launcher,
                     notificationColor = R.color.notificationColor,
                     isMultipleNotificationInDrawerEnabled = true,
-                    isBuildingBackStackEnabled = false,
+                    isBuildingBackStackEnabled = true,
                     isLargeIconDisplayEnabled = true
                 )
-            ).enablePartnerIntegration(IntegrationPartner.SEGMENT)
-            .configureLogs(LogConfig(LogLevel.VERBOSE, false))
+            )
+            .configureFcm(FcmConfig(false))
+            .enablePartnerIntegration(IntegrationPartner.SEGMENT)
+            .build()
 
-        MoEngage.initialiseDefaultInstance(moEngage.build())
+        MoEngage.initialiseDefaultInstance(moEngage)
 
         // Setting CustomPushMessageListener for notification customisation
         MoEPushHelper.getInstance().registerMessageListener(CustomPushMessageListener())
