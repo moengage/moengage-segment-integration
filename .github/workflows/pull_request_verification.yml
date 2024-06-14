@@ -28,5 +28,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
       - name: Build project
         run: ./gradlew assemble
+      - name: Unit test
+        run: ./gradlew test
       - name: Ktlint check
         run: ./gradlew ktlintcheck
