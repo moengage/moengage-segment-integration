@@ -26,7 +26,7 @@ class KotlinSampleApplication : Application() {
         analytics = Analytics(BuildConfig.SEGMENT_WRITE_KEY, this)
         analytics.add(MoEngageDestination(this))
         Analytics.debugLogsEnabled = true
-        // enter your account's app id
+        // enter your account's workspace id
         val moEngage = MoEngage.Builder(
             this,
             BuildConfig.MOENGAGE_WORKSPACE_ID,
