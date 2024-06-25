@@ -20,15 +20,18 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
         setContentView(R.layout.activity_analytics_kotlin)
         analytics = KotlinSampleApplication.analytics
 
-        analytics.identify("user-123", buildJsonObject {
-            put("username", "MisterWhiskers")
-            put("email", "hello@test.com")
-            put("plan", "premium")
-        })
+        analytics.identify(
+            "user-123",
+            buildJsonObject {
+                put("username", "MisterWhiskers")
+                put("email", "hello@test.com")
+                put("plan", "premium")
+            }
+        )
 
         findViewById<TextView>(R.id.moengage_app_id).text = buildString {
             append("MoEngage App Id: ")
-            append(BuildConfig.MOENAGE_APP_ID)
+            append(BuildConfig.MOENGAGE_WORKSPACE_ID)
         }
         findViewById<Button>(R.id.button_identify_1).setOnClickListener {
             analytics.identify("abc@example.com", getTraitsWithoutUniqueId())
@@ -49,7 +52,6 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button_reset).setOnClickListener {
             analytics.reset()
         }
-
     }
 
     private fun getTraitsWithoutUniqueId(): JsonObject {
@@ -61,25 +63,31 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
             put("location", getLocationProperties())
             put("salary", 190000.0f)
             put("isEmployed", true)
-            put("address", buildJsonObject {
-                put("street", "6th St")
-                put("city", "San Francisco")
-                put("state", "CA")
-                put("postalCode", "94103")
-                put("country", "USA")
-            })
-            put("jsonArrayKey", buildJsonArray {
-                add("val1")
-                add("val2")
-                add("val3")
-                add(
-                    buildJsonObject {
-                        put("nestedKey1", "nestedValue1")
-                        put("nestedKey2", 1)
-                        put("nestedKey3", true)
-                    }
-                )
-            })
+            put(
+                "address",
+                buildJsonObject {
+                    put("street", "6th St")
+                    put("city", "San Francisco")
+                    put("state", "CA")
+                    put("postalCode", "94103")
+                    put("country", "USA")
+                }
+            )
+            put(
+                "jsonArrayKey",
+                buildJsonArray {
+                    add("val1")
+                    add("val2")
+                    add("val3")
+                    add(
+                        buildJsonObject {
+                            put("nestedKey1", "nestedValue1")
+                            put("nestedKey2", 1)
+                            put("nestedKey3", true)
+                        }
+                    )
+                }
+            )
         }
     }
 
@@ -99,16 +107,22 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
     private fun getEventProperties(): JsonObject {
         return buildJsonObject {
             put("location", getLocationProperties())
-            put("jsonArrayKey", buildJsonArray {
-                add(1)
-                add(2)
-                add(3)
-            })
-            put("jsonObjectKey", buildJsonObject {
-                put("stringKey", "stringVal")
-                put("intKey", 1)
-                put("boolKey", false)
-            })
+            put(
+                "jsonArrayKey",
+                buildJsonArray {
+                    add(1)
+                    add(2)
+                    add(3)
+                }
+            )
+            put(
+                "jsonObjectKey",
+                buildJsonObject {
+                    put("stringKey", "stringVal")
+                    put("intKey", 1)
+                    put("boolKey", false)
+                }
+            )
         }
     }
 

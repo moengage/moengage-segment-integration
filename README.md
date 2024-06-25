@@ -49,13 +49,13 @@ analytics.add(MoEngageDestination(this))
 
 ### Initialize the MoEngage SDK
 
-Copy the APP ID from the Settings Page `Dashboard --> Settings --> App --> General` and initialize the MoEngage SDK in the `onCreate()` method of the `Application` class
+Copy the Workspace ID from the Settings Page `Dashboard --> Settings --> App --> General` and initialize the MoEngage SDK in the `onCreate()` method of the `Application` class
 
 > info ""
 > **Note:** MoEngage recommend that you initialize the SDK on the main thread inside `onCreate()` and not create a worker thread and initialize the SDK on that thread.
 
 ```kotlin
-// this is the instance of the application class and "XXXXXXXXXXX" is the APP ID from the dashboard.
+// this is the instance of the application class and "XXXXXXXXXXX" is the Workspace ID from the dashboard.
 val moEngage = MoEngage.Builder(this, "XXXXXXXXXXX")
        .enablePartnerIntegration(IntegrationPartner.SEGMENT)
        .build()
@@ -240,11 +240,11 @@ If your app supports the ability for a user to log out and log in with a new ide
 
 ### Example App
 
-To build and run the `kotlin-example` application you need to add your `write_key` from the Segment Dashboard and MoEngage App Id to the `local.properties` file
+To build and run the `kotlin-example` application you need to add your `write_key` from the Segment Dashboard and MoEngage Workspace Id to the `local.properties` file
 
 ```
 segmentWriteKey=[your_write_key]
-moengageAppId=[YOUR_MOENGAGE_APP_ID]
+moengageWorkspaceId=[YOUR_MOENGAGE_WORKSPACE_ID]
 ```
 
 ## License

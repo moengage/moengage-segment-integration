@@ -12,7 +12,6 @@ import org.json.JSONObject
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
 /**
  * Test class for [Extension]
  *
@@ -35,7 +34,7 @@ internal class ExtensionsTest {
                         "city" to JsonPrimitive("San Francisco"),
                         "state" to JsonPrimitive("CA"),
                         "postalCode" to JsonPrimitive(94103),
-                        "country" to JsonPrimitive("USA"),
+                        "country" to JsonPrimitive("USA")
                     )
                 ),
                 "jsonArrayKey" to JsonArray(
@@ -47,7 +46,7 @@ internal class ExtensionsTest {
                             mapOf(
                                 "nestedKey1" to JsonPrimitive("nestedValue1"),
                                 "nestedKey2" to JsonPrimitive(1),
-                                "nestedKey3" to JsonPrimitive(true),
+                                "nestedKey3" to JsonPrimitive(true)
                             )
                         )
                     )

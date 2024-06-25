@@ -2,13 +2,9 @@ package com.moengage.segment.kotlin.sampleapp
 
 import android.app.Application
 import com.moengage.core.DataCenter
-import com.moengage.core.LogLevel
 import com.moengage.core.MoEngage
 import com.moengage.core.config.FcmConfig
-import com.moengage.core.config.LogConfig
 import com.moengage.core.config.NotificationConfig
-import com.moengage.core.config.PushKitConfig
-import com.moengage.core.ktx.MoEngageBuilderKtx
 import com.moengage.core.model.IntegrationPartner
 import com.moengage.inapp.MoEInAppHelper
 import com.moengage.pushbase.MoEPushHelper
@@ -26,13 +22,16 @@ class KotlinSampleApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        //Initialization Analytics Kotlin Instance
+        // Initialization Analytics Kotlin Instance
         analytics = Analytics(BuildConfig.SEGMENT_WRITE_KEY, this)
         analytics.add(MoEngageDestination(this))
         Analytics.debugLogsEnabled = true
-        //enter your account's app id
+        // enter your account's workspace id
         val moEngage = MoEngage.Builder(
-            this, BuildConfig.MOENAGE_APP_ID, DataCenter.DATA_CENTER_1)
+            this,
+            BuildConfig.MOENGAGE_WORKSPACE_ID,
+            DataCenter.DATA_CENTER_1
+        )
             .configureNotificationMetaData(
                 NotificationConfig(
                     smallIcon = R.drawable.icon,
@@ -52,7 +51,7 @@ class KotlinSampleApplication : Application() {
         // Setting CustomPushMessageListener for notification customisation
         MoEPushHelper.getInstance().registerMessageListener(CustomPushMessageListener())
 
-        //in-app related callbacks
+        // in-app related callbacks
         MoEInAppHelper.getInstance().addInAppLifeCycleListener(InAppLifecycleCallback())
         MoEInAppHelper.getInstance().setClickActionListener(InAppClickListener())
     }

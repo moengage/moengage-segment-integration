@@ -18,7 +18,7 @@ internal fun JsonObject.map(mapper: Map<String, String>): Map<String, Any> {
         when (value) {
             is JsonObject -> mappedValue[mappedKey] = value.toJSONObject()
 
-            is JsonArray ->  mappedValue[mappedKey] = value.toJSONArray()
+            is JsonArray -> mappedValue[mappedKey] = value.toJSONArray()
 
             else -> {
                 value?.toContent()?.let {
