@@ -1,5 +1,14 @@
 # moengage-segment-kotlin-destination
 
+# Next Release
+
+## Next Version
+
+- MOEN-31584: AGP Version update from `8.2.2` to `8.4.0`
+- MOEN-31584: Kotlin version updated from `1.7.10` to `1.9.23`
+- MOEN-31584: Compile SDK Version updated to 34
+
+
 # 10-06-2024
 
 ## 2.1.1
