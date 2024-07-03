@@ -4,7 +4,6 @@ import android.util.Log
 import com.moengage.inapp.listeners.OnClickActionListener
 import com.moengage.inapp.model.ClickData
 
-
 class InAppClickListener : OnClickActionListener {
 
     override fun onClick(clickData: ClickData): Boolean {

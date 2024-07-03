@@ -1,8 +1,8 @@
 package com.moengage.segment.kotlin.sampleapp
 
-import android.os.Bundle
 import android.app.Activity
 import android.content.Context
+import android.os.Bundle
 import androidx.core.app.NotificationCompat
 import com.moengage.pushbase.model.NotificationPayload
 import com.moengage.pushbase.push.PushMessageListener
@@ -46,7 +46,7 @@ class CustomPushMessageListener : PushMessageListener() {
 
     override fun onNotificationReceived(context: Context, payload: Bundle) {
         super.onNotificationReceived(context, payload)
-        //callback for push notification received.
+        // callback for push notification received.
     }
 
     override fun onNotificationClick(activity: Activity, payload: Bundle): Boolean {

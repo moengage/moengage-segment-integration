@@ -21,14 +21,15 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "SEGMENT_WRITE_KEY", "\"${properties.getProperty("segmentWriteKey")}\"")
-        buildConfigField("String", "MOENAGE_APP_ID", "\"${properties.getProperty("moengageAppId")}\"")
+        buildConfigField("String", "MOENGAGE_WORKSPACE_ID", "\"${properties.getProperty("moengageWorkspaceId")}\"")
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
@@ -59,5 +60,4 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.extJunit)
     androidTestImplementation(libs.espressoCore)
-
 }

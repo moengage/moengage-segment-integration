@@ -5,11 +5,13 @@ plugins {
     alias(moengageInternal.plugins.plugin.kotlin.android) apply false
     alias(moengageInternal.plugins.plugin.dokka) apply false
     alias(libs.plugins.plugin.google.play.service) apply false
-    kotlin("plugin.serialization") version "1.6.0" apply false
+    alias(moengageInternal.plugins.plugin.kotlin.serialization) apply false
+    alias(moengageInternal.plugins.plugin.ktlint) apply false
 }
 
 subprojects {
     apply(plugin = "org.jetbrains.dokka")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 }
 
 apply(plugin = "org.jetbrains.dokka")
