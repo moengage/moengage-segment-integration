@@ -3,9 +3,8 @@ plugins {
     alias(moengageInternal.plugins.plugin.android.lib)
     alias(moengageInternal.plugins.plugin.kotlin.android)
     alias(moengageInternal.plugins.plugin.kotlin.serialization)
+    alias(moengageInternal.plugins.plugin.release)
 }
-
-apply(from = "../scripts/gradle/release.gradle")
 
 val libVersionName = project.findProperty("VERSION_NAME") as String
 
