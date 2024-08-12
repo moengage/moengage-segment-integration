@@ -13,19 +13,25 @@ jobs:
     strategy:
       fail-fast: true
     steps:
+      - name: Checkout sdk automation scripts
+        uses: actions/checkout@v3
+        with:
+          repository: moengage/sdk-automation-scripts
+          path: sdk-automation-scripts
+          token: ${{ secrets.SDK_BOT_ACCESS_TOKEN }}
+      - name: Automation script setup
+        uses: ./sdk-automation-scripts/actions/android-repository-setup
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          path: source
+          fetch-depth: 0
+          fetch-tags: true
+          token: ${{ secrets.SDK_BOT_ACCESS_TOKEN }}
       - name: Set up repository
         run: |
           echo segmentWriteKey="Dummy Segment Key" >> ./local.properties
           echo moengageWorkspaceId="Dummy MoEngage Key" >> ./local.properties
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: 17
-      - name: Set up gradle cache
-        uses: gradle/gradle-build-action@v2
       - name: Build project
         run: ./gradlew assemble
       - name: Unit test
