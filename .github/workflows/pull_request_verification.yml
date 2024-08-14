@@ -6,29 +6,48 @@ on:
     types: [ opened, reopened, ready_for_review, synchronize ]
     branches: [ "development", "master" ]
 
+env:
+  ORG_GRADLE_PROJECT_oss_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_oss_mavenCentralUsername }}
+  ORG_GRADLE_PROJECT_oss_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_oss_mavenCentralPassword }}
+  ORG_GRADLE_PROJECT_profileId: ${{ secrets.ORG_GRADLE_PROJECT_profileId }}
+  ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKey }}
+  ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKeyId }}
+  ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKeyPassword }}
+
 jobs:
   assemble-verification:
+    environment: publishing_gradle_config
     runs-on: ubuntu-latest
     if: ${{ !github.event.pull_request.draft }}
     strategy:
       fail-fast: true
     steps:
+      - name: Checkout sdk automation scripts
+        uses: actions/checkout@v3
+        with:
+          repository: moengage/sdk-automation-scripts
+          path: sdk-automation-scripts
+          token: ${{ secrets.SDK_BOT_ACCESS_TOKEN }}
+      - name: Automation script setup
+        uses: ./sdk-automation-scripts/actions/android-repository-setup
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          path: source
+          fetch-depth: 0
+          fetch-tags: true
+          token: ${{ secrets.SDK_BOT_ACCESS_TOKEN }}
       - name: Set up repository
+        working-directory: source
         run: |
           echo segmentWriteKey="Dummy Segment Key" >> ./local.properties
           echo moengageWorkspaceId="Dummy MoEngage Key" >> ./local.properties
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: 17
-      - name: Set up gradle cache
-        uses: gradle/gradle-build-action@v2
       - name: Build project
+        working-directory: source
         run: ./gradlew assemble
       - name: Unit test
+        working-directory: source
         run: ./gradlew test
       - name: Ktlint check
+        working-directory: source
         run: ./gradlew ktlintcheck

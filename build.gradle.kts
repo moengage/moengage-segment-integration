@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.plugin.google.play.service) apply false
     alias(moengageInternal.plugins.plugin.kotlin.serialization) apply false
     alias(moengageInternal.plugins.plugin.ktlint) apply false
+    alias(moengageInternal.plugins.plugin.release) apply false
 }
 
 subprojects {

@@ -1,5 +1,10 @@
 # moengage-segment-kotlin-destination
 
+# Next Release
+
+## Next version
+- Integration MoEngage release plugin
+
 # 31-07-2024
 
 ## 2.3.0
