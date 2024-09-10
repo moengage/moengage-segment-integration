@@ -25,6 +25,11 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
           token: ${{ secrets.SDK_BOT_ACCESS_TOKEN }}
+      - name: Set up repository
+        working-directory: source
+        run: |
+          echo segmentWriteKey="Dummy Segment Key" >> ./local.properties
+          echo moengageWorkspaceId="Dummy MoEngage Key" >> ./local.properties
       - name: Release Catalog
         working-directory: source
         env:
