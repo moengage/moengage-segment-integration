@@ -40,4 +40,4 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKeyId }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKeyPassword }}
         run: |
-          kotlinc -script ../sdk-automation-scripts/scripts/release/segment-release.main.kts
+          kotlinc -script ../sdk-automation-scripts/scripts/release/single-module.release.main.kts moengage-segment-kotlin-destination kotlin-destination
