@@ -2,6 +2,12 @@
 
 # 10-09-2024
 
+## 2.4.1
+- Release Notes [here](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#h_01J7DSYJ31HERNRM1H92PAMAHR)
+- MoEngage SDK version updated to `13.05.01`
+
+# 10-09-2024
+
 ## 2.4.0
 - Release Notes [here](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#10-09-2024-0-0)
 - MoEngage SDK version updated to `13.05.00`
