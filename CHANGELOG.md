@@ -1,6 +1,13 @@
 # moengage-segment-kotlin-destination
 
-# 70-03-2025
+# Release Date
+
+## Release Version
+
+- Target SDK Updated to 35
+- Min SDK Updated to 23
+
+# 11-03-2025
 
 ## 2.5.0
 
