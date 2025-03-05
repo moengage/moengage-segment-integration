@@ -4,8 +4,9 @@
 
 ## Release Version
 
-- Target SDK Updated to 35
+- Target and Compiled SDK updated to 35
 - Min SDK Updated to 23
+- Moving JUnit 4 to JUnit 5
 
 # 11-03-2025
 
