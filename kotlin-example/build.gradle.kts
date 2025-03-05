@@ -6,15 +6,15 @@ plugins {
 }
 
 android {
-    compileSdk = 34
+    compileSdk = 35
     namespace = "com.moengage.segment.kotlin.sampleapp"
     val properties = Properties()
     properties.load(file("../local.properties").inputStream())
 
     defaultConfig {
         applicationId = "com.moengage.segment.kotlin.sampleapp"
-        minSdk = 21
-        targetSdk = 34
+        minSdk = 23
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -47,17 +47,15 @@ android {
 
 dependencies {
 
-    implementation(libs.coreKtx)
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(libs.lifecycleProcess)
-    implementation(libs.segmentKotlin)
     implementation(projects.moengageSegmentKotlinDestination)
-    implementation(moengage.inapp)
-    implementation(moengageInternal.kotlinStdLib)
-    implementation(libs.firebaseMessaging)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.extJunit)
-    androidTestImplementation(libs.espressoCore)
+    implementation(moengage.androidXCore)
+    implementation(moengage.androidXCompact)
+    implementation(moengage.androidXLifecycle)
+    implementation(moengage.inapp)
+    implementation(moengage.firebaseMessaging)
+    implementation(moengageInternal.kotlinStdLib)
+
+    implementation(libs.material)
+    implementation(libs.segmentKotlin)
 }

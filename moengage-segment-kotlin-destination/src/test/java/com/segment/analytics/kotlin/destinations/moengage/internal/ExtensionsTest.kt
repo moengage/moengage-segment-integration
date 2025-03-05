@@ -3,21 +3,21 @@ package com.segment.analytics.kotlin.destinations.moengage.internal
 import com.moengage.core.internal.USER_ATTRIBUTE_USER_EMAIL
 import com.moengage.core.internal.USER_ATTRIBUTE_USER_NAME
 import com.segment.analytics.kotlin.destinations.moengage.MoEngageDestination.Companion.mapper
-import junitparams.JUnitParamsRunner
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 
 /**
  * Test class for [Extension]
  *
  * @author Abhishek Kumar
  */
-@RunWith(value = JUnitParamsRunner::class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class ExtensionsTest {
 
     @Test
@@ -78,11 +78,6 @@ internal class ExtensionsTest {
             )
         )
 
-        assert(
-            isEqual(
-                attributes.map(mapper),
-                mappedAttributes
-            )
-        )
+        assertTrue(isEqual(attributes.map(mapper), mappedAttributes))
     }
 }
