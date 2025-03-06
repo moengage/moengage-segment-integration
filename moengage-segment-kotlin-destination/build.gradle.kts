@@ -44,7 +44,10 @@ android {
 
 dependencies {
     compileOnly(libs.segmentKotlin)
-    api(libs.moengageCore)
+    api(libs.moengageCore) {
+        exclude(group = "com.moengage", module = "core")
+    }
+    api("com.moengage:core:7.7.0-SNAPSHOT")
 
     testImplementation(moengageInternal.bundles.junitBundle)
     testImplementation(moengageInternal.kotlinStdLib)

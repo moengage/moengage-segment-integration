@@ -53,7 +53,7 @@ dependencies {
     implementation(libs.lifecycleProcess)
     implementation(libs.segmentKotlin)
     implementation(projects.moengageSegmentKotlinDestination)
-    implementation(moengage.inapp)
+    implementation("com.moengage:inapp:8.8.0-SNAPSHOT")
     implementation(moengageInternal.kotlinStdLib)
     implementation(libs.firebaseMessaging)
 

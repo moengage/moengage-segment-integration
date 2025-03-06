@@ -2,8 +2,10 @@ package com.moengage.segment.kotlin.sampleapp
 
 import android.app.Application
 import com.moengage.core.DataCenter
+import com.moengage.core.LogLevel
 import com.moengage.core.MoEngage
 import com.moengage.core.config.FcmConfig
+import com.moengage.core.config.LogConfig
 import com.moengage.core.config.NotificationConfig
 import com.moengage.core.model.IntegrationPartner
 import com.moengage.inapp.MoEInAppHelper
@@ -44,6 +46,7 @@ class KotlinSampleApplication : Application() {
             )
             .configureFcm(FcmConfig(false))
             .enablePartnerIntegration(IntegrationPartner.SEGMENT)
+            .configureLogs(LogConfig(LogLevel.VERBOSE, true))
             .build()
 
         MoEngage.initialiseDefaultInstance(moEngage)
