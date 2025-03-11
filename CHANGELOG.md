@@ -1,8 +1,9 @@
 # moengage-segment-kotlin-destination
 
-# 11-03-2025
+# Release Date
 
-## 2.5.0
+## Release Version
+
 - Release Notes [here](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#h_01J7DSYJ31HERNRM1H92PAMAHR)
 - AGP Version update from `8.4.0` to `8.7.3`
 - MoEngage SDK version updated to `13.06.00`
