@@ -1,5 +1,5 @@
 [libraries]
-moengageCore = { module = "com.moengage:moe-android-sdk", version = "13.05.02" }
+moengageCore = { module = "com.moengage:moe-android-sdk", version = "13.06.00" }
 segment = { module = "com.segment.analytics.android:analytics", version = "4.11.0" }
 segmentKotlin = { module = "com.segment.analytics.kotlin:android", version = "1.16.0" }
 coreKtx = { module = "androidx.core:core-ktx", version = "1.13.1" }
