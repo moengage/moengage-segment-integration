@@ -53,4 +53,4 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKeyPassword }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          ../sdk-automation-scripts/scripts/android/dev-release.main.kts moengage-segment-kotlin-destination kotlin-destination ${{ github.event.inputs.releaseTicket }} ${{ github.event.inputs.releaseType }} true true ${{ github.event.inputs.releaseNotes }}
+          ../sdk-automation-scripts/scripts/android/single-module-release.main.kts moengage-segment-kotlin-destination kotlin-destination ${{ github.event.inputs.releaseTicket }} ${{ github.event.inputs.releaseType }} true true ${{ github.event.inputs.releaseNotes }}
