@@ -10,10 +10,10 @@ val libVersionName = project.findProperty("VERSION_NAME") as String
 
 android {
     namespace = "com.segment.analytics.kotlin.destinations.moengage"
-    compileSdk = 35
+    compileSdk = moengageInternal.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 23
+        minSdk = moengageInternal.versions.minSdk.get().toInt()
 
         buildConfigField("String", "MOENGAGE_SEGMENT_KOTLIN_VERSION", "\"$libVersionName\"")
     }
@@ -35,7 +35,7 @@ android {
         jvmTarget = "1.8"
     }
     lint {
-        targetSdk = 35
+        targetSdk = moengageInternal.versions.targetSdk.get().toInt()
     }
     buildFeatures {
         buildConfig = true
