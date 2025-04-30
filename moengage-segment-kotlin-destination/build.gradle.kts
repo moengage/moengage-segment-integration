@@ -10,10 +10,10 @@ val libVersionName = project.findProperty("VERSION_NAME") as String
 
 android {
     namespace = "com.segment.analytics.kotlin.destinations.moengage"
-    compileSdk = 34
+    compileSdk = moengageInternal.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 21
+        minSdk = moengageInternal.versions.minSdk.get().toInt()
 
         buildConfigField("String", "MOENGAGE_SEGMENT_KOTLIN_VERSION", "\"$libVersionName\"")
     }
@@ -35,7 +35,7 @@ android {
         jvmTarget = "1.8"
     }
     lint {
-        targetSdk = 33
+        targetSdk = moengageInternal.versions.targetSdk.get().toInt()
     }
     buildFeatures {
         buildConfig = true
@@ -45,9 +45,15 @@ android {
 dependencies {
     compileOnly(libs.segmentKotlin)
     api(libs.moengageCore)
-    testImplementation(moengageInternal.bundles.junitBundle)
+
+    testImplementation(moengageInternal.bundles.junit5)
+    testImplementation(moengageInternal.jsonAssert)
     testImplementation(moengageInternal.kotlinStdLib)
-    testImplementation(libs.moengageCore)
-    testImplementation(libs.segmentKotlin)
     testImplementation(moengageInternal.kotlinSerialization)
+    testImplementation(libs.segmentKotlin)
+    testImplementation(libs.moengageCore)
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
