@@ -4,9 +4,11 @@
 
 ## Release Version
 
+- Release Notes [here](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#h_01J7DSYJ31HERNRM1H92PAMAHR)
 - Target and Compiled SDK updated to 35
 - Min SDK Updated to 23
 - Moving JUnit 4 to JUnit 5
+- MoEngage SDK version updated to `14.00.00`
 
 # 11-03-2025
 
