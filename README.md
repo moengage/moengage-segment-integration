@@ -4,7 +4,7 @@ analytics-kotlin-destination-moengage
 ======================================
 To use MoEngage in an Android app, you must perform the following steps to set up your environment.
 
-![MavenBadge](https://maven-badges.herokuapp.com/maven-central/com.moengage/moengage-segment-kotlin-destination/badge.svg)
+![MavenBadge](https://img.shields.io/maven-central/v/com.moengage/moengage-segment-kotlin-destination)
 
 > info ""
 > **Note:** `analytics-android-integration-moengage` will no longer be receiving updates. We recommend you to use `analytics-kotlin-destination-moengage`. For more details refer [moengage-segment-android-integration](https://partners.moengage.com/hc/en-us/articles/4409143474964-Android-device-mode-)
