@@ -6,21 +6,19 @@ To use MoEngage in an Android app, you must perform the following steps to set u
 
 ![MavenBadge](https://img.shields.io/maven-central/v/com.moengage/moengage-segment-kotlin-destination)
 
-> info ""
-> **Note:** `analytics-android-integration-moengage` will no longer be receiving updates. We recommend you to use `analytics-kotlin-destination-moengage`. For more details refer [moengage-segment-android-integration](https://partners.moengage.com/hc/en-us/articles/4409143474964-Android-device-mode-)
-
-To enable the full functionality of MoEngage (like Push Notifications, InApp Messaging), complete the following steps in your Android app.
+> [!Note]
+> **Note:** `analytics-android-integration-moengage` will no longer receive updates. We recommend that you use `analytics-kotlin-destination-moengage`. For more details, refer [moengage-segment-android-integration](https://partners.moengage.com/hc/en-us/articles/4409143474964-Android-device-mode-)
 
 ### Adding the MoEngage Dependency
 
 Along with the Segment dependency, add the below dependency in your `app/build.gradle` file.
 
 ```groovy
-   implementation("com.moengage:moengage-segment-kotlin-destination:$sdkVersion"   
+   implementation("com.moengage:moengage-segment-kotlin-destination:$sdkVersion")   
 ```
-replace `$sdkVersion` with the appropriate SDK version
+Replace `$sdkVersion` with the appropriate SDK version
 
-The MoEngage SDK depends on the below Jetpack libraries provided by Google for its functioning, make you add them if not
+The MoEngage SDK depends on the following Jetpack libraries provided by Google for its functioning. Make you add them if not
  done already.
 
 ```groovy
@@ -28,7 +26,7 @@ The MoEngage SDK depends on the below Jetpack libraries provided by Google for i
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("androidx.lifecycle:lifecycle-process:2.4.0")
 ```
-Refer to the [SDK Configuration](https://developers.moengage.com/hc/en-us/articles/4401984733972-Android-SDK-Configuration) documentation to know more about the build config and other libraries used by the SDK.
+For more about the build config and other libraries used by the SDK, refer to the [SDK Configuration] (https://developers.moengage.com/hc/en-us/articles/4401984733972-Android-SDK-Configuration) documentation.
 
 ### Register MoEngage with Segment SDK
 
@@ -51,32 +49,32 @@ analytics.add(MoEngageDestination(this))
 
 Copy the Workspace ID from the Settings Page `Dashboard --> Settings --> App --> General` and initialize the MoEngage SDK in the `onCreate()` method of the `Application` class
 
-> info ""
-> **Note:** MoEngage recommend that you initialize the SDK on the main thread inside `onCreate()` and not create a worker thread and initialize the SDK on that thread.
+> [!Note]
+> MoEngage recommends initializing the SDK on the main thread inside `onCreate()` and not creating a worker thread and initializing the SDK on that thread.
 
 ```kotlin
-// this is the instance of the application class and "XXXXXXXXXXX" is the Workspace ID from the dashboard.
+//This is the instance of the application class, and "XXXXXXXXXXX" is the Workspace ID from the dashboard.
 val moEngage = MoEngage.Builder(this, "XXXXXXXXXXX")
        .enablePartnerIntegration(IntegrationPartner.SEGMENT)
        .build()
 MoEngage.initialiseDefaultInstance(moEngage)
 ```
 ### Exclude MoEngage Storage File from Auto-Backup
-Auto backup service of Andriod periodically backs up the Shared Preference file, Database files, and so on.
+The auto backup service of Android periodically backs up the Shared Preference file, Database files, and so on.
 
-For more information, refer to [Auto Backup](https://developer.android.com/guide/topics/data/autobackup).
+If you would like more information, please refer to [Auto Backup](https://developer.android.com/guide/topics/data/autobackup) documentation.
 
-As a result of the backup, MoEngage SDK identifiers are backed up and restored after re-install.
-The restoration of the identifier results in your data being corrupted and the user not being reachable using push notifications.
+As a result of the backup, MoEngage SDK identifiers are backed up and restored after reinstall.
+The restoration of the identifier corrupts your data and prevents the user from being reachable using push notifications.
 
-To ensure data isn't corrupted after a backup is restored, opt-out of MoEngage SDK storage files.
+To ensure data isn't corrupted after a backup is restored, opt out of MoEngage SDK storage files.
 
 Refer to the [documentation](https://developers.moengage.com/hc/en-us/articles/4401999257236-Exclude-MoEngage-Storage-File-from-Auto-Backup) for further details.
 
 ### Install or update differentiation
-This is required for migrations to the MoEngage Platform so the SDK can determine whether the user is a new user on your app, or an existing user who updated to the latest version.
+This is required for migrations to the MoEngage Platform so the SDK can determine whether the user is a new user on your app or an existing user who updated to the latest version.
 
-If the user was already using your application and has just updated to a new version which has the MoEngage SDK, below is an example call:
+If the user was already using your application and has just updated to a new version that has the MoEngage SDK, below is an example call:
 
 ```kotlin
  MoEAnalyticsHelper.setAppStatus(context, AppStatus.UPDATE);
@@ -90,12 +88,9 @@ MoEAnalyticsHelper.setAppStatus(context, AppStatus.INSTALL);
 
 ### Configure Push Notifications
 
-Copy the Server Key from the FCM console and add it to the MoEngage Dashboard. To upload it, go to the Settings Page `Dashboard --> Settings --> Channel --> Push --> Mobile Push --> Android` and add the Server Key and package name.
-**Please make sure you add the keys both in Test and Live environment.**
-
 #### Add meta information for push notification
 
-To display push notifications, some metadata regarding the notification is required. For example, the small icon and large icon drawables are mandatory.
+Some metadata about the notification is required to display push notifications. For example, the small icon and large icon drawable are mandatory.
 
 
 Refer to the [MoEngage - NotificationConfig](https://moengage.github.io/android-api-reference-v11/core/com.moengage.core.config/-notification-config/index.html) API reference for all the possible options.
@@ -115,16 +110,16 @@ MoEngage.initialiseDefaultInstance(moEngage)
 
 #### Configuring Firebase Cloud Messaging
 
-For showing Push notifications there are 2 important steps:
+For showing Push notifications, there are two essential steps:
 
-1. Registration for Push, for example generating push token.
-2. Receiving the Push payload from Firebase Cloud Messaging(FCM) service and showing the notification on the device.
+1. Registration for Push, generating a push token.
+2. Receive the Push payload from the Firebase Cloud Messaging(FCM) service and show the notification on the device.
 
-##### Push registration and receiving handled by the application
+##### The application handles push registration and receiving
 
 ###### Opt-out of MoEngage registration
 
-To opt-out of MoEngage token registration mechanism disable token registration while configuring FCM in the `MoEngage.Builder` as shown below
+To opt out of the MoEngage token registration mechanism, disable token registration while configuring FCM in the `MoEngage.Builder` as shown below.
 
 ```kotlin
 val moEngage = MoEngage.Builder(this, "XXXXXXXX")
@@ -138,19 +133,19 @@ MoEngage.initialiseDefaultInstance(moEngage)
 
 ###### Pass the push token to the MoEngage SDK
 
-The Application must pass the Push Token received from FCM to the MoEngage SDK for the MoEngage platform to send out push notifications to the device.
-Use the below API to pass the push token to the MoEngage SDK.
+The application must pass the Push Token received from FCM to the MoEngage SDK so the MoEngage platform can send push notifications to the device.
+You can use the below API to pass the push token to the MoEngage SDK.
 
 ```kotlin
 MoEFireBaseHelper.getInstance().passPushToken(getApplicationContext(), token);
 ```
 
-Please make sure token is passed to MoEngage SDK whenever push token is refreshed and on application update. Passing token on application update is important for migration to the MoEngage Platform.
+Please make sure the token is passed to the MoEngage SDK whenever the push token is refreshed and on application updates. Passing the token on application updates is important for migration to the MoEngage Platform.
 
 ###### Passing the Push payload to the MoEngage SDK
 
-To pass the push payload to the MoEngage SDK call the MoEngage API from the `onMessageReceived()` from the Firebase receiver.
-Before passing the payload to the MoEngage SDK you should check if the payload is from the MoEngage platform using the helper API provided by the SDK.
+To pass the push payload to the MoEngage SDK, call the MoEngage API from the Firebase receiver's `onMessageReceived()`.
+Before passing the payload to the MoEngage SDK, you should check if it is from the MoEngage platform using the helper API provided by the SDK.
 
 ```kotlin
 if (MoEPushHelper.getInstance().isFromMoEngagePlatform(remoteMessage.getData())) {
@@ -162,7 +157,7 @@ if (MoEPushHelper.getInstance().isFromMoEngagePlatform(remoteMessage.getData()))
 
 ##### Push Registration and Receiving handled by SDK
 
-Add the below code in your manifest file.
+Add the below code to your manifest file.
 
 ```xml
 <service android:name="com.moengage.firebase.MoEFireBaseMessagingService">
@@ -182,36 +177,18 @@ Refer to the [MoEngage - API reference](https://moengage.github.io/android-api-r
 
 ##### Callbacks
 
-We recommend you to add the callbacks in the onCreate() of the Application class since these callbacks can be triggered even when the application is in the background.
+We recommend adding the callbacks in the onCreate() of the Application class since they can be triggered even when the application is in the background.
 
 ###### Token Callback
 
-When MoEngage SDK handles push registration, it optionally provides a callback to the application whenever a new token is registered or the token is refreshed. To get the token callback implement the [TokenAvailableListener](https://moengage.github.io/android-api-reference/pushbase/com.moengage.pushbase.listener/-token-available-listener/index.html) and register for the callback using [MoEFireBaseHelper.getInstance().addTokenListener()](https://moengage.github.io/android-api-reference/moe-push-firebase/com.moengage.firebase/-mo-e-fire-base-helper/add-token-listener.html).
+When MoEngage SDK handles push registration, it optionally provides a callback to the application whenever a new token is registered or the token is refreshed. To get the token callback, implement the [TokenAvailableListener](https://moengage.github.io/android-api-reference/pushbase/com.moengage.pushbase.listener/-token-available-listener/index.html) and register for the callback using [MoEFireBaseHelper.getInstance().addTokenListener()](https://moengage.github.io/android-api-reference/moe-push-firebase/com.moengage.firebase/-mo-e-fire-base-helper/add-token-listener.html).
 
 ###### Non-MoEngage Payload
 
 If you're using the receiver provided by the SDK in your application's manifest file, SDK provides a callback in case a push payload is received for any other server apart from MoEngage Platform. To get a callback implement the [NonMoEngagePushListener](https://moengage.github.io/android-api-reference/moe-push-firebase/com.moengage.firebase.listener/-non-mo-engage-push-listener/index.html) and register for the callback using [MoEFireBaseHelper.getInstance().addNonMoEngagePushListener()](https://moengage.github.io/android-api-reference/moe-push-firebase/com.moengage.firebase/-mo-e-fire-base-helper/add-non-mo-engage-push-listener.html).
 
 
-#### Declare and configure Rich Landing Activity:
-
-A rich landing page can be used to open a web URL inside the app via a push campaign.
-
-The configuration below is only required if you want to add a parent activity to the Rich landing page. If not, you can move to the next section.
-To use a rich landing page you need to add the below code in the AndroidManifest.xml
-
-Add the following snippet and replace `[PARENT_ACTIVITY_NAME]` with the name of the parent
- activity; `[ACTIVITY_NAME]` with the activity name which should be the parent of the Rich Landing Page
-
-```xml
-<activity
-  android:name="com.moe.pushlibrary.activities.MoEActivity"
-  android:label="[ACTIVITY_NAME]"
-  android:parentActivityName="[PARENT_ACTIVITY_NAME]" >
-</activity>
-```
-
-You are now all set up to receive push notifications from MoEngage. For more information on features provided in MoEngage Android SDK refer to the following links:
+You are now all set up to receive push notifications from MoEngage. For more information on features provided in the MoEngage Android SDK, refer to the following links:
 
 * [Push Notifications](https://developers.moengage.com/hc/en-us/sections/360013606771-Push)
 
@@ -240,7 +217,7 @@ If your app supports the ability for a user to log out and log in with a new ide
 
 ### Example App
 
-To build and run the `kotlin-example` application you need to add your `write_key` from the Segment Dashboard and MoEngage Workspace Id to the `local.properties` file
+To build and run the `kotlin-example` application, you need to add your `write_key` from the Segment Dashboard and MoEngage Workspace Id to the `local.properties` file
 
 ```
 segmentWriteKey=[your_write_key]
