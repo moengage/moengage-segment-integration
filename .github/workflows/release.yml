@@ -43,6 +43,10 @@ jobs:
         run: |
           echo segmentWriteKey="Dummy Segment Key" >> ./local.properties
           echo moengageWorkspaceId="Dummy MoEngage Key" >> ./local.properties
+      - name: Merge Development to Master
+        uses: ./sdk-automation-scripts/actions/action-git-development-to-master
+        with:
+          working-directory: source
       - name: Release Segment
         working-directory: source
         env:
