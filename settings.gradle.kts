@@ -18,7 +18,7 @@ dependencyResolutionManagement {
             from("com.moengage:android-dependency-catalog-internal:3.0.0")
         }
         create("moengage") {
-            from("com.moengage:android-dependency-catalog:5.0.1")
+            from("com.moengage:android-dependency-catalog:5.1.0")
         }
     }
 }
