@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.moengage.core.internal.utils.currentISOTime
 import com.segment.analytics.kotlin.core.Analytics
+import com.segment.analytics.kotlin.core.checkSettings
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.add
 import kotlinx.serialization.json.buildJsonArray
@@ -51,6 +54,11 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
         }
         findViewById<Button>(R.id.button_reset).setOnClickListener {
             analytics.reset()
+        }
+        findViewById<Button>(R.id.fetching_settings).setOnClickListener {
+            lifecycleScope.launch {
+                analytics.checkSettings()
+            }
         }
     }
 

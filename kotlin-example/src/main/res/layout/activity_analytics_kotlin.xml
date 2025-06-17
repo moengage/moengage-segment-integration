@@ -58,4 +58,11 @@
       android:layout_height="wrap_content"
       android:text="reset()"
       android:textAllCaps="false" />
+
+  <Button
+      android:id="@+id/fetching_settings"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="fetch segment settings"
+      android:textAllCaps="false" />
 </LinearLayout>

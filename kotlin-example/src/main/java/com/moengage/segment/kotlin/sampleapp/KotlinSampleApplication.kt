@@ -24,17 +24,18 @@ class KotlinSampleApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        // Initialization Analytics Kotlin Instance
-        analytics = Analytics(BuildConfig.SEGMENT_WRITE_KEY, this)
-        analytics.add(MoEngageDestination(this))
-        Analytics.debugLogsEnabled = true
-        // enter your account's workspace id
+
+        configureMoEngageSDK(this)
+        configureSegmentSDK(this)
+    }
+
+    private fun configureMoEngageSDK(application: Application) {
         val moEngage = MoEngage.Builder(
-            this,
+            application,
             BuildConfig.MOENGAGE_WORKSPACE_ID,
             DataCenter.DATA_CENTER_1
-        )
-            .configureNotificationMetaData(
+        ).apply {
+            configureNotificationMetaData(
                 NotificationConfig(
                     smallIcon = R.drawable.icon,
                     largeIcon = R.drawable.ic_launcher,
@@ -44,18 +45,24 @@ class KotlinSampleApplication : Application() {
                     isLargeIconDisplayEnabled = true
                 )
             )
-            .configureFcm(FcmConfig(false))
-            .enablePartnerIntegration(IntegrationPartner.SEGMENT)
-            .configureLogs(LogConfig(LogLevel.VERBOSE, true))
-            .build()
-
+            configureFcm(FcmConfig(false))
+            enablePartnerIntegration(IntegrationPartner.SEGMENT)
+            configureLogs(LogConfig(LogLevel.VERBOSE, true))
+        }.build()
         MoEngage.initialiseDefaultInstance(moEngage)
 
         // Setting CustomPushMessageListener for notification customisation
         MoEPushHelper.getInstance().registerMessageListener(CustomPushMessageListener())
 
-        // in-app related callbacks
+        // InApp related callbacks
         MoEInAppHelper.getInstance().addInAppLifeCycleListener(InAppLifecycleCallback())
         MoEInAppHelper.getInstance().setClickActionListener(InAppClickListener())
+    }
+
+    private fun configureSegmentSDK(application: Application) {
+        analytics = Analytics(BuildConfig.SEGMENT_WRITE_KEY, this).apply {
+            add(MoEngageDestination(application))
+        }
+        Analytics.debugLogsEnabled = true
     }
 }
