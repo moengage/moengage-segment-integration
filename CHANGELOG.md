@@ -1,8 +1,8 @@
 # moengage-segment-kotlin-destination
 
-# Release Date
+# 19-06-2025
 
-## Release Version
+## 3.1.2
 
 - Removing check for update type in `MoEngageSegmentDestination` class to avoid missing callback processing in certain cases
 
