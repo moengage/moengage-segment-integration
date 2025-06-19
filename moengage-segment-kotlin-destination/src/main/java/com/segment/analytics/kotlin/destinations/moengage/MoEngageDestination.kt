@@ -89,21 +89,32 @@ class MoEngageDestination(
         try {
             super.update(settings, type)
             Logger.print { "$tag update(): will try to sync $settings" }
-            if (type == Plugin.UpdateType.Initial && settings.hasIntegrationSettings(key)) {
-                val moEngageSettings: MoEngageSettings = settings.destinationSettings(key) ?: return
-                instanceId = moEngageSettings.apiKey
-                integrationHelper = MoEIntegrationHelper(application, IntegrationPartner.SEGMENT)
-                integrationHelper.initialize(instanceId, application)
-                MoEIntegrationHelper.addIntegrationMeta(
-                    IntegrationMeta(
-                        INTEGRATION_META_TYPE,
-                        version()
-                    ),
-                    instanceId
-                )
-                Logger.print { "$tag update(): Segment Integration initialised." }
-                trackAnonymousId()
+            if (!settings.hasIntegrationSettings(key)) {
+                Logger.print { "$tag update(): no integration settings found for $key" }
+                return
             }
+            val moEngageSettings: MoEngageSettings = settings.destinationSettings(key) ?: run {
+                Logger.print { "$tag update(): required keys missing" }
+                return
+            }
+            if (this::instanceId.isInitialized && instanceId == moEngageSettings.apiKey) {
+                Logger.print { "$tag update(): instanceId already initialised" }
+                return
+            }
+
+            Logger.print { "$tag update(): initialising sdk" }
+            instanceId = moEngageSettings.apiKey
+            integrationHelper = MoEIntegrationHelper(application, IntegrationPartner.SEGMENT)
+            integrationHelper.initialize(instanceId, application)
+            MoEIntegrationHelper.addIntegrationMeta(
+                IntegrationMeta(
+                    INTEGRATION_META_TYPE,
+                    version()
+                ),
+                instanceId
+            )
+            Logger.print { "$tag update(): Segment Integration initialised." }
+            trackAnonymousId()
         } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag update(): " }
         }
