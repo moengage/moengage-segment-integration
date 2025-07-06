@@ -17,6 +17,7 @@ runs:
     - name: Automation script setup
       uses: ./sdk-automation-scripts/actions/android-repository-setup
     - name: Set up repository
+      shell: bash
       working-directory: source
       run: |
         echo segmentWriteKey="Dummy Segment Key" >> ./local.properties
