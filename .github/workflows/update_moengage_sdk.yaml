@@ -1,9 +1,6 @@
 name: Update MoEngage Core Version
 
 on:
-  push:
-    branches:
-      - "auto_update_moengage_core"
   workflow_dispatch:
     inputs:
       moengage_version:
@@ -15,7 +12,7 @@ on:
         type: string
 
 jobs:
-  release:
+  update_moengage_core:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
