@@ -1,5 +1,5 @@
 [libraries]
-moengageCore = { module = "com.moengage:moe-android-sdk", version = "123456" }
+moengageCore = { module = "com.moengage:moe-android-sdk", version = "14.02.01" }
 segmentKotlin = { module = "com.segment.analytics.kotlin:android", version = "1.19.2" }
 material = { module = "com.google.android.material:material", version = "1.12.0" }
 
