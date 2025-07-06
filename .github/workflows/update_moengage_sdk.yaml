@@ -1,0 +1,43 @@
+name: Update MoEngage Core Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      moengage_version:
+        description: 'The new moengageCore SDK version (e.g., 14.03.00)'
+        required: true
+      release_notes:
+        description: 'The release notes (bullet points, multi-line)'
+        required: true
+        type: string
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          path: source
+          ref: "auto_update_moengage_core"
+      - name: automation-repo-setup
+        uses: ./source/.github/actions/common-automation-repo-setup
+        with:
+          sdk_bot_access_token: ${{ secrets.SDK_BOT_ACCESS_TOKEN }}
+      - name: Make scripts executable
+        run: |
+          chmod +x ./sdk-automation-scripts/scripts/android/shell/update_moengage_core_version.sh
+      - name: Update moengageCore version
+        run: ./sdk-automation-scripts/scripts/android/shell/update_moengage_core_version.sh "${{ github.event.inputs.moengage_version }}" "./source/gradle/libs.versions.toml"
+      - name: Verify build
+        run: |
+          cd source
+          ./gradlew assemble --stacktrace
+      - name: Commit and push changes
+        run: |
+          git add .
+          git commit -m "chore: Update moengageCore version to ${{ github.event.inputs.moengage_version }}"
+          git push origin auto_update_moengage_core
+          
+          git commit -m "chore(release): Prepare for release ${{ github.event.inputs.release_version }}" -m "Updates moengageCore to ${{ github.event.inputs.moengage_version }}."
+          git push origin main
