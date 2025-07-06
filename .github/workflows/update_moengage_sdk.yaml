@@ -43,6 +43,7 @@ jobs:
           ./gradlew assemble --stacktrace
       - name: Commit and push changes
         run: |
+          cd source
           git add .
           git commit -m "chore: Update moengageCore version to ${{ github.event.inputs.moengage_version }}"
           git push origin auto_update_moengage_core
