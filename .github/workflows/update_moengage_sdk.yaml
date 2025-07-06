@@ -47,6 +47,3 @@ jobs:
           git add .
           git commit -m "chore: Update moengageCore version to ${{ github.event.inputs.moengage_version }}"
           git push origin auto_update_moengage_core
-          
-          git commit -m "chore(release): Prepare for release ${{ github.event.inputs.release_version }}" -m "Updates moengageCore to ${{ github.event.inputs.moengage_version }}."
-          git push origin main
