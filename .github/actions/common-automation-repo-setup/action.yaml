@@ -17,7 +17,7 @@ runs:
     - name: Automation script setup
       uses: ./sdk-automation-scripts/actions/android-repository-setup
     - name: Set up repository
-        working-directory: source
-        run: |
-          echo segmentWriteKey="Dummy Segment Key" >> ./local.properties
-          echo moengageWorkspaceId="Dummy MoEngage Key" >> ./local.properties
+      working-directory: source
+      run: |
+        echo segmentWriteKey="Dummy Segment Key" >> ./local.properties
+        echo moengageWorkspaceId="Dummy MoEngage Key" >> ./local.properties
