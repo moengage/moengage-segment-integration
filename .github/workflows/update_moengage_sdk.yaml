@@ -29,7 +29,7 @@ jobs:
           path: source
           ref: "auto_update_moengage_core"
       - name: automation-repo-setup
-        uses: ./source/.github/actions/common-automation-repo-setup
+        uses: ./source/.github/actions/common-repo-setup
         with:
           sdk_bot_access_token: ${{ secrets.SDK_BOT_ACCESS_TOKEN }}
       - name: Make scripts executable
@@ -41,6 +41,10 @@ jobs:
         run: |
           cd source
           ./gradlew assemble --stacktrace
+      - name: Update changelog file
+        working-directory: source
+        run: |
+         kotlin ./scripts/update-changelog.main.kts "${{ github.event.inputs.release_notes }}" "${{ github.event.inputs.moengage_version }}"
       - name: Commit and push changes
         run: |
           cd source
