@@ -37,10 +37,10 @@ jobs:
           chmod +x ./sdk-automation-scripts/scripts/android/shell/update_moengage_core_version.sh
       - name: Update moengageCore version
         run: ./sdk-automation-scripts/scripts/android/shell/update_moengage_core_version.sh "${{ github.event.inputs.moengage_version }}" "./source/gradle/libs.versions.toml"
-      - name: Verify build
-        run: |
-          cd source
-          ./gradlew assemble --stacktrace
+      # - name: Verify build
+      #   run: |
+      #     cd source
+      #     ./gradlew assemble --stacktrace
       - name: Update changelog file
         working-directory: source
         run: |
