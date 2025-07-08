@@ -1,6 +1,6 @@
 #!/usr/bin/env kotlin
 
-@file:Import("../sdk-automation-scripts/scripts/common/file_updater.main")
+@file:Import("../../sdk-automation-scripts/scripts/common/file_updater.main")
 
 val releaseNotes = args[0]
 val versionNumber = args[1]
