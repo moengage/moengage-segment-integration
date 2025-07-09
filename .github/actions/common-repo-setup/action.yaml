@@ -1,5 +1,5 @@
-name: 'Checkout and Setup automation scripts'
-description: 'Performs common checkout and setup steps for Android SDK automation scripts.'
+name: 'Setup segment repository'
+description: 'This action sets up the segment repository.'
 inputs:
   sdk_bot_access_token:
     description: 'Token for accessing moengage/sdk-automation-scripts and the source repository'

@@ -14,6 +14,7 @@ if (versionNumber.isBlank()) {
 }
 
 val changelogEntry = """
+
     # Release Date
     
     ## Release Version

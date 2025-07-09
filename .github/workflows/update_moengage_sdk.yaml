@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       moengage_version:
-        description: 'The new moengageCore SDK version (e.g., 14.03.00)'
+        description: 'The moe-android-sdk version to which you want to update.'
         required: true
       release_notes:
-        description: 'The release notes (bullet points, multi-line)'
+        description: 'Link to the release notes'
         required: true
         type: string
 
@@ -37,10 +37,10 @@ jobs:
           chmod +x ./sdk-automation-scripts/scripts/android/shell/update_moengage_core_version.sh
       - name: Update moengageCore version
         run: ./sdk-automation-scripts/scripts/android/shell/update_moengage_core_version.sh "${{ github.event.inputs.moengage_version }}" "./source/gradle/libs.versions.toml"
-      # - name: Verify build
-      #   run: |
-      #     cd source
-      #     ./gradlew assemble --stacktrace
+      - name: Verify build
+        uses: ./sdk-automation-scripts/actions/android-build-verification
+        with:
+          working-directory: source
       - name: Update changelog file
         working-directory: source
         run: |
