@@ -7,6 +7,26 @@
 - Release notes [here](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#h_01JW5M3XB0J45DMMN76M03QR84)
 - MoEngage SDK version updated to `14.02.02`
 
+<<<<<<< HEAD
+=======
+# moengage-segment-kotlin-destination
+
+# Release Date
+
+## Release Version
+
+- Release notes [here](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog\#h_01JW5M3XB0J45DMMN76M03QR84)
+- MoEngage SDK version updated to `14.02.00`
+
+# Release Date
+
+## Release Version
+
+- Release notes [here](- Updated to the latest MoEngage Core SDK for performance improvements.)
+- MoEngage SDK version updated to `14.02.01`
+
+
+>>>>>>> 4c447ce... chore: Update moengageCore version to 14.02.00
 # 26-06-2025
 
 ## 3.1.3
