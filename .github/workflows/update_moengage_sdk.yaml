@@ -1,0 +1,56 @@
+name: Update MoEngage Core Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      ticket_number:
+        description: 'Ticket number for the update.'
+        required: true
+      moengage_version:
+        description: 'The moe-android-sdk version to which you want to update.'
+        required: true
+      release_notes:
+        description: 'Link to the release notes'
+        required: true
+        type: string
+
+env:
+  ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_mavenCentralUsername }}
+  ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_mavenCentralPassword }}
+  ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKey }}
+  ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKeyId }}
+  ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKeyPassword }}
+
+jobs:
+  update_moengage_core:
+    environment: publishing_gradle_config
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: "development"
+          path: source
+      - name: automation-repo-setup
+        uses: ./source/.github/actions/common-repo-setup
+        with:
+          sdk_bot_access_token: ${{ secrets.SDK_BOT_ACCESS_TOKEN }}
+      - name: Make scripts executable
+        run: |
+          chmod +x ./sdk-automation-scripts/scripts/android/shell/update_moengage_core_version.sh
+      - name: Update moengageCore version
+        run: ./sdk-automation-scripts/scripts/android/shell/update_moengage_core_version.sh "${{ github.event.inputs.moengage_version }}" "./source/gradle/libs.versions.toml"
+      - name: Verify build
+        uses: ./sdk-automation-scripts/actions/android-build-verification
+        with:
+          working-directory: source
+      - name: Update changelog file
+        working-directory: source
+        run: |
+         kotlin ./scripts/update-changelog.main.kts "${{ github.event.inputs.release_notes }}" "${{ github.event.inputs.moengage_version }}"
+      - name: Commit and push changes
+        run: |
+          cd source
+          git add .
+          git commit -m "${{ github.event.inputs.ticket_number }}: Update moengageCore version to ${{ github.event.inputs.moengage_version }}"
+          git push origin development
