@@ -3,6 +3,9 @@ name: Update MoEngage Core Version
 on:
   workflow_dispatch:
     inputs:
+      ticket_number:
+        description: 'Ticket number for the update.'
+        required: true
       moengage_version:
         description: 'The moe-android-sdk version to which you want to update.'
         required: true
@@ -26,8 +29,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
+          ref: "development"
           path: source
-          ref: "auto_update_moengage_core"
       - name: automation-repo-setup
         uses: ./source/.github/actions/common-repo-setup
         with:
@@ -49,5 +52,5 @@ jobs:
         run: |
           cd source
           git add .
-          git commit -m "chore: Update moengageCore version to ${{ github.event.inputs.moengage_version }}"
-          git push origin auto_update_moengage_core
+          git commit -m "${{ github.event.inputs.ticket_number }}: Update moengageCore version to ${{ github.event.inputs.moengage_version }}"
+          git push origin development
