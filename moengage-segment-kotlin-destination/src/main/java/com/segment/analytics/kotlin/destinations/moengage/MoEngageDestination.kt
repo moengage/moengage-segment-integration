@@ -2,8 +2,6 @@ package com.segment.analytics.kotlin.destinations.moengage
 
 import android.app.Application
 import com.moengage.core.LogLevel
-import com.moengage.core.MoECoreHelper
-import com.moengage.core.analytics.MoEAnalyticsHelper
 import com.moengage.core.internal.USER_ATTRIBUTE_UNIQUE_ID
 import com.moengage.core.internal.USER_ATTRIBUTE_USER_BDAY
 import com.moengage.core.internal.USER_ATTRIBUTE_USER_EMAIL
@@ -13,11 +11,10 @@ import com.moengage.core.internal.USER_ATTRIBUTE_USER_LAST_NAME
 import com.moengage.core.internal.USER_ATTRIBUTE_USER_LOCATION
 import com.moengage.core.internal.USER_ATTRIBUTE_USER_MOBILE
 import com.moengage.core.internal.USER_ATTRIBUTE_USER_NAME
-import com.moengage.core.internal.integrations.MoEIntegrationHelper
+import com.moengage.core.internal.integrations.segment.SegmentIntegrationHelper
 import com.moengage.core.internal.logger.Logger
 import com.moengage.core.internal.model.IntegrationMeta
 import com.moengage.core.model.GeoLocation
-import com.moengage.core.model.IntegrationPartner
 import com.segment.analytics.kotlin.android.utilities.toJSONObject
 import com.segment.analytics.kotlin.core.AliasEvent
 import com.segment.analytics.kotlin.core.BaseEvent
@@ -62,8 +59,10 @@ class MoEngageDestination(
     private val application: Application
 ) : DestinationPlugin(), VersionedPlugin {
 
-    private lateinit var integrationHelper: MoEIntegrationHelper
-    private lateinit var instanceId: String
+    private val integrationHelper: SegmentIntegrationHelper =
+        SegmentIntegrationHelper(application.applicationContext)
+    private var workspaceId: String? = null
+
 
     companion object {
         private const val tag = "MoEngageDestination_${BuildConfig.MOENGAGE_SEGMENT_KOTLIN_VERSION}"
@@ -97,21 +96,15 @@ class MoEngageDestination(
                 Logger.print { "$tag update(): required keys missing" }
                 return
             }
-            if (this::instanceId.isInitialized && instanceId == moEngageSettings.apiKey) {
+            if (workspaceId != null && workspaceId == moEngageSettings.apiKey) {
                 Logger.print { "$tag update(): instanceId already initialised" }
                 return
             }
 
             Logger.print { "$tag update(): initialising sdk" }
-            instanceId = moEngageSettings.apiKey
-            integrationHelper = MoEIntegrationHelper(application, IntegrationPartner.SEGMENT)
-            integrationHelper.initialize(instanceId, application)
-            MoEIntegrationHelper.addIntegrationMeta(
-                IntegrationMeta(
-                    INTEGRATION_META_TYPE,
-                    version()
-                ),
-                instanceId
+            workspaceId = moEngageSettings.apiKey
+            integrationHelper.initialize(
+                application, workspaceId, IntegrationMeta(INTEGRATION_META_TYPE, version())
             )
             Logger.print { "$tag update(): Segment Integration initialised." }
             trackAnonymousId()
@@ -124,7 +117,7 @@ class MoEngageDestination(
         try {
             super.alias(payload)
             Logger.print { "$tag alias(): will try to update $payload" }
-            MoEAnalyticsHelper.setAlias(application.applicationContext, payload.userId, instanceId)
+            integrationHelper.setAlias(alias = payload.userId, workspaceId = workspaceId)
         } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag alias(): " }
         }
@@ -147,54 +140,41 @@ class MoEngageDestination(
             } else {
                 ""
             }
-            MoEAnalyticsHelper.setUniqueId(
-                application.applicationContext,
-                uniqueId,
-                instanceId
-            )
-            integrationHelper.trackUserAttribute(transformedTraits, instanceId)
+            integrationHelper.setUniqueId(uniqueId = uniqueId, workspaceId = workspaceId)
+            integrationHelper.trackUserAttributes(transformedTraits, workspaceId)
             if (traits.isNotEmpty()) {
                 val address = traits[USER_TRAIT_ADDRESS]
                 if (address != null && address.jsonObject.isNotEmpty()) {
                     val city = address.jsonObject.getString(USER_TRAIT_ADDRESS_CITY)
+
                     if (!city.isNullOrEmpty()) {
-                        MoEAnalyticsHelper.setUserAttribute(
-                            application.applicationContext,
+                        integrationHelper.trackUserAttribute(
                             USER_TRAIT_ADDRESS_CITY,
                             city,
-                            instanceId
+                            workspaceId
                         )
                     }
                     val country = address.jsonObject.getString(USER_TRAIT_ADDRESS_COUNTRY)
                     if (!country.isNullOrEmpty()) {
-                        MoEAnalyticsHelper.setUserAttribute(
-                            application.applicationContext,
-                            USER_TRAIT_ADDRESS_COUNTRY,
-                            country,
-                            instanceId
+                        integrationHelper.trackUserAttribute(
+                            USER_TRAIT_ADDRESS_COUNTRY, country, workspaceId
                         )
                     }
                     val state = address.jsonObject.getString(USER_TRAIT_ADDRESS_STATE)
                     if (!state.isNullOrEmpty()) {
-                        MoEAnalyticsHelper.setUserAttribute(
-                            application.applicationContext,
-                            USER_TRAIT_ADDRESS_STATE,
-                            state,
-                            instanceId
+                        integrationHelper.trackUserAttribute(
+                            USER_TRAIT_ADDRESS_STATE, state, workspaceId
                         )
                     }
                 }
             }
             val location = payload.traits[USER_TRAIT_LOCATION]
             if (location != null && location.jsonObject.isNotEmpty()) {
-                MoEAnalyticsHelper.setUserAttribute(
-                    application.applicationContext,
-                    USER_ATTRIBUTE_USER_LOCATION,
-                    GeoLocation(
+                integrationHelper.trackUserAttribute(
+                    USER_ATTRIBUTE_USER_LOCATION, GeoLocation(
                         location.jsonObject.getDouble(USER_TRAIT_LOCATION_LATITUDE) ?: 0.0,
                         location.jsonObject.getDouble(USER_TRAIT_LOCATION_LONGITUDE) ?: 0.0
-                    ),
-                    instanceId
+                    ), workspaceId
                 )
             }
         } catch (t: Throwable) {
@@ -208,7 +188,7 @@ class MoEngageDestination(
         try {
             super.reset()
             Logger.print { "$tag reset(): will try to reset" }
-            MoECoreHelper.logoutUser(application.applicationContext, instanceId)
+            integrationHelper.logout(workspaceId)
         } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag reset(): " }
         }
@@ -220,12 +200,10 @@ class MoEngageDestination(
             Logger.print { "$tag track(): will try to track $payload" }
             if (payload.properties.isNotEmpty()) {
                 integrationHelper.trackEvent(
-                    payload.event,
-                    payload.properties.toJSONObject(),
-                    instanceId
+                    payload.event, payload.properties.toJSONObject(), workspaceId
                 )
             } else {
-                integrationHelper.trackEvent(payload.event, JSONObject(), instanceId)
+                integrationHelper.trackEvent(payload.event, JSONObject(), workspaceId)
             }
         } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag track(): " }
@@ -244,7 +222,9 @@ class MoEngageDestination(
                     Logger.print { "$tag trackAnonymousId() : will try to sync anonymousId" }
                     val anonymousId = analytics.storage.read(Storage.Constants.AnonymousId)
                     Logger.print { "$tag trackAnonymousId() : $anonymousId" }
-                    integrationHelper.trackAnonymousId(anonymousId, instanceId)
+                    anonymousId?.let {
+                        integrationHelper.trackAnonymousId(anonymousId, workspaceId)
+                    }
                     Logger.print { "$tag trackAnonymousId() : anonymousId synced" }
                 } catch (t: Throwable) {
                     Logger.print(LogLevel.ERROR, t) { "$tag trackAnonymousId(): " }

@@ -47,7 +47,7 @@ class AnalyticsKotlinActivity : AppCompatActivity() {
         }
         findViewById<Button>(R.id.button_track).setOnClickListener {
             analytics.track("ON_CREATE")
-            analytics.track("Event1", getEventProperties())
+            analytics.track("SegmentTestEvent", getEventProperties())
         }
         findViewById<Button>(R.id.button_alias).setOnClickListener {
             analytics.alias("abc1@example.com")
