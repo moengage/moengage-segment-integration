@@ -1,3 +1,5 @@
+import java.net.URI
+
 pluginManagement {
     repositories {
         google()
@@ -11,6 +13,16 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
+        maven {
+            name = "Central Portal Snapshots"
+            url = URI("https://central.sonatype.com/repository/maven-snapshots/")
+
+            // Only search this repository for the specific dependency
+            content {
+                includeModule("com.moengage", "moe-android-sdk")
+                includeModule("com.moengage", "core")
+            }
+        }
         mavenCentral()
     }
     versionCatalogs {
