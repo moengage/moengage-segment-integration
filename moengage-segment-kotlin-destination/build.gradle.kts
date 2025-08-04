@@ -45,7 +45,6 @@ android {
 dependencies {
     compileOnly(libs.segmentKotlin)
     api(libs.moengageCore)
-
     testImplementation(moengageInternal.bundles.junit5)
     testImplementation(moengageInternal.jsonAssert)
     testImplementation(moengageInternal.kotlinStdLib)
