@@ -1,8 +1,8 @@
 # moengage-segment-kotlin-destination
 
-# Release Date
+# 04-08-2025
 
-## Release Version
+## 3.2.1
 
 - Updating the MoEngage Destination handling.
 
