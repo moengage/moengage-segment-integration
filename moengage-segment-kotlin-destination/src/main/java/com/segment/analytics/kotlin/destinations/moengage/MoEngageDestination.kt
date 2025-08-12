@@ -63,7 +63,6 @@ class MoEngageDestination(
         SegmentIntegrationHelper(application.applicationContext)
     private var workspaceId: String? = null
 
-
     companion object {
         private const val tag = "MoEngageDestination_${BuildConfig.MOENGAGE_SEGMENT_KOTLIN_VERSION}"
 
@@ -104,7 +103,9 @@ class MoEngageDestination(
             Logger.print { "$tag update(): initialising sdk" }
             workspaceId = moEngageSettings.apiKey
             integrationHelper.initialize(
-                application, workspaceId, IntegrationMeta(INTEGRATION_META_TYPE, version())
+                application,
+                workspaceId,
+                IntegrationMeta(INTEGRATION_META_TYPE, version())
             )
             Logger.print { "$tag update(): Segment Integration initialised." }
             trackAnonymousId()
@@ -157,13 +158,17 @@ class MoEngageDestination(
                     val country = address.jsonObject.getString(USER_TRAIT_ADDRESS_COUNTRY)
                     if (!country.isNullOrEmpty()) {
                         integrationHelper.trackUserAttribute(
-                            USER_TRAIT_ADDRESS_COUNTRY, country, workspaceId
+                            USER_TRAIT_ADDRESS_COUNTRY,
+                            country,
+                            workspaceId
                         )
                     }
                     val state = address.jsonObject.getString(USER_TRAIT_ADDRESS_STATE)
                     if (!state.isNullOrEmpty()) {
                         integrationHelper.trackUserAttribute(
-                            USER_TRAIT_ADDRESS_STATE, state, workspaceId
+                            USER_TRAIT_ADDRESS_STATE,
+                            state,
+                            workspaceId
                         )
                     }
                 }
@@ -171,10 +176,12 @@ class MoEngageDestination(
             val location = payload.traits[USER_TRAIT_LOCATION]
             if (location != null && location.jsonObject.isNotEmpty()) {
                 integrationHelper.trackUserAttribute(
-                    USER_ATTRIBUTE_USER_LOCATION, GeoLocation(
+                    USER_ATTRIBUTE_USER_LOCATION,
+                    GeoLocation(
                         location.jsonObject.getDouble(USER_TRAIT_LOCATION_LATITUDE) ?: 0.0,
                         location.jsonObject.getDouble(USER_TRAIT_LOCATION_LONGITUDE) ?: 0.0
-                    ), workspaceId
+                    ),
+                    workspaceId
                 )
             }
         } catch (t: Throwable) {
@@ -200,7 +207,9 @@ class MoEngageDestination(
             Logger.print { "$tag track(): will try to track $payload" }
             if (payload.properties.isNotEmpty()) {
                 integrationHelper.trackEvent(
-                    payload.event, payload.properties.toJSONObject(), workspaceId
+                    payload.event,
+                    payload.properties.toJSONObject(),
+                    workspaceId
                 )
             } else {
                 integrationHelper.trackEvent(payload.event, JSONObject(), workspaceId)
