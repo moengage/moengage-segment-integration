@@ -35,22 +35,15 @@ jobs:
         uses: ./source/.github/actions/common-repo-setup
         with:
           sdk_bot_access_token: ${{ secrets.SDK_BOT_ACCESS_TOKEN }}
-      - name: Make scripts executable
-        run: |
-          chmod +x ./sdk-automation-scripts/scripts/android/shell/update_moengage_core_version.sh
       - name: Update moengageCore version
-        run: ./sdk-automation-scripts/scripts/android/shell/update_moengage_core_version.sh "${{ github.event.inputs.moengage_version }}" "./source/gradle/libs.versions.toml"
+        working-directory: source
+        run: ../sdk-automation-scripts/scripts/android/partner-version-update.main.kts "${{ github.event.inputs.ticket_number }}" "${{ github.event.inputs.release_notes }}" "${{ github.event.inputs.moengage_version }}" segment
       - name: Verify build
         uses: ./sdk-automation-scripts/actions/android-build-verification
         with:
           working-directory: source
-      - name: Update changelog file
-        working-directory: source
+      - name: Trigger release workflow
         run: |
-         kotlin ./scripts/update-changelog.main.kts "${{ github.event.inputs.release_notes }}" "${{ github.event.inputs.moengage_version }}"
-      - name: Commit and push changes
-        run: |
-          cd source
-          git add .
-          git commit -m "${{ github.event.inputs.ticket_number }}: Update moengageCore version to ${{ github.event.inputs.moengage_version }}"
-          git push origin development
+          gh workflow run release.yaml \
+              -f releaseTicket="${{ github.event.inputs.ticket_number }}" \
+              -f releaseNotes="${{ github.event.inputs.release_notes }}"
