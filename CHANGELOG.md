@@ -1,10 +1,10 @@
 # moengage-segment-kotlin-destination
-# Release Date
+# 25-09-2025
 
-## Release Version
+## 3.2.5
 
-- [patch] Release notes [here](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#h_01K4MM0WWXBEB7DNBR89A6C09R)
-- [patch] MoEngage SDK version updated to `14.03.05`
+- Release notes [here](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#h_01K4MM0WWXBEB7DNBR89A6C09R)
+- MoEngage SDK version updated to `14.03.05`
 
 # 24-09-2025
 
