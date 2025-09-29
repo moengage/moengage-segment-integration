@@ -134,14 +134,10 @@ class MoEngageDestination(
             val traits = payload.traits
             val transformedTraits = traits.map(mapper) as MutableMap<String, Any>
 
-            val uniqueId = if (payload.userId.isNotEmpty()) {
-                payload.userId
-            } else if (transformedTraits.containsKey(USER_ATTRIBUTE_UNIQUE_ID)) {
-                transformedTraits.remove(USER_ATTRIBUTE_UNIQUE_ID) ?: ""
-            } else {
-                ""
+            val userId = payload.userId.ifEmpty {
+                transformedTraits.remove(USER_ATTRIBUTE_UNIQUE_ID) as? String ?: ""
             }
-            integrationHelper.setUniqueId(uniqueId = uniqueId, workspaceId = workspaceId)
+            integrationHelper.identifyUser(identity = userId, workspaceId = workspaceId)
             integrationHelper.trackUserAttributes(transformedTraits, workspaceId)
             if (traits.isNotEmpty()) {
                 val address = traits[USER_TRAIT_ADDRESS]
