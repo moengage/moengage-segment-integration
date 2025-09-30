@@ -1,4 +1,11 @@
 # moengage-segment-kotlin-destination
+
+# Release Date
+
+## Release Version
+
+- [patch] Removing the usage of deprecated function `setUniqueId` with `identifyUser`
+
 # 25-09-2025
 
 ## 3.2.5

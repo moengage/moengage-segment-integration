@@ -20,7 +20,7 @@ dependencyResolutionManagement {
             from("com.moengage:android-dependency-catalog-internal:3.0.0")
         }
         create("moengage") {
-            from("com.moengage:android-dependency-catalog:5.3.0")
+            from("com.moengage:android-dependency-catalog:6.0.1")
         }
     }
 }
