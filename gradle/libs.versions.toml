@@ -5,3 +5,4 @@ material = { module = "com.google.android.material:material", version = "1.12.0"
 
 [plugins]
 plugin-google-play-service = { id = "com.google.gms.google-services", version = "4.4.2" }
+spotless = { id = "com.diffplug.spotless", version = "7.2.1" }

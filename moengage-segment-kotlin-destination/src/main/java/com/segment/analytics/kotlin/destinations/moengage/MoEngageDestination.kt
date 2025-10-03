@@ -1,3 +1,15 @@
+/*
+ * Copyright (c) 2014-2025 MoEngage Inc.
+ *
+ * All rights reserved.
+ *
+ *  Use of source code or binaries contained within MoEngage SDK is permitted only to enable use of the MoEngage platform by customers of MoEngage.
+ *  Modification of source code and inclusion in mobile apps is explicitly allowed provided that all other conditions are met.
+ *  Neither the name of MoEngage nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+ *  Redistribution of source code or binaries is disallowed except with specific prior written permission. Any such redistribution must retain the above copyright notice, this list of conditions and the following disclaimer.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package com.segment.analytics.kotlin.destinations.moengage
 
 import android.app.Application
@@ -28,9 +40,9 @@ import com.segment.analytics.kotlin.core.platform.VersionedPlugin
 import com.segment.analytics.kotlin.core.utilities.getDouble
 import com.segment.analytics.kotlin.core.utilities.getString
 import com.segment.analytics.kotlin.destinations.moengage.internal.map
+import java.util.concurrent.Executors
 import kotlinx.serialization.json.jsonObject
 import org.json.JSONObject
-import java.util.concurrent.Executors
 
 private const val MOENGAGE_SEGMENT_INTEGRATION_KEY = "MoEngage"
 private const val INTEGRATION_META_TYPE = "segment"
@@ -52,12 +64,10 @@ private const val USER_TRAIT_LOCATION_LONGITUDE = "longitude"
 private const val USER_TRAIT_LOCATION_LATITUDE = "latitude"
 private const val USER_ATTRIBUTE_SEGMENT_ID = "USER_ATTRIBUTE_SEGMENT_ID"
 
-@kotlinx.serialization.Serializable
-data class MoEngageSettings(val apiKey: String)
+@kotlinx.serialization.Serializable data class MoEngageSettings(val apiKey: String)
 
-class MoEngageDestination(
-    private val application: Application
-) : DestinationPlugin(), VersionedPlugin {
+class MoEngageDestination(private val application: Application) :
+    DestinationPlugin(), VersionedPlugin {
 
     private val integrationHelper: SegmentIntegrationHelper =
         SegmentIntegrationHelper(application.applicationContext)
@@ -66,18 +76,17 @@ class MoEngageDestination(
     companion object {
         private const val tag = "MoEngageDestination_${BuildConfig.MOENGAGE_SEGMENT_KOTLIN_VERSION}"
 
-        val mapper: Map<String, String> = mapOf(
-            USER_TRAIT_ANONYMOUS_ID to USER_ATTRIBUTE_SEGMENT_ID,
-            USER_TRAIT_EMAIL to USER_ATTRIBUTE_USER_EMAIL,
-            USER_TRAIT_UNIQUE_ID to USER_ATTRIBUTE_UNIQUE_ID,
-            USER_TRAIT_NAME to USER_ATTRIBUTE_USER_NAME,
-            USER_TRAIT_MOBILE to USER_ATTRIBUTE_USER_MOBILE,
-            USER_TRAIT_FIRST_NAME to USER_ATTRIBUTE_USER_FIRST_NAME,
-            USER_TRAIT_LAST_NAME to USER_ATTRIBUTE_USER_LAST_NAME,
-            USER_TRAIT_GENDER to USER_ATTRIBUTE_USER_GENDER,
-            USER_TRAIT_BIRTHDAY to USER_ATTRIBUTE_USER_BDAY
-
-        )
+        val mapper: Map<String, String> =
+            mapOf(
+                USER_TRAIT_ANONYMOUS_ID to USER_ATTRIBUTE_SEGMENT_ID,
+                USER_TRAIT_EMAIL to USER_ATTRIBUTE_USER_EMAIL,
+                USER_TRAIT_UNIQUE_ID to USER_ATTRIBUTE_UNIQUE_ID,
+                USER_TRAIT_NAME to USER_ATTRIBUTE_USER_NAME,
+                USER_TRAIT_MOBILE to USER_ATTRIBUTE_USER_MOBILE,
+                USER_TRAIT_FIRST_NAME to USER_ATTRIBUTE_USER_FIRST_NAME,
+                USER_TRAIT_LAST_NAME to USER_ATTRIBUTE_USER_LAST_NAME,
+                USER_TRAIT_GENDER to USER_ATTRIBUTE_USER_GENDER,
+                USER_TRAIT_BIRTHDAY to USER_ATTRIBUTE_USER_BDAY)
     }
 
     override val key: String
@@ -91,10 +100,12 @@ class MoEngageDestination(
                 Logger.print { "$tag update(): no integration settings found for $key" }
                 return
             }
-            val moEngageSettings: MoEngageSettings = settings.destinationSettings(key) ?: run {
-                Logger.print { "$tag update(): required keys missing" }
-                return
-            }
+            val moEngageSettings: MoEngageSettings =
+                settings.destinationSettings(key)
+                    ?: run {
+                        Logger.print { "$tag update(): required keys missing" }
+                        return
+                    }
             if (workspaceId != null && workspaceId == moEngageSettings.apiKey) {
                 Logger.print { "$tag update(): instanceId already initialised" }
                 return
@@ -103,10 +114,7 @@ class MoEngageDestination(
             Logger.print { "$tag update(): initialising sdk" }
             workspaceId = moEngageSettings.apiKey
             integrationHelper.initialize(
-                application,
-                workspaceId,
-                IntegrationMeta(INTEGRATION_META_TYPE, version())
-            )
+                application, workspaceId, IntegrationMeta(INTEGRATION_META_TYPE, version()))
             Logger.print { "$tag update(): Segment Integration initialised." }
             trackAnonymousId()
         } catch (t: Throwable) {
@@ -134,9 +142,10 @@ class MoEngageDestination(
             val traits = payload.traits
             val transformedTraits = traits.map(mapper) as MutableMap<String, Any>
 
-            val userId = payload.userId.ifEmpty {
-                transformedTraits.remove(USER_ATTRIBUTE_UNIQUE_ID) as? String ?: ""
-            }
+            val userId =
+                payload.userId.ifEmpty {
+                    transformedTraits.remove(USER_ATTRIBUTE_UNIQUE_ID) as? String ?: ""
+                }
             integrationHelper.identifyUser(identity = userId, workspaceId = workspaceId)
             integrationHelper.trackUserAttributes(transformedTraits, workspaceId)
             if (traits.isNotEmpty()) {
@@ -146,26 +155,17 @@ class MoEngageDestination(
 
                     if (!city.isNullOrEmpty()) {
                         integrationHelper.trackUserAttribute(
-                            USER_TRAIT_ADDRESS_CITY,
-                            city,
-                            workspaceId
-                        )
+                            USER_TRAIT_ADDRESS_CITY, city, workspaceId)
                     }
                     val country = address.jsonObject.getString(USER_TRAIT_ADDRESS_COUNTRY)
                     if (!country.isNullOrEmpty()) {
                         integrationHelper.trackUserAttribute(
-                            USER_TRAIT_ADDRESS_COUNTRY,
-                            country,
-                            workspaceId
-                        )
+                            USER_TRAIT_ADDRESS_COUNTRY, country, workspaceId)
                     }
                     val state = address.jsonObject.getString(USER_TRAIT_ADDRESS_STATE)
                     if (!state.isNullOrEmpty()) {
                         integrationHelper.trackUserAttribute(
-                            USER_TRAIT_ADDRESS_STATE,
-                            state,
-                            workspaceId
-                        )
+                            USER_TRAIT_ADDRESS_STATE, state, workspaceId)
                     }
                 }
             }
@@ -175,10 +175,8 @@ class MoEngageDestination(
                     USER_ATTRIBUTE_USER_LOCATION,
                     GeoLocation(
                         location.jsonObject.getDouble(USER_TRAIT_LOCATION_LATITUDE) ?: 0.0,
-                        location.jsonObject.getDouble(USER_TRAIT_LOCATION_LONGITUDE) ?: 0.0
-                    ),
-                    workspaceId
-                )
+                        location.jsonObject.getDouble(USER_TRAIT_LOCATION_LONGITUDE) ?: 0.0),
+                    workspaceId)
             }
         } catch (t: Throwable) {
             Logger.print(LogLevel.ERROR, t) { "$tag identify(): " }
@@ -203,10 +201,7 @@ class MoEngageDestination(
             Logger.print { "$tag track(): will try to track $payload" }
             if (payload.properties.isNotEmpty()) {
                 integrationHelper.trackEvent(
-                    payload.event,
-                    payload.properties.toJSONObject(),
-                    workspaceId
-                )
+                    payload.event, payload.properties.toJSONObject(), workspaceId)
             } else {
                 integrationHelper.trackEvent(payload.event, JSONObject(), workspaceId)
             }

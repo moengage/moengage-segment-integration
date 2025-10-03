@@ -1,3 +1,15 @@
+/*
+ * Copyright (c) 2014-2025 MoEngage Inc.
+ *
+ * All rights reserved.
+ *
+ *  Use of source code or binaries contained within MoEngage SDK is permitted only to enable use of the MoEngage platform by customers of MoEngage.
+ *  Modification of source code and inclusion in mobile apps is explicitly allowed provided that all other conditions are met.
+ *  Neither the name of MoEngage nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+ *  Redistribution of source code or binaries is disallowed except with specific prior written permission. Any such redistribution must retain the above copyright notice, this list of conditions and the following disclaimer.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package com.segment.analytics.kotlin.destinations.moengage.internal
 
 import com.moengage.core.internal.USER_ATTRIBUTE_USER_EMAIL
@@ -22,61 +34,56 @@ internal class ExtensionsTest {
 
     @Test
     fun jsonObjectToMapTest() {
-        val attributes = JsonObject(
-            mapOf(
-                "name" to JsonPrimitive("MoEngage"),
-                "email" to JsonPrimitive("abc@example.com"),
-                "salary" to JsonPrimitive(190000),
-                "isEmployed" to JsonPrimitive(true),
-                "address" to JsonObject(
-                    mapOf(
-                        "street" to JsonPrimitive("6th St"),
-                        "city" to JsonPrimitive("San Francisco"),
-                        "state" to JsonPrimitive("CA"),
-                        "postalCode" to JsonPrimitive(94103),
-                        "country" to JsonPrimitive("USA")
-                    )
-                ),
-                "jsonArrayKey" to JsonArray(
-                    listOf(
-                        JsonPrimitive("val1"),
-                        JsonPrimitive("val2"),
-                        JsonPrimitive("val3"),
+        val attributes =
+            JsonObject(
+                mapOf(
+                    "name" to JsonPrimitive("MoEngage"),
+                    "email" to JsonPrimitive("abc@example.com"),
+                    "salary" to JsonPrimitive(190000),
+                    "isEmployed" to JsonPrimitive(true),
+                    "address" to
                         JsonObject(
                             mapOf(
-                                "nestedKey1" to JsonPrimitive("nestedValue1"),
-                                "nestedKey2" to JsonPrimitive(1),
-                                "nestedKey3" to JsonPrimitive(true)
-                            )
-                        )
-                    )
-                )
-            )
-        )
+                                "street" to JsonPrimitive("6th St"),
+                                "city" to JsonPrimitive("San Francisco"),
+                                "state" to JsonPrimitive("CA"),
+                                "postalCode" to JsonPrimitive(94103),
+                                "country" to JsonPrimitive("USA"))),
+                    "jsonArrayKey" to
+                        JsonArray(
+                            listOf(
+                                JsonPrimitive("val1"),
+                                JsonPrimitive("val2"),
+                                JsonPrimitive("val3"),
+                                JsonObject(
+                                    mapOf(
+                                        "nestedKey1" to JsonPrimitive("nestedValue1"),
+                                        "nestedKey2" to JsonPrimitive(1),
+                                        "nestedKey3" to JsonPrimitive(true)))))))
 
-        val mappedAttributes = mapOf(
-            USER_ATTRIBUTE_USER_NAME to "MoEngage",
-            USER_ATTRIBUTE_USER_EMAIL to "abc@example.com",
-            "salary" to 190000,
-            "isEmployed" to true,
-            "address" to JSONObject()
-                .put("country", "USA")
-                .put("city", "San Francisco")
-                .put("street", "6th St")
-                .put("postalCode", 94103)
-                .put("state", "CA"),
-            "jsonArrayKey" to JSONArray(
-                listOf(
-                    "val1",
-                    "val2",
-                    "val3",
+        val mappedAttributes =
+            mapOf(
+                USER_ATTRIBUTE_USER_NAME to "MoEngage",
+                USER_ATTRIBUTE_USER_EMAIL to "abc@example.com",
+                "salary" to 190000,
+                "isEmployed" to true,
+                "address" to
                     JSONObject()
-                        .put("nestedKey3", true)
-                        .put("nestedKey2", 1)
-                        .put("nestedKey1", "nestedValue1")
-                )
-            )
-        )
+                        .put("country", "USA")
+                        .put("city", "San Francisco")
+                        .put("street", "6th St")
+                        .put("postalCode", 94103)
+                        .put("state", "CA"),
+                "jsonArrayKey" to
+                    JSONArray(
+                        listOf(
+                            "val1",
+                            "val2",
+                            "val3",
+                            JSONObject()
+                                .put("nestedKey3", true)
+                                .put("nestedKey2", 1)
+                                .put("nestedKey1", "nestedValue1"))))
 
         assertTrue(isEqual(attributes.map(mapper), mappedAttributes))
     }
