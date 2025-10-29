@@ -3,6 +3,9 @@
 # Release Date
 
 ## Release Version
+- [minor] Release notes [here](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#h_01J7DSYJ31HERNRM1H92PAMAHR)
+- [minor] MoEngage SDK version updated to `14.04.00`
+
 
 - [patch] Removing the usage of deprecated function `setUniqueId` with `identifyUser`
 
