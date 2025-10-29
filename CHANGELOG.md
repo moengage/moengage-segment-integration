@@ -1,13 +1,13 @@
 # moengage-segment-kotlin-destination
 
-# Release Date
+# 29-10-2025
 
-## Release Version
-- [minor] Release notes [here](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#h_01J7DSYJ31HERNRM1H92PAMAHR)
-- [minor] MoEngage SDK version updated to `14.04.00`
+## 3.3.0
+- Release notes [here](https://developers.moengage.com/hc/en-us/articles/4403896795540-Changelog#h_01J7DSYJ31HERNRM1H92PAMAHR)
+- MoEngage SDK version updated to `14.04.00`
 
 
-- [patch] Removing the usage of deprecated function `setUniqueId` with `identifyUser`
+- Removing the usage of deprecated function `setUniqueId` with `identifyUser`
 
 # 25-09-2025
 
