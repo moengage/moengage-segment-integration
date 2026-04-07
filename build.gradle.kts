@@ -8,6 +8,7 @@ plugins {
     alias(moengageInternal.plugins.plugin.kotlin.serialization) apply false
     alias(moengageInternal.plugins.plugin.release) apply false
     alias(libs.plugins.spotless)
+    alias(libs.plugins.plugin.native.module.config) apply false
 }
 
 subprojects {
