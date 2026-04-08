@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2025 MoEngage Inc.
+ * Copyright (c) 2014-2026 MoEngage Inc.
  *
  * All rights reserved.
  *
@@ -64,16 +64,16 @@ private const val USER_TRAIT_LOCATION_LONGITUDE = "longitude"
 private const val USER_TRAIT_LOCATION_LATITUDE = "latitude"
 private const val USER_ATTRIBUTE_SEGMENT_ID = "USER_ATTRIBUTE_SEGMENT_ID"
 
-@kotlinx.serialization.Serializable data class MoEngageSettings(val apiKey: String)
+@kotlinx.serialization.Serializable public data class MoEngageSettings(val apiKey: String)
 
-class MoEngageDestination(private val application: Application) :
+public class MoEngageDestination(private val application: Application) :
     DestinationPlugin(), VersionedPlugin {
 
     private val integrationHelper: SegmentIntegrationHelper =
         SegmentIntegrationHelper(application.applicationContext)
     private var workspaceId: String? = null
 
-    companion object {
+    internal companion object {
         private const val tag = "MoEngageDestination_${BuildConfig.MOENGAGE_SEGMENT_KOTLIN_VERSION}"
 
         val mapper: Map<String, String> =

@@ -1,5 +1,11 @@
 # moengage-segment-kotlin-destination
 
+# Release Date
+
+## Release Version
+
+- [patch] MOEN-43940: Migrating from common gradle config to gradle config plugin
+
 # 25-03-2026 
 
 ## 3.6.0
