@@ -1,12 +1,12 @@
 # moengage-segment-kotlin-destination
 
-# Release Date
+# 15-04-2026
 
-## Release Version
-- [minor] Release notes [here](https://www.moengage.com/docs/developer-guide/release-notes/android-sdk/2026-1#15th-april-2026)
-- [minor] MoEngage SDK version updated to `14.09.00`
+## 3.7.0
+- Release notes [here](https://www.moengage.com/docs/developer-guide/release-notes/android-sdk/2026-1#15th-april-2026)
+- MoEngage SDK version updated to `14.09.00`
 
-- [patch] MOEN-43940: Migrating from common gradle config to gradle config plugin
+- MOEN-43940: Migrating from common gradle config to gradle config plugin
 
 # 25-03-2026 
 
