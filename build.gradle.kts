@@ -1,3 +1,5 @@
+import com.diffplug.spotless.kotlin.KtfmtStep.TrailingCommaManagementStrategy
+
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(moengageInternal.plugins.plugin.android.app) apply false
@@ -18,9 +20,9 @@ subprojects {
     spotless {
         ratchetFrom = "origin/development"
         kotlin {
-            ktfmt("0.56").kotlinlangStyle().configure {
+            ktfmt("0.62").kotlinlangStyle().configure {
                 it.setMaxWidth(100)
-                it.setManageTrailingCommas(false)
+                it.setTrailingCommaManagementStrategy(TrailingCommaManagementStrategy.NONE)
                 it.setRemoveUnusedImports(true)
             }
             target("src/**/*.kt") // Specify which files to format

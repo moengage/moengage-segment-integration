@@ -1,5 +1,11 @@
 # moengage-segment-kotlin-destination
 
+# Release Date
+
+## Release Version
+
+- [major] MOEN-44438: Upgrade to AGP 9.1.1 and Kotlin 2.3.20
+
 # 06-05-2026
 
 ## 3.7.1
