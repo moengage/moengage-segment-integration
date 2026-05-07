@@ -5,6 +5,7 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        mavenLocal()
     }
 }
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
@@ -14,10 +15,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
     }
     versionCatalogs {
         create("moengageInternal") {
-            from("com.moengage:android-dependency-catalog-internal:3.1.0")
+            from("com.moengage:android-dependency-catalog-internal:3.1.1-local-agp911-update1")
         }
         create("moengage") {
             from("com.moengage:android-dependency-catalog:6.5.1")
