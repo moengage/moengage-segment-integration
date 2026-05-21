@@ -4,7 +4,6 @@ import com.diffplug.spotless.kotlin.KtfmtStep.TrailingCommaManagementStrategy
 plugins {
     alias(moengageInternal.plugins.plugin.android.app) apply false
     alias(moengageInternal.plugins.plugin.android.lib) apply false
-    alias(moengageInternal.plugins.plugin.kotlin.android) apply false
     alias(moengageInternal.plugins.plugin.dokka) apply false
     alias(libs.plugins.plugin.google.play.service) apply false
     alias(moengageInternal.plugins.plugin.kotlin.serialization) apply false
