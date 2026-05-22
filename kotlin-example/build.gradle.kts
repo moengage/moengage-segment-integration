@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    compileSdk = 35
+    compileSdk = 36
     namespace = "com.moengage.segment.kotlin.sampleapp"
     val properties = Properties()
     properties.load(file("../local.properties").inputStream())
@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId = "com.moengage.segment.kotlin.sampleapp"
         minSdk = 23
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 

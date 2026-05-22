@@ -4,15 +4,17 @@
 
 ## Release Version
 
-- [major] MOEN-44438: Upgrade to AGP 9.1.1 and Kotlin 2.3.20
 - [major] MOEN-44438: Gradle wrapper updated from `8.13` to `9.3.1`
-- [major] MOEN-44438: `com.moengage.android.library.config.plugin` updated from `0.0.4` to `x.x.x` (to be updated to released plugin version)
-- [major] MOEN-44438: `com.moengage:android-dependency-catalog-internal` updated from `3.1.0` to `x.x.x` (to be updated to released catalog version)
-- [major] MOEN-44438: `com.segment.analytics.kotlin:android` updated from `1.19.2` to `1.25.0`
-- [major] MOEN-44438: Removed `org.jetbrains.kotlin.android` from root build plugins
-- [major] MOEN-44438: `com.diffplug.spotless` updated from `7.2.1` to `8.5.1`
-- [major] MOEN-44438: `com.google.gms.google-services` updated from `4.4.2` to `4.4.4`
+- [major] MOEN-44438: `com.moengage:android-dependency-catalog-internal` updated from `3.1.0` to `x.x.x` (to be updated)
+- [major] MOEN-44438: `com.moengage.android.library.config.plugin` updated from `0.0.4` to `x.x.x` (to be updated)
 - [major] MOEN-44438: ktfmt updated from `0.56` to `0.62`
+- [major] MOEN-44438: Dependency updates
+  |                       Library / Plugin                      | Current Version     | Next Version       |
+  |:-----------------------------------------------------------:|:-------------------:|:------------------:|
+  | com.segment.analytics.kotlin:android                        | 1.19.2              | 1.25.0             |
+  | com.diffplug.spotless (plugin)                              | 7.2.1               | 8.5.1              |
+  | com.google.gms.google-services (plugin)                     | 4.4.2               | 4.4.4              |
+- [major] MOEN-44438: Removed `org.jetbrains.kotlin.android`
 
 # 23-06-2026
 
