@@ -3,7 +3,6 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
-    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -52,11 +51,15 @@ dependencies {
 
     implementation(projects.moengageSegmentKotlinDestination)
 
-    implementation(moengage.androidXCore)
-    implementation(moengage.androidXCompact)
-    implementation(moengage.androidXLifecycle)
+    implementation("androidx.core:core:1.16.0")
+    implementation("androidx.appcompat:appcompat:1.7.1")
+    implementation("androidx.lifecycle:lifecycle-process:2.10.0")
+    implementation("com.google.firebase:firebase-messaging:25.0.1")
+//    implementation(moengage.androidXCore)
+//    implementation(moengage.androidXCompact)
+//    implementation(moengage.androidXLifecycle)
     implementation(moengage.inapp)
-    implementation(moengage.firebaseMessaging)
+//    implementation(moengage.firebaseMessaging)
     implementation(moengageInternal.kotlinStdLib)
 
     implementation(libs.material)
