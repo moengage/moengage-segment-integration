@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2025 MoEngage Inc.
+ * Copyright (c) 2014-2026 MoEngage Inc.
  *
  * All rights reserved.
  *
@@ -17,7 +17,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.moengage.core.internal.utils.currentISOTime
+import com.moengage.platform.internal.utils.currentISOTime
 import com.segment.analytics.kotlin.core.Analytics
 import com.segment.analytics.kotlin.core.checkSettings
 import kotlinx.coroutines.launch
