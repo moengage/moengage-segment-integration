@@ -1,10 +1,10 @@
 # moengage-segment-kotlin-destination
 
-# Release Date
+# 07-10-2026
 
-## Release Version
-- [minor] Release notes [here](https://www.moengage.com/docs/release-notes/sdks/android#7th-october-2026)
-- [minor] MoEngage SDK version updated to `15.04.00`
+## 4.4.0
+- Release notes [here](https://www.moengage.com/docs/release-notes/sdks/android#7th-october-2026)
+- MoEngage SDK version updated to `15.04.00`
 
 # 23-09-2026
 
