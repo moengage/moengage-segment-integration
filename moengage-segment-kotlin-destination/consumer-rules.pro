@@ -1,0 +1,1 @@
+-keep class com.segment.analytics.kotlin.destinations.moengage.MoEngageDestination { *; }
