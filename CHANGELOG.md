@@ -1,5 +1,10 @@
 # moengage-segment-kotlin-destination
 
+# Release Date
+
+## Release Version
+- [patch] SDK-145: Consumer ProGuard rules optimization and cleanup
+
 # 16-11-2026
 
 ## 4.5.0
