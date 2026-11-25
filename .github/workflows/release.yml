@@ -51,6 +51,14 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKey }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKeyId }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKeyPassword }}
+          SIGNING_KEY_FINGERPRINT: ${{ vars.SIGNING_KEY_FINGERPRINT }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          ../sdk-automation-scripts/scripts/android/single-module-release.main.kts moengage-segment-kotlin-destination kotlin-destination ${{ github.event.inputs.releaseTicket }} true true ${{ github.event.inputs.releaseNotes }}
+          ../sdk-automation-scripts/scripts/android/single-module-release.main.kts \
+            --module=moengage-segment-kotlin-destination \
+            --tag-prefix=kotlin-destination \
+            --release-ticket=${{ github.event.inputs.releaseTicket }} \
+            --multi-module=true \
+            --create-release=true \
+            --changelog-link=${{ github.event.inputs.releaseNotes }} \
+            --signing-key-fingerprint="$SIGNING_KEY_FINGERPRINT"
